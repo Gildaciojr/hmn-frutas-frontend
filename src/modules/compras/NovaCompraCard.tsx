@@ -873,7 +873,12 @@ export function NovaCompraCard() {
 
               flex items-end md:items-center justify-center
 
-              p-3 md:p-4
+              p-2
+
+              sm:p-3
+              md:p-4
+
+              overflow-y-auto
             "
           >
             <motion.div
@@ -887,12 +892,16 @@ export function NovaCompraCard() {
               }}
               onClick={(e) => e.stopPropagation()}
               className="
-                group relative overflow-hidden
+                group relative overflow-hidden md:overflow-hidden
 
                 w-full
                 max-w-[1120px]
 
-                rounded-[24px]
+                max-h-[96vh]
+
+                md:max-h-[92vh]
+
+                rounded-[22px]
 
                 bg-[linear-gradient(180deg,#ffffff,#fbfbfb)]
 
@@ -946,8 +955,14 @@ export function NovaCompraCard() {
                 className="
                   relative z-10
 
-                  px-6 md:px-8
-                  py-5
+                  px-4
+                  
+                  sm:px-6
+                  md:px-8
+
+                  py-4
+
+                  sm:py-5
 
                   border-b border-[rgba(0,0,0,0.07)]
 
@@ -1030,7 +1045,10 @@ export function NovaCompraCard() {
                   className="
                     group/close relative
 
-                    w-10 h-10
+                    w-11 h-11
+
+                    md:w-10
+                    md:h-10
 
                     flex items-center justify-center
 
