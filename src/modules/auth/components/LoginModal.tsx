@@ -374,7 +374,7 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
 
                         {/* LOGO IMAGE */}
                         <img
-                          src="http://localhost:3333/uploads/empresa/logo-hmn.png"
+                          src="${process.env.NEXT_PUBLIC_UPLOADS_URL}/empresa/logo-hmn.png"
                           alt="Logo HMN Frutas"
                           className="
       relative

@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:3333/api", // 🔥 BACKEND CORRETO
+  baseURL: process.env.NEXT_PUBLIC_API_URL, // 🔥 BACKEND CORRETO
   timeout: 10000,
 });

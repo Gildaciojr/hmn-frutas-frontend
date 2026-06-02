@@ -408,7 +408,7 @@ export default function Dashboard() {
 
                   {/* logo */}
                   <img
-                    src="http://localhost:3333/uploads/empresa/logo-hmn.png"
+                    src="${process.env.NEXT_PUBLIC_UPLOADS_URL}/empresa/logo-hmn.png"
                     alt="HMN Frutas"
                     className="
         relative z-10

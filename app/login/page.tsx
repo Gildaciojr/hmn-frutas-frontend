@@ -253,7 +253,7 @@ export default function LoginPage() {
               />
 
               <Image
-                src="http://localhost:3333/uploads/empresa/logo-hmn.png"
+                src="${process.env.NEXT_PUBLIC_UPLOADS_URL}/empresa/logo-hmn.png"
                 alt="HMN"
                 width={88}
                 height={88}
