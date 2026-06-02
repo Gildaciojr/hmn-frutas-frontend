@@ -1,0 +1,422 @@
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { api } from "@/core/http/api";
+
+// ======================================================
+// API RESPONSE
+// ======================================================
+
+interface ApiResponse<T> {
+  success: boolean;
+
+  data: T;
+}
+
+// ======================================================
+// TIMELINE
+// ======================================================
+
+export interface EstoqueTimelineItem {
+  /////////////////////////////////////////////////////////
+  // IDENTIFICAÇÃO
+  /////////////////////////////////////////////////////////
+
+  id: string;
+
+  tipo: "ENTRADA" | "SAIDA";
+
+  /////////////////////////////////////////////////////////
+  // CLIENTE
+  /////////////////////////////////////////////////////////
+
+  cliente: string;
+
+  /////////////////////////////////////////////////////////
+  // ESTOQUE REAL
+  /////////////////////////////////////////////////////////
+
+  /**
+   * COMPRA
+   * Entrada REAL do estoque
+   */
+
+  kgBruto?: number;
+
+  /**
+   * VENDA
+   * Saída REAL do estoque
+   */
+
+  pesoBruto?: number;
+
+  /////////////////////////////////////////////////////////
+  // OPERACIONAL
+  /////////////////////////////////////////////////////////
+
+  kgLiquido?: number;
+
+  pesoLiquido?: number;
+
+  kgDescontado?: number;
+
+  pesoDesconto?: number;
+
+  /////////////////////////////////////////////////////////
+  // FRUTAS
+  /////////////////////////////////////////////////////////
+
+  quantidadeFrutas?: number;
+
+  mediaFruta?: number;
+
+  /////////////////////////////////////////////////////////
+  // IDENTIFICAÇÃO OPERACIONAL
+  /////////////////////////////////////////////////////////
+
+  safra?: string | null;
+
+  numeroFolha?: string | null;
+
+  numeroPedido?: string | null;
+
+  placa?: string | null;
+
+  modeloCaminhao?: string | null;
+
+  /////////////////////////////////////////////////////////
+  // STATUS
+  /////////////////////////////////////////////////////////
+
+  status?: string;
+
+  statusPagamento?: string;
+
+  /////////////////////////////////////////////////////////
+  // FINANCEIRO
+  /////////////////////////////////////////////////////////
+
+  valor: number;
+
+  precoKg?: number;
+
+  precoMelancia?: number;
+
+  valorMelancia?: number;
+
+  freteTotal?: number;
+
+  despesas?: number;
+
+  /////////////////////////////////////////////////////////
+  // DATA
+  /////////////////////////////////////////////////////////
+
+  data: string;
+}
+
+// ======================================================
+// RESUMO
+// ======================================================
+
+export interface EstoqueResumo {
+  /////////////////////////////////////////////////////////
+  // ESTOQUE REAL
+  /////////////////////////////////////////////////////////
+
+  totalKgComprado: number;
+
+  totalKgVendido: number;
+
+  estoqueDisponivelKg: number;
+
+  /////////////////////////////////////////////////////////
+  // OPERACIONAL
+  /////////////////////////////////////////////////////////
+
+  totalKgLiquidoComprado: number;
+
+  totalKgLiquidoVendido: number;
+
+  /////////////////////////////////////////////////////////
+  // FRUTAS
+  /////////////////////////////////////////////////////////
+
+  totalFrutasCompradas: number;
+
+  totalFrutasVendidas: number;
+
+  mediaFrutaGeral: number;
+
+  /////////////////////////////////////////////////////////
+  // FINANCEIRO
+  /////////////////////////////////////////////////////////
+
+  valorComprado: number;
+
+  valorVendido: number;
+
+  lucro: number;
+
+  /////////////////////////////////////////////////////////
+  // CONTADORES
+  /////////////////////////////////////////////////////////
+
+  totalCompras: number;
+
+  totalVendas: number;
+
+  /////////////////////////////////////////////////////////
+  // TIMELINE
+  /////////////////////////////////////////////////////////
+
+  timeline: EstoqueTimelineItem[];
+}
+
+// ======================================================
+// FALLBACK
+// ======================================================
+
+const EMPTY_ESTOQUE: EstoqueResumo = {
+  /////////////////////////////////////////////////////////
+  // ESTOQUE REAL
+  /////////////////////////////////////////////////////////
+
+  totalKgComprado: 0,
+
+  totalKgVendido: 0,
+
+  estoqueDisponivelKg: 0,
+
+  /////////////////////////////////////////////////////////
+  // OPERACIONAL
+  /////////////////////////////////////////////////////////
+
+  totalKgLiquidoComprado: 0,
+
+  totalKgLiquidoVendido: 0,
+
+  /////////////////////////////////////////////////////////
+  // FRUTAS
+  /////////////////////////////////////////////////////////
+
+  totalFrutasCompradas: 0,
+
+  totalFrutasVendidas: 0,
+
+  mediaFrutaGeral: 0,
+
+  /////////////////////////////////////////////////////////
+  // FINANCEIRO
+  /////////////////////////////////////////////////////////
+
+  valorComprado: 0,
+
+  valorVendido: 0,
+
+  lucro: 0,
+
+  /////////////////////////////////////////////////////////
+  // CONTADORES
+  /////////////////////////////////////////////////////////
+
+  totalCompras: 0,
+
+  totalVendas: 0,
+
+  /////////////////////////////////////////////////////////
+  // TIMELINE
+  /////////////////////////////////////////////////////////
+
+  timeline: [],
+};
+
+// ======================================================
+// REQUEST
+// ======================================================
+
+async function getEstoqueResumo(): Promise<EstoqueResumo> {
+  /////////////////////////////////////////////////////////
+  // REQUEST
+  /////////////////////////////////////////////////////////
+
+  const response = await api.get<ApiResponse<EstoqueResumo>>(
+    "/estoque/resumo",
+  );
+
+  /////////////////////////////////////////////////////////
+  // PAYLOAD
+  /////////////////////////////////////////////////////////
+
+  const payload = response.data;
+
+  /////////////////////////////////////////////////////////
+  // PROTEÇÃO
+  /////////////////////////////////////////////////////////
+
+  if (!payload || !payload.data) {
+    return EMPTY_ESTOQUE;
+  }
+
+  /////////////////////////////////////////////////////////
+  // DATA
+  /////////////////////////////////////////////////////////
+
+  const resumo = payload.data;
+
+  /////////////////////////////////////////////////////////
+  // RESPONSE
+  /////////////////////////////////////////////////////////
+
+  return {
+    ...EMPTY_ESTOQUE,
+
+    ...resumo,
+
+    timeline: Array.isArray(resumo.timeline)
+      ? resumo.timeline.map((item) => ({
+          ///////////////////////////////////////////////////
+          // BASE
+          ///////////////////////////////////////////////////
+
+          ...item,
+
+          ///////////////////////////////////////////////////
+          // ESTOQUE REAL
+          ///////////////////////////////////////////////////
+
+          kgBruto:
+            item.kgBruto !== undefined
+              ? Number(item.kgBruto)
+              : undefined,
+
+          pesoBruto:
+            item.pesoBruto !== undefined
+              ? Number(item.pesoBruto)
+              : undefined,
+
+          ///////////////////////////////////////////////////
+          // OPERACIONAL
+          ///////////////////////////////////////////////////
+
+          kgLiquido:
+            item.kgLiquido !== undefined
+              ? Number(item.kgLiquido)
+              : undefined,
+
+          pesoLiquido:
+            item.pesoLiquido !== undefined
+              ? Number(item.pesoLiquido)
+              : undefined,
+
+          kgDescontado:
+            item.kgDescontado !== undefined
+              ? Number(item.kgDescontado)
+              : undefined,
+
+          pesoDesconto:
+            item.pesoDesconto !== undefined
+              ? Number(item.pesoDesconto)
+              : undefined,
+
+          ///////////////////////////////////////////////////
+          // FINANCEIRO
+          ///////////////////////////////////////////////////
+
+          valor: Number(item.valor ?? 0),
+
+          precoKg:
+            item.precoKg !== undefined
+              ? Number(item.precoKg)
+              : undefined,
+
+          precoMelancia:
+            item.precoMelancia !== undefined
+              ? Number(item.precoMelancia)
+              : undefined,
+
+          valorMelancia:
+            item.valorMelancia !== undefined
+              ? Number(item.valorMelancia)
+              : undefined,
+
+          freteTotal:
+            item.freteTotal !== undefined
+              ? Number(item.freteTotal)
+              : undefined,
+
+          despesas:
+            item.despesas !== undefined
+              ? Number(item.despesas)
+              : undefined,
+
+          ///////////////////////////////////////////////////
+          // FRUTAS
+          ///////////////////////////////////////////////////
+
+          quantidadeFrutas:
+            item.quantidadeFrutas !== undefined
+              ? Number(item.quantidadeFrutas)
+              : undefined,
+
+          mediaFruta:
+            item.mediaFruta !== undefined
+              ? Number(item.mediaFruta)
+              : undefined,
+        }))
+      : [],
+  };
+}
+
+// ======================================================
+// HOOK
+// ======================================================
+
+export function useEstoque() {
+  const query = useQuery({
+    queryKey: ["estoque-resumo"],
+
+    queryFn: getEstoqueResumo,
+
+    /////////////////////////////////////////////////////////
+    // ESTABILIDADE
+    /////////////////////////////////////////////////////////
+
+    staleTime: 1000 * 30,
+
+    /////////////////////////////////////////////////////////
+    // UX
+    /////////////////////////////////////////////////////////
+
+    refetchOnWindowFocus: false,
+
+    /////////////////////////////////////////////////////////
+    // RESILIÊNCIA
+    /////////////////////////////////////////////////////////
+
+    retry: 1,
+  });
+
+  return {
+    /////////////////////////////////////////////////////////
+    // DATA
+    /////////////////////////////////////////////////////////
+
+    resumo: query.data ?? EMPTY_ESTOQUE,
+
+    /////////////////////////////////////////////////////////
+    // STATES
+    /////////////////////////////////////////////////////////
+
+    loading: query.isLoading,
+
+    error: query.error as Error | null,
+
+    /////////////////////////////////////////////////////////
+    // ACTIONS
+    /////////////////////////////////////////////////////////
+
+    refetch: query.refetch,
+  };
+}

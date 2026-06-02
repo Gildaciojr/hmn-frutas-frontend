@@ -1,0 +1,743 @@
+import { api } from "@/core/http/api";
+
+// ================= TYPES =================
+
+export type TipoCliente = "PESSOA_FISICA" | "PESSOA_JURIDICA";
+
+export interface Cliente {
+  id: string;
+
+  //////////////////////////////////////////////////
+  // TIPO
+  //////////////////////////////////////////////////
+
+  tipoCliente: TipoCliente;
+
+  //////////////////////////////////////////////////
+  // DADOS PRINCIPAIS
+  //////////////////////////////////////////////////
+
+  nome: string;
+
+  //////////////////////////////////////////////////
+  // PESSOA FÍSICA
+  //////////////////////////////////////////////////
+
+  cpf?: string | null;
+
+  //////////////////////////////////////////////////
+  // PESSOA JURÍDICA
+  //////////////////////////////////////////////////
+
+  cnpj?: string | null;
+
+  razaoSocial?: string | null;
+
+  inscricaoEstadual?: string | null;
+
+  nomeFantasia?: string | null;
+
+  proprietarioNome?: string | null;
+
+  //////////////////////////////////////////////////
+  // CONTATO
+  //////////////////////////////////////////////////
+
+  telefone?: string | null;
+
+  email?: string | null;
+
+  endereco?: string | null;
+
+  bairro?: string | null;
+
+  cep?: string | null;
+
+  cidade?: string | null;
+
+  estado?: string | null;
+
+  //////////////////////////////////////////////////
+  // OBSERVAÇÕES
+  //////////////////////////////////////////////////
+
+  observacoes?: string | null;
+
+  //////////////////////////////////////////////////
+  // COMERCIAL
+  //////////////////////////////////////////////////
+
+  descontoPercentual: number;
+
+  //////////////////////////////////////////////////
+  // CONTROLE
+  //////////////////////////////////////////////////
+
+  createdAt: string;
+}
+
+// ================= CREATE / UPDATE =================
+
+export interface ClienteInput {
+  //////////////////////////////////////////////////
+  // TIPO
+  //////////////////////////////////////////////////
+
+  tipoCliente: TipoCliente;
+
+  //////////////////////////////////////////////////
+  // DADOS PRINCIPAIS
+  //////////////////////////////////////////////////
+
+  nome: string;
+
+  //////////////////////////////////////////////////
+  // PESSOA FÍSICA
+  //////////////////////////////////////////////////
+
+  cpf?: string;
+
+  //////////////////////////////////////////////////
+  // PESSOA JURÍDICA
+  //////////////////////////////////////////////////
+
+  cnpj?: string;
+
+  razaoSocial?: string;
+
+  inscricaoEstadual?: string;
+
+  nomeFantasia?: string;
+
+  proprietarioNome?: string;
+
+  //////////////////////////////////////////////////
+  // CONTATO
+  //////////////////////////////////////////////////
+
+  telefone?: string;
+
+  email?: string;
+
+  endereco?: string;
+
+  bairro?: string;
+
+  cep?: string;
+
+  cidade?: string;
+
+  estado?: string;
+
+  //////////////////////////////////////////////////
+  // OBSERVAÇÕES
+  //////////////////////////////////////////////////
+
+  observacoes?: string;
+
+  //////////////////////////////////////////////////
+  // COMERCIAL
+  //////////////////////////////////////////////////
+
+  descontoPercentual?: number;
+}
+
+export interface ClienteResumoItem {
+  ////////////////////////////////////////////////////////////
+  // CLIENTE
+  ////////////////////////////////////////////////////////////
+
+  id: string;
+
+  nome: string;
+
+  telefone?: string;
+
+  proprietarioNome?: string | null;
+
+  nomeFantasia?: string | null;
+
+  ////////////////////////////////////////////////////////////
+  // FINANCEIRO
+  ////////////////////////////////////////////////////////////
+
+  totalCompras: number;
+
+  totalVendas: number;
+
+  saldo: number;
+
+  totalPago: number;
+
+  totalPendente: number;
+
+  totalParcial: number;
+
+  ////////////////////////////////////////////////////////////
+  // ESTOQUE
+  ////////////////////////////////////////////////////////////
+
+  totalKgComprado: number;
+
+  totalKgVendido: number;
+}
+
+export interface ClienteResumo {
+  ////////////////////////////////////////////////////////////
+  // CLIENTE
+  ////////////////////////////////////////////////////////////
+
+  cliente: Cliente;
+
+  ////////////////////////////////////////////////////////////
+  // RESUMO
+  ////////////////////////////////////////////////////////////
+
+  resumo: {
+    //////////////////////////////////////////////////////////
+    // FINANCEIRO
+    //////////////////////////////////////////////////////////
+
+    totalCompras: number;
+
+    totalVendas: number;
+
+    saldo: number;
+
+    totalPago: number;
+
+    totalPendente: number;
+
+    totalParcial: number;
+
+    //////////////////////////////////////////////////////////
+    // ESTOQUE
+    //////////////////////////////////////////////////////////
+
+    totalKgComprado: number;
+
+    totalKgVendido: number;
+
+    estoqueMovimentado: number;
+
+    //////////////////////////////////////////////////////////
+    // FRUTAS
+    //////////////////////////////////////////////////////////
+
+    totalFrutasCompradas: number;
+
+    totalFrutasVendidas: number;
+  };
+
+  ////////////////////////////////////////////////////////////
+  // COMPRAS
+  ////////////////////////////////////////////////////////////
+
+  compras: {
+    id: string;
+
+    clienteId: string;
+
+    safra?: string | null;
+
+    dataCompra: string;
+
+    numeroFolha?: string | null;
+
+    placa: string;
+
+    modeloCaminhao: string;
+
+    kgBruto: number;
+
+    kgDescontado: number;
+
+    kgLiquido: number;
+
+    quantidadeFrutas: number;
+
+    mediaFruta: number;
+
+    precoKg: string | number;
+
+    totalBruto: string | number;
+
+    despesas: string | number;
+
+    valorTotal: string | number;
+
+    descontoKgCalculado: number;
+
+    descontoPercentualAplicado?: number | null;
+
+    observacoes?: string | null;
+
+    status: string;
+
+    createdAt: string;
+
+    updatedAt?: string;
+  }[];
+
+  ////////////////////////////////////////////////////////////
+  // VENDAS
+  ////////////////////////////////////////////////////////////
+
+  vendas: {
+    id: string;
+
+    clienteId: string;
+
+    quantidadeKg: number;
+
+    quantidadeFrutas: number;
+
+    pesoBruto: number;
+
+    precoKg: string | number;
+
+    valorTotal: string | number;
+
+    statusPagamento: "PAGO" | "PENDENTE" | "PARCIAL";
+
+    observacoes?: string | null;
+
+    createdAt: string;
+
+    updatedAt: string;
+  }[];
+
+  ////////////////////////////////////////////////////////////
+  // TRANSAÇÕES
+  ////////////////////////////////////////////////////////////
+
+  transacoes: {
+    //////////////////////////////////////////////////////////
+    // IDENTIFICAÇÃO
+    //////////////////////////////////////////////////////////
+
+    id: string;
+
+    tipo: "ENTRADA" | "SAIDA";
+
+    //////////////////////////////////////////////////////////
+    // VALORES
+    //////////////////////////////////////////////////////////
+
+    valor: string | number;
+
+    valorPago?: string | number | null;
+
+    valorRestante?: string | number | null;
+
+    //////////////////////////////////////////////////////////
+    // STATUS
+    //////////////////////////////////////////////////////////
+
+    statusFinanceiro?: "PENDENTE" | "PARCIAL" | "PAGO";
+
+    formaPagamento?: string | null;
+
+    //////////////////////////////////////////////////////////
+    // DESCRIÇÃO
+    //////////////////////////////////////////////////////////
+
+    descricao?: string | null;
+
+    referencia?: string | null;
+
+    observacoes?: string | null;
+
+    //////////////////////////////////////////////////////////
+    // RELAÇÕES
+    //////////////////////////////////////////////////////////
+
+    clienteId?: string | null;
+
+    compraId?: string | null;
+
+    vendaId?: string | null;
+
+    //////////////////////////////////////////////////////////
+    // DATAS
+    //////////////////////////////////////////////////////////
+
+    vencimento?: string | null;
+
+    pagoEm?: string | null;
+
+    createdAt: string;
+
+    //////////////////////////////////////////////////////////
+    // CLIENTE
+    //////////////////////////////////////////////////////////
+
+    cliente?: {
+      id: string;
+
+      nome: string;
+
+      telefone?: string;
+    } | null;
+
+    //////////////////////////////////////////////////////////
+    // COMPRA
+    //////////////////////////////////////////////////////////
+
+    compra?: {
+      ////////////////////////////////////////////////////////
+      // IDENTIFICAÇÃO
+      ////////////////////////////////////////////////////////
+
+      id: string;
+
+      ////////////////////////////////////////////////////////
+      // OPERACIONAL
+      ////////////////////////////////////////////////////////
+
+      safra?: string | null;
+
+      dataCompra?: string;
+
+      numeroFolha?: string | null;
+
+      modeloCaminhao?: string;
+
+      motoristaNome?: string;
+
+      placa?: string;
+
+      ////////////////////////////////////////////////////////
+      // PESOS
+      ////////////////////////////////////////////////////////
+
+      kgBruto?: number;
+
+      kgDescontado?: number;
+
+      kgLiquido?: number;
+
+      descontoKgCalculado?: number;
+
+      descontoPercentualAplicado?: number | null;
+
+      ////////////////////////////////////////////////////////
+      // FRUTAS
+      ////////////////////////////////////////////////////////
+
+      quantidadeFrutas?: number;
+
+      mediaFruta?: number;
+
+      ////////////////////////////////////////////////////////
+      // FINANCEIRO
+      ////////////////////////////////////////////////////////
+
+      precoKg?: string | number;
+
+      totalBruto?: string | number;
+
+      despesas?: string | number;
+
+      valorTotal?: string | number;
+
+      ////////////////////////////////////////////////////////
+      // STATUS
+      ////////////////////////////////////////////////////////
+
+      statusVenda?: string;
+
+      ////////////////////////////////////////////////////////
+      // OBS
+      ////////////////////////////////////////////////////////
+
+      observacoes?: string | null;
+    } | null;
+
+    //////////////////////////////////////////////////////////
+    // VENDA
+    //////////////////////////////////////////////////////////
+
+    venda?: {
+      ////////////////////////////////////////////////////////
+      // IDENTIFICAÇÃO
+      ////////////////////////////////////////////////////////
+
+      id: string;
+
+      ////////////////////////////////////////////////////////
+      // DATAS
+      ////////////////////////////////////////////////////////
+
+      dataVenda?: string;
+
+      createdAt?: string;
+
+      numeroPedido?: string;
+      numeroRomaneio?: string;
+      placa?: string;
+      modeloCaminhao?: string;
+      destino?: string;
+      localEntrega?: string;
+      tipoFrete?: string;
+
+      ////////////////////////////////////////////////////////
+      // PESOS
+      ////////////////////////////////////////////////////////
+
+      quantidadeKg?: number;
+
+      pesoBruto?: number;
+
+      pesoLiquido?: number;
+
+      pesoDesconto?: number;
+
+      ////////////////////////////////////////////////////////
+      // FRUTAS
+      ////////////////////////////////////////////////////////
+
+      quantidadeFrutas?: number;
+
+      mediaFruta?: number;
+
+      ////////////////////////////////////////////////////////
+      // FINANCEIRO
+      ////////////////////////////////////////////////////////
+
+      precoMelancia?: string | number;
+
+      valorTotal?: string | number;
+
+      freteTotal?: string | number;
+
+      ////////////////////////////////////////////////////////
+      // STATUS
+      ////////////////////////////////////////////////////////
+
+      statusVenda?: string;
+
+      statusPagamento?: "PAGO" | "PENDENTE" | "PARCIAL";
+
+      ////////////////////////////////////////////////////////
+      // OBSERVAÇÕES
+      ////////////////////////////////////////////////////////
+
+      observacoes?: string | null;
+    } | null;
+  }[];
+
+  ////////////////////////////////////////////////////////////
+  // PAGAMENTOS GRANULARES
+  ////////////////////////////////////////////////////////////
+
+  pagamentos: {
+    //////////////////////////////////////////////////////////
+    // IDENTIFICAÇÃO
+    //////////////////////////////////////////////////////////
+
+    id: string;
+
+    transacaoId: string;
+
+    clienteId?: string | null;
+
+    //////////////////////////////////////////////////////////
+    // VALORES
+    //////////////////////////////////////////////////////////
+
+    valor: string | number;
+
+    valorRestanteApos?: string | number | null;
+
+    //////////////////////////////////////////////////////////
+    // PAGAMENTO
+    //////////////////////////////////////////////////////////
+
+    formaPagamento:
+      | "DINHEIRO"
+      | "PIX"
+      | "TRANSFERENCIA"
+      | "BOLETO"
+      | "CARTAO"
+      | "CHEQUE"
+      | "PROMISSORIA"
+      | "OUTRO";
+
+    //////////////////////////////////////////////////////////
+    // DATAS
+    //////////////////////////////////////////////////////////
+
+    pagoEm?: string | null;
+
+    vencimento?: string | null;
+
+    createdAt: string;
+
+    //////////////////////////////////////////////////////////
+    // OBS
+    //////////////////////////////////////////////////////////
+
+    observacoes?: string | null;
+
+    //////////////////////////////////////////////////////////
+    // TRANSAÇÃO
+    //////////////////////////////////////////////////////////
+
+    transacao: {
+      id: string;
+
+      tipo: "ENTRADA" | "SAIDA";
+
+      valor: string | number;
+
+      valorPago?: string | number | null;
+
+      valorRestante?: string | number | null;
+
+      statusFinanceiro?: "PENDENTE" | "PARCIAL" | "PAGO";
+
+      descricao?: string | null;
+
+      compraId?: string | null;
+
+      vendaId?: string | null;
+
+      compra?: {
+        id: string;
+
+        numeroFolha?: string | null;
+
+        valorTotal?: string | number;
+      } | null;
+
+      venda?: {
+        id: string;
+
+        numeroPedido?: string | null;
+
+        numeroRomaneio?: string | null;
+
+        valorTotal?: string | number;
+      } | null;
+    };
+  }[];
+}
+
+// ================= HELPERS =================
+export function parseDecimal(
+  value: string | number | null | undefined,
+): number {
+  if (value === null || value === undefined) return 0;
+  return typeof value === "number" ? value : Number(value);
+}
+
+////////////////////////////////////////////////////////////
+// MONEY
+////////////////////////////////////////////////////////////
+
+export function parseMoney(value: string | number | null | undefined): number {
+  if (value === null || value === undefined) {
+    return 0;
+  }
+
+  if (typeof value === "number") {
+    return value;
+  }
+
+  return Number(value);
+}
+
+////////////////////////////////////////////////////////////
+// HISTÓRICO COMPLETO
+////////////////////////////////////////////////////////////
+
+export type ClienteHistoricoResponse = ClienteResumo;
+
+////////////////////////////////////////////////////////////
+// PAGAMENTO
+////////////////////////////////////////////////////////////
+
+export interface RegistrarPagamentoPayload {
+  valor: number;
+
+  formaPagamento:
+    | "DINHEIRO"
+    | "PIX"
+    | "TRANSFERENCIA"
+    | "BOLETO"
+    | "CARTAO"
+    | "CHEQUE"
+    | "PROMISSORIA"
+    | "OUTRO";
+
+  pagoEm?: string;
+
+  vencimento?: string;
+
+  observacoes?: string;
+}
+
+// ================= REQUESTS =================
+
+// 🔹 LISTAGEM
+export async function getClientes(): Promise<Cliente[]> {
+  const res = await api.get("/clientes");
+  return res.data.data;
+}
+
+// 🔥 🔹 RESUMO PARA TABELA DE CLIENTES
+export async function getClientesResumo(): Promise<ClienteResumoItem[]> {
+  const res = await api.get("/clientes/resumo");
+  return res.data.data;
+}
+
+// 🔥 🔹 CRIAÇÃO COMPLETA (ALINHADA COM BACKEND)
+export async function createCliente(data: ClienteInput): Promise<Cliente> {
+  const res = await api.post("/clientes", data);
+  return res.data.data;
+}
+
+// 🔥 🔹 UPDATE (NOVO)
+export async function updateCliente(
+  clienteId: string,
+  data: Partial<ClienteInput>,
+): Promise<Cliente> {
+  const res = await api.patch(`/clientes/${clienteId}`, data);
+  return res.data.data;
+}
+
+// 🔥 🔹 RESUMO COMPLETO (BASE DO SISTEMA)
+export async function getClienteResumo(
+  clienteId: string,
+): Promise<ClienteResumo> {
+  const res = await api.get(`/clientes/${clienteId}/resumo`);
+  return res.data.data;
+}
+////////////////////////////////////////////////////////////
+// HISTÓRICO COMPLETO
+////////////////////////////////////////////////////////////
+
+export async function getClienteHistorico(
+  clienteId: string,
+): Promise<ClienteHistoricoResponse> {
+  const res = await api.get(`/clientes/${clienteId}/historico`);
+
+  return res.data.data;
+}
+
+////////////////////////////////////////////////////////////
+// REGISTRAR PAGAMENTO
+////////////////////////////////////////////////////////////
+
+export async function registrarPagamento(
+  transacaoId: string,
+  data: RegistrarPagamentoPayload,
+) {
+  const res = await api.post(
+    `/financeiro/transacao/${transacaoId}/pagamento`,
+    data,
+  );
+
+  return res.data.data;
+}

@@ -1,0 +1,18 @@
+export const CIDADES = [
+  "Anápolis",
+  "Goiânia",
+  "Brasília",
+  "Uruana",
+  "Jaraguá",
+  "Ceres",
+  "Rialma",
+  "Rubiataba",
+  "Itapuranga",
+  "Goianésia",
+  "São Paulo",
+  "Tupã",
+  "Campinas",
+  "Sorocaba",
+  "Marília",
+  "Ribeirão Preto",
+];
