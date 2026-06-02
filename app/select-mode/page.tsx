@@ -132,7 +132,25 @@ export default function SelectMode() {
 
   return (
     <>
-      <div className="h-screen flex items-center justify-center px-4 relative overflow-hidden">
+      <div
+        className="
+    min-h-screen
+
+    flex
+    items-center
+    justify-center
+
+    px-4
+
+    relative
+
+    overflow-x-hidden
+    overflow-y-auto
+
+    py-6
+    md:py-0
+  "
+      >
         {/* BACKGROUND BASE */}
         <div className="absolute inset-0 bg-[#fafafa]" />
 
@@ -144,8 +162,11 @@ export default function SelectMode() {
           className="
     absolute
 
-    w-[520px]
-    h-[520px]
+    w-[280px]
+    h-[280px]
+
+    md:w-[520px]
+    md:h-[520px]
 
     bg-red-500/8
 
@@ -160,7 +181,7 @@ export default function SelectMode() {
   "
         />
 
-        <div className="relative z-10 w-full max-w-5xl space-y-3">
+        <div className="relative z-10 w-full max-w-5xl space-y-4 md:space-y-3">
           {/* HEADER PREMIUM */}
           <div className="relative text-center space-y-2">
             {/* AMBIENT LIGHT */}
@@ -285,7 +306,8 @@ export default function SelectMode() {
                   className="
       w-auto
 
-      h-[180px]
+      h-[110px]
+      sm:h-[140px]
       md:h-[240px]
 
       object-contain
@@ -312,6 +334,7 @@ export default function SelectMode() {
     cursor-pointer
 
     p-5
+    sm:p-6
 
     rounded-[20px]
 
@@ -397,6 +420,7 @@ export default function SelectMode() {
     cursor-pointer
 
     p-5
+    sm:p-6
 
     rounded-[20px]
 
@@ -481,6 +505,7 @@ export default function SelectMode() {
     cursor-pointer
 
     p-5
+    sm:p-6
 
     rounded-[20px]
 
@@ -577,17 +602,35 @@ export default function SelectMode() {
             <button
               onClick={handleLogout}
               className="
-      group px-8 py-3 rounded-full
-      bg-white
-      border border-gray-200
-      text-sm font-medium text-gray-500
-      shadow-[0_10px_25px_rgba(0,0,0,0.05)]
-      hover:text-black
-      hover:border-black
-      hover:shadow-[0_15px_40px_rgba(0,0,0,0.1)]
-      active:scale-[0.96]
-      transition-all duration-300
-    "
+  group
+
+  w-full
+  max-w-[320px]
+
+  px-8
+  py-3
+
+  rounded-full
+
+  bg-white
+
+  border border-gray-200
+
+  text-sm
+  font-medium
+  text-gray-500
+
+  shadow-[0_10px_25px_rgba(0,0,0,0.05)]
+
+  hover:text-black
+  hover:border-black
+  hover:shadow-[0_15px_40px_rgba(0,0,0,0.1)]
+
+  active:scale-[0.96]
+
+  transition-all
+  duration-300
+"
             >
               <span className="flex items-center gap-2">
                 ⎋ Encerrar sessão

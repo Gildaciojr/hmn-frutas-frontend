@@ -129,10 +129,17 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
             duration: 0.22,
           }}
           className="
-            fixed inset-0 z-[120]
-            flex items-center justify-center
-            p-4
-          "
+  fixed inset-0 z-[120]
+
+  flex items-center justify-center
+
+  p-3
+  sm:p-4
+
+  overflow-y-auto
+
+  overscroll-contain
+"
         >
           {/* ================= BACKDROP ================= */}
           <motion.div
@@ -150,7 +157,12 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
           <div
             className="
               absolute
-              w-[720px] h-[720px]
+              w-[320px]
+              h-[320px]
+
+              md:w-[720px]
+              md:h-[720px]
+
               rounded-full
               bg-[radial-gradient(circle,rgba(239,68,68,0.12),transparent_68%)]
               blur-[600px]
@@ -163,7 +175,12 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
           <div
             className="
               absolute
-              w-[620px] h-[620px]
+              w-[280px]
+              h-[280px]
+
+              md:w-[620px]
+              md:h-[620px]
+
               rounded-full
               bg-[radial-gradient(circle,rgba(255,255,255,0.08),transparent_68%)]
               blur-[50px]
@@ -197,8 +214,14 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
             }}
             className="
               relative z-10
-              w-full max-w-[400px]
-              overflow-hidden
+              w-full
+              max-w-[400px]
+
+              max-h-[92vh]
+
+              overflow-y-auto
+
+              overflow-x-hidden
 
               rounded-[32px]
 
@@ -259,7 +282,7 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
             </div>
 
             {/* ================= CONTENT ================= */}
-            <div className="relative z-10 p-6 md:p-6">
+            <div className="relative z-10 p-5 sm:p-6">
               {/* ================= HEADER ================= */}
               <div className="space-y-5">
                 {/* ================================================= */}
@@ -358,8 +381,10 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
                         >
                           <div
                             className="
-        w-[220px]
-        h-[140px]
+        w-[150px]
+
+        sm:w-[180px]
+        md:w-[220px]
 
         rounded-full
 
@@ -380,8 +405,10 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
       relative
       z-10
 
-      w-[220px]
-      h-auto
+      w-[150px]
+
+      sm:w-[180px]
+      md:w-[220px]
 
       object-contain
 
@@ -397,7 +424,7 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
                       <div className="space-y-1">
                         <h2
                           className="
-              text-[28px] md:text-[30px]
+              text-[24px] sm:text-[26px] md:text-[30px]
 
               leading-[0.94]
 
@@ -436,8 +463,11 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
 
         shrink-0
 
-        w-10
-        h-10
+        w-11
+        h-11
+
+        md:w-10
+        md:h-10
 
         rounded-full
 
@@ -547,7 +577,7 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
                       className="
                         w-full
                         bg-transparent
-                        pl-12 pr-4 py-3
+                        pl-12 pr-4 py-3.5
 
                         text-[14px]
                         text-black
@@ -620,7 +650,7 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
                       className="
                         w-full
                         bg-transparent
-                        pl-12 pr-4 py-3
+                        pl-12 pr-4 py-3.5
 
                         text-[14px]
                         text-black
@@ -653,7 +683,7 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
                         rounded-2xl
                         border border-red-200
                         bg-red-50/80
-                        px-4 py-3
+                        px-4 py-3.5
 
                         text-[13px]
                         text-red-600
