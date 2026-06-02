@@ -2,8 +2,6 @@
 
 import { useMemo, useState, useCallback } from "react";
 
-import { AxiosError } from "axios";
-
 import { motion, AnimatePresence } from "framer-motion";
 
 import { useFornecedorStore } from "@/modules/fornecedores/store/useFornecedorStore";
@@ -19,6 +17,17 @@ import { useFazendasFornecedor } from "@/modules/fornecedores/hooks/useFornecedo
 import { useCompras } from "./hooks/useCompras";
 
 import type { ModeloCaminhao, TipoDescontoCompra } from "./hooks/useCompras";
+
+interface HttpErrorResponse {
+  response?: {
+    data?: unknown;
+    status?: number;
+  };
+}
+
+function isHttpError(error: unknown): error is HttpErrorResponse {
+  return typeof error === "object" && error !== null && "response" in error;
+}
 
 export function NovaCompraCard() {
   ////////////////////////////////////////////////////////////
@@ -549,34 +558,17 @@ export function NovaCompraCard() {
       }, 250);
     } catch (error: unknown) {
       ////////////////////////////////////////////////////////
-      // AXIOS
+      // HTTP ERROR
       ////////////////////////////////////////////////////////
 
-      const axiosError = error as AxiosError;
-
-      ////////////////////////////////////////////////////////
-      // ERRO COMPLETO
-      ////////////////////////////////////////////////////////
-
-      console.error("ERRO COMPLETO:", axiosError);
-
-      ////////////////////////////////////////////////////////
-      // RESPONSE
-      ////////////////////////////////////////////////////////
-
-      console.error("RESPONSE:", axiosError.response);
-
-      ////////////////////////////////////////////////////////
-      // DATA
-      ////////////////////////////////////////////////////////
-
-      console.error("DATA:", axiosError.response?.data);
-
-      ////////////////////////////////////////////////////////
-      // STATUS
-      ////////////////////////////////////////////////////////
-
-      console.error("STATUS:", axiosError.response?.status);
+      if (isHttpError(error)) {
+        console.error("ERRO COMPLETO:", error);
+        console.error("RESPONSE:", error.response);
+        console.error("DATA:", error.response?.data);
+        console.error("STATUS:", error.response?.status);
+      } else {
+        console.error("ERRO COMPLETO:", error);
+      }
 
       ////////////////////////////////////////////////////////
       // PAYLOAD
@@ -584,40 +576,23 @@ export function NovaCompraCard() {
 
       console.log("PAYLOAD ENVIADO:", {
         fornecedorId: fornecedor.id,
-
         fazendaFornecedorId: fazenda.id,
-
         safra: safra || undefined,
-
         dataCompra,
-
-        // numeroFolha removido.
-        // Backend gera automaticamente.
-
         modeloCaminhao,
-
         placa,
-
         kgBruto: parsed.kgBruto,
-
         quantidadeFrutas: parsed.quantidadeFrutas,
-
         tipoDesconto,
-
         descontoPercentualAplicado:
           tipoDesconto === "PERCENTUAL"
             ? parsed.descontoPercentualAplicado
             : undefined,
-
         descontoKgManual:
           tipoDesconto === "MANUAL_KG" ? parsed.descontoKgManual : undefined,
-
         precoKg: parsed.precoKg,
-
         despesas: parsed.despesas,
-
         caminhoes: parsed.caminhoes,
-
         observacoes,
       });
     }

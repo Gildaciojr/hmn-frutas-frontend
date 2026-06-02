@@ -1,5 +1,10 @@
 import { api } from "@/core/http/api";
 
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+}
+
 // ================= TYPES =================
 
 export type TipoCliente = "PESSOA_FISICA" | "PESSOA_JURIDICA";
@@ -682,19 +687,22 @@ export interface RegistrarPagamentoPayload {
 
 // 🔹 LISTAGEM
 export async function getClientes(): Promise<Cliente[]> {
-  const res = await api.get("/clientes");
+  const res = await api.get<ApiResponse<Cliente[]>>("/clientes");
+
   return res.data.data;
 }
 
 // 🔥 🔹 RESUMO PARA TABELA DE CLIENTES
 export async function getClientesResumo(): Promise<ClienteResumoItem[]> {
-  const res = await api.get("/clientes/resumo");
+  const res =
+    await api.get<ApiResponse<ClienteResumoItem[]>>("/clientes/resumo");
+
   return res.data.data;
 }
 
 // 🔥 🔹 CRIAÇÃO COMPLETA (ALINHADA COM BACKEND)
 export async function createCliente(data: ClienteInput): Promise<Cliente> {
-  const res = await api.post("/clientes", data);
+  const res = await api.post<ApiResponse<Cliente>>("/clientes", data);
   return res.data.data;
 }
 
@@ -703,7 +711,10 @@ export async function updateCliente(
   clienteId: string,
   data: Partial<ClienteInput>,
 ): Promise<Cliente> {
-  const res = await api.patch(`/clientes/${clienteId}`, data);
+  const res = await api.patch<ApiResponse<Cliente>>(
+    `/clientes/${clienteId}`,
+    data,
+  );
   return res.data.data;
 }
 
@@ -711,7 +722,9 @@ export async function updateCliente(
 export async function getClienteResumo(
   clienteId: string,
 ): Promise<ClienteResumo> {
-  const res = await api.get(`/clientes/${clienteId}/resumo`);
+  const res = await api.get<ApiResponse<ClienteResumo>>(
+    `/clientes/${clienteId}/resumo`,
+  );
   return res.data.data;
 }
 ////////////////////////////////////////////////////////////
@@ -721,7 +734,9 @@ export async function getClienteResumo(
 export async function getClienteHistorico(
   clienteId: string,
 ): Promise<ClienteHistoricoResponse> {
-  const res = await api.get(`/clientes/${clienteId}/historico`);
+  const res = await api.get<ApiResponse<ClienteHistoricoResponse>>(
+    `/clientes/${clienteId}/historico`,
+  );
 
   return res.data.data;
 }
@@ -734,7 +749,7 @@ export async function registrarPagamento(
   transacaoId: string,
   data: RegistrarPagamentoPayload,
 ) {
-  const res = await api.post(
+  const res = await api.post<ApiResponse<unknown>>(
     `/financeiro/transacao/${transacaoId}/pagamento`,
     data,
   );

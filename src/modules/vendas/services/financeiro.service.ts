@@ -1,5 +1,10 @@
 import { api } from "@/core/http/api";
 
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+}
+
 export interface FinanceiroResumoResponse {
   totalEntradas: number;
   totalSaidas: number;
@@ -95,12 +100,16 @@ export interface RegistrarPagamentoPayload {
 }
 
 export async function getFinanceiroResumo(): Promise<FinanceiroResumoResponse> {
-  const response = await api.get("/financeiro/resumo");
+  const response =
+    await api.get<ApiResponse<FinanceiroResumoResponse>>("/financeiro/resumo");
+
   return response.data.data;
 }
 
 export async function getFluxoFinanceiro(): Promise<FluxoFinanceiroItem[]> {
-  const response = await api.get("/financeiro/fluxo");
+  const response =
+    await api.get<ApiResponse<FluxoFinanceiroItem[]>>("/financeiro/fluxo");
+
   return response.data.data;
 }
 
@@ -111,7 +120,7 @@ export async function getFluxoFinanceiro(): Promise<FluxoFinanceiroItem[]> {
 export async function getPagamentosTransacao(
   transacaoId: string,
 ): Promise<PagamentoTransacaoItem[]> {
-  const response = await api.get(
+  const response = await api.get<ApiResponse<PagamentoTransacaoItem[]>>(
     `/financeiro/transacao/${transacaoId}/pagamentos`,
   );
 
@@ -126,7 +135,7 @@ export async function registrarPagamentoFinanceiro(
   transacaoId: string,
   data: RegistrarPagamentoPayload,
 ) {
-  const response = await api.post(
+  const response = await api.post<ApiResponse<unknown>>(
     `/financeiro/transacao/${transacaoId}/pagamento`,
     data,
   );
@@ -139,7 +148,9 @@ export async function registrarPagamentoFinanceiro(
 ////////////////////////////////////////////////////////////
 
 export async function getPagamentosCliente(clienteId: string) {
-  const response = await api.get(`/financeiro/cliente/${clienteId}/pagamentos`);
+  const response = await api.get<ApiResponse<PagamentoTransacaoItem[]>>(
+    `/financeiro/cliente/${clienteId}/pagamentos`,
+  );
 
   return response.data.data;
 }

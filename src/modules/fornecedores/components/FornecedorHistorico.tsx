@@ -168,16 +168,14 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
             type="button"
             onClick={async () => {
               try {
-                const response = await api.get(
+                const response = await api.get<Blob>(
                   `/fornecedores/${fornecedorId}/relatorio-pdf`,
                   {
                     responseType: "blob",
                   },
                 );
 
-                const file = new Blob([response.data], {
-                  type: "application/pdf",
-                });
+                const file = response.data;
 
                 const url = window.URL.createObjectURL(file);
 

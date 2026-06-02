@@ -1,4 +1,9 @@
-import { api } from '@/core/http/api';
+import { api } from "@/core/http/api";
+
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+}
 
 // ======================================================
 // TYPES
@@ -37,9 +42,10 @@ export interface WhatsappResumoResponse {
 export async function getWhatsappResumoCliente(
   clienteId: string,
 ): Promise<WhatsappResumoResponse> {
-  const response = await api.get(
-    `/whatsapp/cliente/${clienteId}/resumo`,
-  );
+  const response =
+    await api.get<ApiResponse<WhatsappResumoResponse>>(
+      `/whatsapp/cliente/${clienteId}/resumo`,
+    );
 
   return response.data.data;
 }

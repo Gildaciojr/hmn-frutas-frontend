@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         port: "3333",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "api.hmnfrutas.com.br",
+        pathname: "/uploads/**",
+      },
     ],
   },
 };

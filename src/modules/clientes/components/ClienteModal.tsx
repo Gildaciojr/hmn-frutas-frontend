@@ -1335,7 +1335,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                             <button
                                               onClick={() => {
                                                 window.open(
-                                                  `http://localhost:3333/api/romaneios/venda/${t.venda?.id}/pdf`,
+                                                  `${process.env.NEXT_PUBLIC_API_URL}/romaneios/venda/${t.venda?.id}/pdf`,
                                                   "_blank",
                                                 );
                                               }}

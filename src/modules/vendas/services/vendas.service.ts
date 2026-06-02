@@ -1,5 +1,10 @@
 import { api } from "@/core/http/api";
 
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+}
+
 // ================= TYPES =================
 
 export interface VendaCliente {
@@ -332,25 +337,19 @@ export interface CreateVendaPayload {
 // ================= REQUESTS =================
 
 export async function getVendas(): Promise<Venda[]> {
-  const response = await api.get("/vendas");
+  const response = await api.get<ApiResponse<Venda[]>>("/vendas");
 
   return response.data.data;
 }
 
-export async function getVenda(
-  vendaId: string,
-): Promise<Venda> {
-  const response = await api.get(
-    `/vendas/${vendaId}`,
-  );
+export async function getVenda(vendaId: string): Promise<Venda> {
+  const response = await api.get<ApiResponse<Venda>>(`/vendas/${vendaId}`);
 
   return response.data.data;
 }
 
-export async function getVendaByPedido(
-  numeroPedido: string,
-): Promise<Venda> {
-  const response = await api.get(
+export async function getVendaByPedido(numeroPedido: string): Promise<Venda> {
+  const response = await api.get<ApiResponse<Venda>>(
     `/vendas/pedido/${numeroPedido}`,
   );
 
@@ -360,7 +359,7 @@ export async function getVendaByPedido(
 export async function getVendaByRomaneio(
   numeroRomaneio: string,
 ): Promise<Venda> {
-  const response = await api.get(
+  const response = await api.get<ApiResponse<Venda>>(
     `/vendas/romaneio/${numeroRomaneio}`,
   );
 
@@ -368,7 +367,7 @@ export async function getVendaByRomaneio(
 }
 
 export async function createVenda(payload: CreateVendaPayload): Promise<Venda> {
-  const response = await api.post("/vendas", payload);
+  const response = await api.post<ApiResponse<Venda>>("/vendas", payload);
 
   return response.data.data;
 }
@@ -377,17 +376,8 @@ export async function createVenda(payload: CreateVendaPayload): Promise<Venda> {
 // HELPERS
 ////////////////////////////////////////////////////////////
 
-export function parseMoney(
-  value:
-    | string
-    | number
-    | null
-    | undefined,
-): number {
-  if (
-    value === null ||
-    value === undefined
-  ) {
+export function parseMoney(value: string | number | null | undefined): number {
+  if (value === null || value === undefined) {
     return 0;
   }
 
