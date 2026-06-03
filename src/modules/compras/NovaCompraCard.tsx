@@ -1097,8 +1097,15 @@ export function NovaCompraCard() {
                 className="
                   relative z-10
 
-                  px-6 md:px-8
-                  py-6
+                  px-4
+
+                  sm:px-6
+
+                  md:px-8
+
+                  py-4
+
+                  sm:py-6
 
                   overflow-y-auto
                   max-h-[calc(100vh-210px)]
@@ -1131,7 +1138,21 @@ export function NovaCompraCard() {
                     </div>
 
                     <div className="relative z-10 space-y-4">
-                      <div className="flex items-center justify-between gap-4">
+                      <div
+                        className="
+    flex
+
+    flex-col
+
+    sm:flex-row
+
+    sm:items-center
+
+    justify-between
+
+    gap-3
+  "
+                      >
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
                             <div className="w-[3px] h-4 rounded-full bg-[color:var(--brand)]" />
@@ -1219,7 +1240,7 @@ export function NovaCompraCard() {
               bg-white
 
               px-3
-              py-2
+              py-3
             "
                             >
                               <p
@@ -1300,7 +1321,7 @@ export function NovaCompraCard() {
 
                   bg-[color:var(--surface-100)]
 
-                  p-3
+                  p-4
                 "
                                 >
                                   <FazendaForm
@@ -1387,7 +1408,21 @@ export function NovaCompraCard() {
                       </div>
 
                       <div className="relative z-10 space-y-3">
-                        <div className="flex items-start justify-between gap-4">
+                        <div
+                          className="
+    flex
+
+    flex-col
+
+    md:flex-row
+
+    md:items-start
+
+    justify-between
+
+    gap-3
+  "
+                        >
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
                               <div className="w-[3px] h-4 rounded-full bg-[color:var(--brand)]" />
@@ -1705,7 +1740,7 @@ export function NovaCompraCard() {
                       "
                     >
                       <div className="relative z-10 space-y-3">
-                        <div className="flex items-start justify-between gap-4">
+                        <div className="flex flex-col md:flex-row justify-between gap-3">
                           <div className="space-y-1">
                             <div className="flex items-center gap-2">
                               <div className="w-[3px] h-4 rounded-full bg-rose-500" />
@@ -2040,7 +2075,7 @@ export function NovaCompraCard() {
                   {/* ================= RESULTADO ================= */}
                   <div className="space-y-3">
                     {/* HEADER */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
                           <div className="w-[3px] h-4 rounded-full bg-emerald-500" />
@@ -2121,7 +2156,9 @@ export function NovaCompraCard() {
                           className={`
                             group relative overflow-hidden
 
-                            h-full min-h-[160px]
+                            min-h-[220px]
+
+                            md:min-h-[160px]
 
                             flex flex-col justify-between
 
@@ -2252,7 +2289,9 @@ export function NovaCompraCard() {
                                   className={`
                                     mt-2
 
-                                    text-[28px]
+                                    text-[24px]
+                                    sm:text-[28px]
+
                                     leading-none
                                     font-semibold
                                     tracking-[-0.04em]
@@ -2547,7 +2586,10 @@ export function NovaCompraCard() {
                             group relative overflow-visible
 
                             w-full md:w-[260px]
-                            h-[40px]
+
+                            h-[48px]
+
+                            md:h-[40px]
 
                             rounded-[12px]
 
@@ -2940,7 +2982,10 @@ function Input({
 
             bg-transparent
 
-            text-[13px]
+            text-[16px]
+
+            md:text-[13px]
+            
             font-semibold
             tracking-[-0.01em]
 

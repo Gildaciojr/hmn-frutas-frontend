@@ -169,7 +169,9 @@ export function FornecedorForm({
       className="
         w-full
 
-        space-y-4
+        space-y-5
+
+        sm:space-y-4
       "
     >
       <div
@@ -187,7 +189,9 @@ export function FornecedorForm({
         <div className="space-y-1.5">
           <label
             className="
-        text-[12px]
+        text-[13px]
+
+        sm:text-[12px]
 
         font-medium
       "
@@ -208,7 +212,9 @@ export function FornecedorForm({
             className="
         w-full
 
-        h-[40px]
+        h-[46px]
+
+        sm:h-[40px]
 
         px-3
 
@@ -242,7 +248,9 @@ export function FornecedorForm({
         <div className="space-y-1.5">
           <label
             className="
-        text-[12px]
+        text-[13px]
+
+        sm:text-[12px]
 
         font-medium
       "
@@ -255,7 +263,9 @@ export function FornecedorForm({
             className="
         w-full
 
-        h-[40px]
+        h-[46px]
+
+        sm:h-[40px]
 
         px-3
 
@@ -290,7 +300,9 @@ export function FornecedorForm({
         <div className="space-y-1.5">
           <label
             className="
-        text-[12px]
+        text-[13px]
+
+        sm:text-[12px]
 
         font-medium
       "
@@ -303,7 +315,8 @@ export function FornecedorForm({
             className="
         w-full
 
-        h-[40px]
+        h-[46px]
+        sm:h-[40px]
 
         px-3
 
@@ -325,7 +338,9 @@ export function FornecedorForm({
         <div className="space-y-1.5">
           <label
             className="
-        text-[12px]
+        text-[13px]
+
+        sm:text-[12px]
 
         font-medium
       "
@@ -339,7 +354,8 @@ export function FornecedorForm({
             className="
         w-full
 
-        h-[40px]
+        h-[46px]
+        sm:h-[40px]
 
         px-3
 
@@ -371,6 +387,7 @@ export function FornecedorForm({
     bg-[color:var(--surface-100)]
 
     p-4
+    sm:p-5
 
     space-y-4
   "
@@ -391,8 +408,11 @@ export function FornecedorForm({
             className="
         mt-1
 
-        h-4
-        w-4
+        h-5
+        w-5
+
+        md:h-4
+        md:w-4
       "
           />
 
@@ -424,7 +444,8 @@ export function FornecedorForm({
             <div className="space-y-1.5">
               <label
                 className="
-      text-[12px]
+      text-[13px]
+      sm:text-[12px]
 
       font-medium
     "
@@ -445,7 +466,8 @@ export function FornecedorForm({
                 className="
       w-full
 
-      h-[40px]
+      h-[46px]
+      sm:h-[40px]
 
       px-3
 
@@ -487,7 +509,8 @@ export function FornecedorForm({
               <div className="space-y-1.5">
                 <label
                   className="
-              text-[12px]
+              text-[13px]
+              sm:text-[12px]
 
               font-medium
             "
@@ -500,7 +523,8 @@ export function FornecedorForm({
                   className="
               w-full
 
-              h-[40px]
+              h-[46px]
+              sm:h-[40px]
 
               px-3
 
@@ -520,7 +544,8 @@ export function FornecedorForm({
               <div className="space-y-1.5">
                 <label
                   className="
-              text-[12px]
+              text-[13px]
+              sm:text-[12px]
 
               font-medium
             "
@@ -534,7 +559,8 @@ export function FornecedorForm({
                   className="
               w-full
 
-              h-[40px]
+              h-[46px]
+              sm:h-[40px]
 
               px-3
 
@@ -571,7 +597,7 @@ export function FornecedorForm({
         </label>
 
         <textarea
-          rows={1}
+          rows={3}
           {...register("observacoes")}
           className="
             w-full
@@ -598,11 +624,15 @@ export function FornecedorForm({
 
       <div
         className="
-    pt-2
+    pt-3
 
     flex
-    items-center
-    justify-end
+
+    flex-col
+
+    sm:flex-row
+
+    sm:justify-end
 
     gap-3
   "
@@ -611,9 +641,11 @@ export function FornecedorForm({
           type="submit"
           disabled={loading}
           className="
-      h-[42px]
+      h-[48px]
 
-      px-5
+      sm:h-[42px]
+
+      px-4
 
       rounded-[14px]
 
