@@ -111,14 +111,23 @@ duration-200
         <div
           className="
               flex
-              items-center
-              gap-2
+
+              flex-col
+
+              sm:flex-row
+              sm:items-center
+
+              gap-3
+
+              w-full
+              lg:w-auto
             "
         >
           <button
             onClick={() => onOpenFornecedor(fornecedor)}
             className="
-  h-[36px]
+  h-[42px]
+  md:h-[36px]
 
   px-3
 
@@ -150,7 +159,8 @@ duration-200
           <button
             onClick={() => onOpenFinanceiro(fornecedor)}
             className="
-                h-9
+                h-[42px]
+                md:h-9
 
                 px-3
 
@@ -266,7 +276,9 @@ export function FornecedoresTable() {
       <div
         className="
           px-4
-          py-3
+
+          sm:px-5
+          py-4
 
           border-b border-[color:var(--border-soft)]
 
@@ -283,7 +295,8 @@ export function FornecedoresTable() {
         <div>
           <h2
             className="
-      text-[18px]
+      text-[20px]
+      sm:text-[18px]
 
       font-semibold
 
@@ -306,7 +319,8 @@ export function FornecedoresTable() {
             className="
       relative
 
-      w-[260px]
+      w-full
+      sm:w-[260px]
     "
           >
             <Search
@@ -330,7 +344,8 @@ export function FornecedoresTable() {
               className="
         w-full
 
-        h-[42px]
+        h-[46px]
+        sm:h-[42px]
 
         pl-10
         pr-4
@@ -342,7 +357,8 @@ export function FornecedoresTable() {
 
         bg-white/80
 
-        text-[14px]
+        text-[16px]
+        md:text-[14px]
 
         outline-none
 
@@ -358,16 +374,86 @@ export function FornecedoresTable() {
         </div>
       </div>
 
+      {/* MOBILE CARDS */}
+      <div className="lg:hidden p-3 space-y-3">
+        {filtered.map((fornecedor) => (
+          <div
+            key={fornecedor.id}
+            className="
+        rounded-2xl
+        border border-[color:var(--border-soft)]
+        bg-white
+        p-4
+        space-y-3
+        shadow-[0_8px_24px_rgba(15,23,42,0.05)]
+      "
+          >
+            <div>
+              <p className="text-[15px] font-semibold text-[color:var(--foreground)]">
+                {fornecedor.nome} {fornecedor.sobrenome}
+              </p>
+
+              <p className="text-[13px] text-[color:var(--muted-soft)]">
+                {fornecedor.telefone || "Sem telefone"}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <MobileInfo label="UF" value={fornecedor.estado || "-"} />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+              <button
+                onClick={() => {
+                  setFornecedorSelecionado(fornecedor);
+                  setFornecedorModalOpen(true);
+                }}
+                className="
+            h-[44px]
+            rounded-xl
+            border border-[color:var(--border-soft)]
+            bg-white
+            flex items-center justify-center gap-2
+            text-[13px] font-medium
+          "
+              >
+                <Building2 size={14} />
+                Detalhes
+              </button>
+
+              <button
+                onClick={() => setFinanceiroFornecedor(fornecedor)}
+                className="
+            h-[44px]
+            rounded-xl
+            border border-emerald-200
+            bg-emerald-50/50
+            flex items-center justify-center gap-2
+            text-[13px] font-medium text-emerald-700
+          "
+              >
+                <Landmark size={14} />
+                Financeiro
+              </button>
+            </div>
+          </div>
+        ))}
+
+        {filtered.length === 0 && (
+          <div className="py-10 text-center text-[color:var(--muted)]">
+            Nenhum fornecedor encontrado
+          </div>
+        )}
+      </div>
+
       {/* TABLE */}
 
-      <div
-        className="
-          overflow-x-auto
-        "
-      >
+      <div className="hidden lg:block overflow-x-auto">
         <table
           className="
             w-full
+
+            min-w-[980px]
           "
         >
           <thead>
@@ -560,6 +646,16 @@ export function FornecedoresTable() {
           onClose={() => setFinanceiroFornecedor(null)}
         />
       )}
+    </div>
+  );
+}
+function MobileInfo({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="text-[11px] text-[color:var(--muted)]">{label}</p>
+      <p className="text-sm font-medium text-[color:var(--foreground)]">
+        {value}
+      </p>
     </div>
   );
 }

@@ -154,7 +154,7 @@ export function FornecedorSelect({
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar  fornecedor..."
+              placeholder="Buscar fornecedor"
               className="
                   w-full
 
@@ -173,7 +173,8 @@ export function FornecedorSelect({
 
                   outline-none
 
-                  text-sm
+                  text-[16px]
+                  md:text-sm
                 "
             />
           </div>

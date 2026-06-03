@@ -127,10 +127,16 @@ export function FornecedorFinanceiroModal({
         bg-black/40
 
         flex
-        items-center
+
+        items-start
+        md:items-center
+
         justify-center
 
-        p-4
+        overflow-y-auto
+
+        p-2
+        sm:p-4
       "
     >
       <div
@@ -139,9 +145,9 @@ export function FornecedorFinanceiroModal({
 
           max-w-6xl
 
-          max-h-[90vh]
+          max-h-[95vh]
 
-          overflow-visible
+          overflow-hidden
 
           rounded-3xl
 
@@ -156,20 +162,30 @@ export function FornecedorFinanceiroModal({
 
         <div
           className="
-            px-6
-            py-5
+            px-4
+            sm:px-6
 
-            border-b
+            py-4
+            sm:py-5
 
             flex
-            items-center
+
+            flex-col
+
+            sm:flex-row
+
+            sm:items-center
             justify-between
+
+            border-b
+            gap-3
           "
         >
           <div>
             <h2
               className="
-                text-xl
+                text-[22px]
+                sm:text-xl
                 font-semibold
               "
             >
@@ -212,8 +228,11 @@ export function FornecedorFinanceiroModal({
 
     max-h-[calc(90vh-92px)]
 
-    px-6
-    py-5
+    px-4
+    sm:px-6
+
+    py-4
+    sm:py-5
 
     space-y-5
   "
@@ -223,9 +242,9 @@ export function FornecedorFinanceiroModal({
           {!financeiroLoading && financeiro && (
             <div
               className="
-                  grid
+                  grid-cols-1
 
-                  grid-cols-2
+                  sm:grid-cols-2
                   xl:grid-cols-4
 
                   gap-3
@@ -259,7 +278,7 @@ export function FornecedorFinanceiroModal({
 
           <div
             className="
-    grid
+    grid-cols-1
 
     xl:grid-cols-[340px_1fr]
 
@@ -326,7 +345,8 @@ export function FornecedorFinanceiroModal({
 
   outline-none
 
-  text-[15px]
+  text-[16px]
+  md:text-[15px]
   font-medium
 
   transition-all
@@ -362,7 +382,8 @@ export function FornecedorFinanceiroModal({
 
   outline-none
 
-  text-[14px]
+  text-[16px]
+  md:text-[14px]
 
   transition-all
   duration-300
@@ -408,7 +429,8 @@ export function FornecedorFinanceiroModal({
 
   resize-none
 
-  text-[14px]
+  text-[16px]
+  md:text-[14px]
 
   transition-all
   duration-300
@@ -551,10 +573,14 @@ export function FornecedorFinanceiroModal({
                       <div
                         className="
                       flex
-                      items-start
+                      flex-col
+
+                      sm:flex-row
+
+                      sm:items-start
                       justify-between
 
-                      gap-4
+                      gap-2
                     "
                       >
                         <div className="space-y-1">
@@ -739,7 +765,8 @@ function CardResumo({
           className="
             mt-3
 
-            text-[24px]
+            text-[20px]
+            sm:text-[24px]
 
             font-semibold
 

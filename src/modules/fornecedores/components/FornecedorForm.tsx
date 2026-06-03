@@ -213,7 +213,6 @@ export function FornecedorForm({
         w-full
 
         h-[46px]
-
         sm:h-[40px]
 
         px-3
@@ -225,6 +224,9 @@ export function FornecedorForm({
         border-[color:var(--border-soft)]
 
         bg-[color:var(--surface-100)]
+
+        text-[16px]
+        md:text-[14px]
 
         outline-none
       "
@@ -277,6 +279,9 @@ export function FornecedorForm({
 
         bg-[color:var(--surface-100)]
 
+        text-[16px]
+        md:text-[14px]
+
         outline-none
       "
           />
@@ -328,6 +333,9 @@ export function FornecedorForm({
 
         bg-[color:var(--surface-100)]
 
+        text-[16px]
+        md:text-[14px]
+
         outline-none
       "
           />
@@ -367,6 +375,9 @@ export function FornecedorForm({
 
         bg-[color:var(--surface-100)]
 
+        text-[16px]
+        md:text-[14px]
+
         outline-none
 
         uppercase
@@ -389,7 +400,8 @@ export function FornecedorForm({
     p-4
     sm:p-5
 
-    space-y-4
+    space-y-5
+    sm:space-y-4
   "
       >
         <label
@@ -477,6 +489,9 @@ export function FornecedorForm({
 
       border-[color:var(--border-soft)]
 
+      text-[16px]
+      md:text-[14px]
+
       bg-white
 
       outline-none
@@ -534,6 +549,9 @@ export function FornecedorForm({
 
               border-[color:var(--border-soft)]
 
+              text-[16px]
+              md:text-[14px]
+
               bg-white
 
               outline-none
@@ -570,6 +588,9 @@ export function FornecedorForm({
 
               border-[color:var(--border-soft)]
 
+              text-[16px]
+              md:text-[14px]
+
               bg-white
 
               outline-none
@@ -588,7 +609,9 @@ export function FornecedorForm({
       <div className="space-y-2">
         <label
           className="
-            text-sm
+
+            text-[13px]
+            sm:text-[12px]
 
             font-medium
           "
@@ -641,6 +664,10 @@ export function FornecedorForm({
           type="submit"
           disabled={loading}
           className="
+      w-full
+      
+      sm:w-auto
+
       h-[48px]
 
       sm:h-[42px]

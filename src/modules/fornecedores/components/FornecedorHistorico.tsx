@@ -113,10 +113,12 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
 
           px-1
 
-          flex
-          flex-wrap
+          grid
 
-          justify-center
+          grid-cols-1
+          sm:grid-cols-2
+
+          xl:grid-cols-3
 
           gap-3
         "
@@ -148,15 +150,22 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
         <div
           className="
             flex
-            items-center
+
+            flex-col
+            sm:flex-row
+
+            sm:items-center
+
             justify-between
 
-            gap-4
+            gap-3
           "
         >
           <h3
             className="
-              text-[20px]
+              text-[22px]
+              sm:text-[20px]
+
               font-semibold
               tracking-[-0.03em]
             "
@@ -196,8 +205,9 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
 
               bg-white
 
-              px-4
-              py-2.5
+              h-[46px]
+
+              px-5
 
               text-sm
               font-medium
@@ -235,7 +245,7 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
         bg-white
       "
           >
-            <table className="min-w-full text-sm">
+            <table className="min-w-[1800px] text-sm">
               <thead
                 className="
             bg-slate-50
@@ -443,8 +453,14 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
                                 key={pagamento.id}
                                 className="
                               flex
-                              items-center
+
+                              flex-col
+
+                              sm:flex-row
+                              sm:items-center
                               justify-between
+
+                              gap-2
 
                               rounded-xl
 
@@ -538,7 +554,8 @@ function ResumoCard({
   return (
     <div
       className="
-    w-[200px]
+    w-full  
+    sm:w-[200px]
 
     rounded-[18px]
 
@@ -626,7 +643,8 @@ function EmptyState({ text }: { text: string }) {
 
   bg-slate-50/60
 
-  py-14
+  py-10
+  sm:py-14
 
   text-center
 

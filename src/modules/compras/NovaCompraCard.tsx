@@ -2944,7 +2944,9 @@ function Input({
             className="
               absolute left-4 top-[23px]
 
-              text-[10px]
+              text-[11px]
+              sm:text-[10px]
+
               font-semibold
 
               text-emerald-600
@@ -3007,7 +3009,8 @@ function Input({
 
             ${isMoneyField ? "left-10" : "left-4"}
 
-            text-[10px]
+            text-[11px]
+            sm:text-[10px]
 
             tracking-[0.18em]
 
@@ -3149,7 +3152,8 @@ function Result({
       className={`
         group relative overflow-hidden
 
-        min-h-[80px]
+        min-h-[88px]
+        sm:min-h-[80px]
 
         p-4
 
@@ -3269,7 +3273,9 @@ function Result({
 
                   rounded-full
 
-                  text-[9px]
+                  text-[10px]
+                  sm:text-[9px]
+
                   font-semibold
                   uppercase
                   tracking-[0.14em]
@@ -3305,7 +3311,9 @@ function Result({
 
           <div
             className={`
-              text-[24px]
+              text-[20px]
+              sm:text-[24px]
+
               font-semibold
               tracking-[-0.03em]
               leading-none
@@ -3330,7 +3338,9 @@ function Result({
               className={`
                 inline-flex items-center gap-1.5
 
-                text-[10px]
+                text-[11px]
+                sm:text-[10px]
+
                 font-medium
 
                 ${isDanger ? "text-red-600/80" : "text-emerald-600/80"}

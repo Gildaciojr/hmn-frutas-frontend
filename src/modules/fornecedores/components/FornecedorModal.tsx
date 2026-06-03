@@ -148,10 +148,16 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
         bg-black/40
 
         flex
-        items-center
+
+        items-start
+        md:items-center
+
         justify-center
 
-        p-4
+        overflow-y-auto
+
+        p-2
+        sm:p-4
       "
     >
       <div
@@ -160,9 +166,9 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
 
           max-w-[1200px]
 
-          max-h-[90vh]
+          max-h-[95vh]
 
-          overflow-visible
+          overflow-hidden
 
           rounded-[28px]
 
@@ -180,8 +186,11 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
 
         <div
           className="
-            px-7
-            py-5
+            px-4
+            sm:px-7
+
+            py-4
+            sm:py-5
 
             border-b
 
@@ -189,14 +198,19 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
             bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.72))]
 
             flex
-            items-center
+
+            flex-col
+            sm:items-center
+
             justify-between
+            gap-3
           "
         >
           <div>
             <h2
               className="
-                text-[26px]
+                text-[22px]
+                sm:text-[26px]
                 font-semibold
                 tracking-[-0.04em]
               "
@@ -250,11 +264,13 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
 
         <div
           className="
-            grid
+            grid-cols-1
 
-            grid-cols-[240px_1fr]
+            lg:grid-cols-[240px_1fr]
 
-            h-[calc(90vh-88px)]
+            h-auto
+
+            lg:h-[calc(90vh-88px)]
           "
         >
           {/* SIDEBAR */}
@@ -265,9 +281,17 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
 
               border-[color:var(--border-soft)]
 
-              p-5
+              p-4
+              sm:p-5
 
-              space-y-2.5
+              grid
+
+              grid-cols-2
+              sm:grid-cols-4
+
+              lg-grid-cols-1
+
+              gap-2
               bg-slate-50/70
             "
           >
@@ -306,7 +330,8 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
             className="
               overflow-y-auto
 
-              p-7
+              p-4
+              sm:p-7
               bg-[linear-gradient(180deg,rgba(255,255,255,0.65),rgba(248,250,252,0.58))]
             "
           >
@@ -370,6 +395,14 @@ duration-300
                 <div
                   className="
                     flex
+
+                    flex-col
+                    sm:flex-row
+
+                    gap-3
+
+                    sm:items-center
+
                     justify-between
                   "
                 >
@@ -385,7 +418,8 @@ duration-300
                   <button
                     onClick={() => setCreatingFazenda(!creatingFazenda)}
                     className="
-                      h-10
+                      h-[46px]
+                      md:h-10
 
                       px-4
 
@@ -482,7 +516,7 @@ duration-300
         shadow-[0_10px_30px_rgba(15,23,42,0.05)]
       "
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                       <p
                         className="
@@ -518,8 +552,8 @@ duration-300
 
                     <div
                       className="
-            px-3
-            py-2
+            px-4
+            py-3
 
             rounded-full
 

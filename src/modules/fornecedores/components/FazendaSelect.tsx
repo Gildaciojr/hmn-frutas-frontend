@@ -94,7 +94,8 @@ export function FazendaSelect({
 
           px-4
 
-          text-sm
+          text-[14px]
+          sm:text-sm
 
           text-[color:var(--muted)]
         "
@@ -126,8 +127,9 @@ export function FazendaSelect({
           items-center
 
           px-4
-
-          text-sm
+          
+          text-[14px]
+          sm:text-sm
 
           text-[color:var(--muted)]
         "
