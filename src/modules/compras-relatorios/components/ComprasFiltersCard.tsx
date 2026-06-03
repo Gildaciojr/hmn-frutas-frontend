@@ -125,7 +125,8 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             items-center
             gap-2
 
-            text-[10px]
+            text-[11px]
+            sm:text-[10px]
             text-[color:var(--muted-soft)]
           "
         >
@@ -209,7 +210,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           />
         </div>
 
-        <div className="space-y-1 w-[150px]">
+        <div className="space-y-1 w-full sm:w-[220px] md:w-[150px]">
           <label className="label-base">Data final</label>
 
           <input
@@ -251,8 +252,11 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
             bg-[color:var(--surface-200)]
 
-            text-[11px]
+            text-[12px]
+            sm:text-[11px]
+
             font-semibold
+
             text-[color:var(--muted)]
 
             transition-all
@@ -269,6 +273,9 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
         <div
           className="
     flex
+
+    flex-col
+    sm:flex-row
 
     w-full
 
@@ -290,8 +297,11 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
               bg-[color:var(--surface-200)]
 
-              text-[11px]
+              text-[12px]
+              sm:text-[11px]
+
               font-semibold
+
               text-[color:var(--muted)]
 
               transition-all
@@ -318,7 +328,9 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
               px-5
 
-              text-[12px]
+              text-[13px]
+              sm:text-[12px]
+
               font-semibold
             "
           >
@@ -333,7 +345,9 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             grid
 
             grid-cols-1
-            md:grid-cols-3
+
+            sm:grid-cols-2
+            xl:grid-cols-3
 
             gap-2
 
