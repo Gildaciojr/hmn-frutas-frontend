@@ -78,7 +78,11 @@ export function NovoFornecedorCard() {
 
           bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(236,253,245,0.92))]
 
-          px-4 py-3
+          px-4
+          
+          sm:px-5
+
+          py-3
 
           shadow-[0_14px_45px_rgba(16,185,129,0.08)]
 
@@ -212,8 +216,11 @@ export function NovoFornecedorCard() {
 
                   flex
 
-                  h-10
-                  w-10
+                  h-11
+                  w-11
+
+                  md:h-10
+                  md:w-10
 
                   items-center
                   justify-center
@@ -237,7 +244,9 @@ export function NovoFornecedorCard() {
             <div className="flex-1">
               <h3
                 className="
-                  text-[18px]
+                  text-[20px]
+
+                  sm:text-[18px]
 
                   font-semibold
 
@@ -275,7 +284,7 @@ export function NovoFornecedorCard() {
 
               bg-[linear-gradient(135deg,#10b981,#059669)]
 
-              py-2.5
+              py-3
 
               text-[14px]
               font-semibold
@@ -355,21 +364,30 @@ export function NovoFornecedorCard() {
             backdrop-blur-[6px]
 
             flex
+
             items-center
+            md:items-center
+
             justify-center
 
+            overflow-y-auto
+
             p-2
+            sm:p-3
           "
         >
           <div
             className="
               relative
 
-              overflow-hidden
+              overflow-y-auto
+              overflow-x-hidden
 
               w-full
 
               max-w-[680px]
+
+              max-h-[95vh]
 
               rounded-[32px]
 
@@ -378,7 +396,9 @@ export function NovoFornecedorCard() {
 
               bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(236,253,245,0.94))]
 
-              p-6
+              p-4
+
+              sm:p-6
 
               shadow-[0_30px_90px_rgba(16,185,129,0.12)]
 
@@ -396,8 +416,11 @@ export function NovoFornecedorCard() {
                 top-[-80px]
                 right-[-80px]
 
-                w-[240px]
-                h-[240px]
+                w-[140px]
+                h-[140px]
+
+                md:w-[240px]
+                md:h-[240px]
 
                 rounded-full
 
@@ -460,7 +483,9 @@ export function NovoFornecedorCard() {
                 className="
                   mt-3
 
-                  text-[28px]
+                  text-[22px]
+
+                  sm:text-[28px]
 
                   font-semibold
 
@@ -494,8 +519,11 @@ export function NovoFornecedorCard() {
     top-0
     right-0
 
-    h-10
-    w-10
+    h-11
+    w-11
+
+    md:h-10
+    md:w-10
 
     rounded-xl
 

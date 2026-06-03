@@ -67,7 +67,18 @@ export default function Dashboard() {
 
   return (
     <AppLayout>
-      <div className="space-y-6 max-w-[1400px] mx-auto">
+      <div
+        className="
+    space-y-6
+
+    max-w-[1400px]
+
+    mx-auto
+
+    px-1
+    sm:px-0
+  "
+      >
         {/* ================= HEADER (SOMENTE COMPRAS) ================= */}
         {mode === "COMPRAS" && (
           <div
@@ -86,7 +97,11 @@ export default function Dashboard() {
 
         rounded-[var(--radius-lg)]
 
-        px-5 py-4
+        px-4
+        sm:px-5
+
+        py-4
+        sm:py-5
 
         bg-[linear-gradient(135deg,#ffffff,rgba(255,255,255,0.92))]
 
@@ -131,8 +146,11 @@ export default function Dashboard() {
     top-0
     right-0
 
-    w-[210px]
-    h-[210px]
+    w-[120px]
+    h-[120px]
+
+    md:w-[210px]
+    md:h-[210px]
 
     rounded-full
 
@@ -162,7 +180,9 @@ export default function Dashboard() {
 
     gap-4
 
-    xl:min-h-[210px]
+    min-h-auto
+
+    md:min-h-[210px]
   "
             >
               {/* ESQUERDA */}
@@ -182,11 +202,18 @@ export default function Dashboard() {
                 {/* TÍTULO */}
                 <h1
                   className="
-        text-[26px]
-        font-semibold
-        tracking-[-0.01em]
-        text-[color:var(--foreground)]
-      "
+    text-[32px]
+
+    sm:text-[36px]
+
+    md:text-[26px]
+
+    font-semibold
+
+    tracking-[-0.01em]
+
+    text-[color:var(--foreground)]
+  "
                 >
                   Compras
                 </h1>
@@ -194,11 +221,21 @@ export default function Dashboard() {
                 {/* 🔥 STATUS OPERACIONAL (TEMPO REAL) */}
                 <div
                   className="
-        flex flex-wrap items-center gap-2
+  flex
 
-        text-[12px]
-        text-[color:var(--muted)]
-      "
+  flex-col
+
+  sm:flex-row
+
+  sm:flex-wrap
+
+  gap-1
+  sm:gap-2
+
+  text-[12px]
+
+  text-[color:var(--muted)]
+"
                 >
                   <span className="font-medium text-[color:var(--foreground)]">
                     Hoje:
@@ -215,7 +252,7 @@ export default function Dashboard() {
                     )}
                   </span>
 
-                  <span className="opacity-40">•</span>
+                  <span className="hidden sm:inline opacity-40">•</span>
 
                   {/* KG MOVIMENTADO */}
                   <span>
@@ -225,7 +262,7 @@ export default function Dashboard() {
                     kg
                   </span>
 
-                  <span className="opacity-40">•</span>
+                  <span className="hidden sm:inline opacity-40">•</span>
 
                   {/* TOTAL OPERAÇÕES */}
                   <span>
@@ -235,7 +272,7 @@ export default function Dashboard() {
                     operações
                   </span>
 
-                  <span className="opacity-40">•</span>
+                  <span className="hidden sm:inline opacity-40">•</span>
 
                   {/* FORNECEDORES ATIVOS */}
                   <span>
@@ -249,9 +286,10 @@ export default function Dashboard() {
                 {/* DESCRIÇÃO */}
                 <p
                   className="
-        text-[14px]
+        text-[13px]
+        sm:text-[14px]
         text-[color:var(--muted)]
-        max-w-[560px]
+        max-w-[540px]
         leading-relaxed
       "
                 >
@@ -262,12 +300,15 @@ export default function Dashboard() {
               {/* DIREITA */}
               <div
                 className="
+    hidden
+
+    md:flex
+
     absolute
 
     top-5
     right-5
 
-    flex
     flex-col
     items-end
 
@@ -408,7 +449,7 @@ export default function Dashboard() {
 
                   {/* logo */}
                   <img
-                    src="${process.env.NEXT_PUBLIC_UPLOADS_URL}/empresa/logo-hmn.png"
+                    src={`${process.env.NEXT_PUBLIC_UPLOADS_URL}/empresa/logo-hmn.png`}
                     alt="HMN Frutas"
                     className="
         relative z-10
@@ -574,7 +615,23 @@ export default function Dashboard() {
               </div>
 
               {/* HEADER */}
-              <div className="relative z-10 flex items-center justify-between">
+              <div
+                className="
+    relative z-10
+
+    flex
+
+    flex-col
+    sm:flex-row
+
+    items-start
+    sm:items-center
+
+    gap-3
+
+    justify-between
+  "
+              >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <div className="w-[4px] h-4 rounded-full bg-indigo-500" />
@@ -713,7 +770,24 @@ export default function Dashboard() {
                 </div>
 
                 {/* ================= HEADER ================= */}
-                <div className="relative z-10 flex items-center justify-between mb-4">
+                <div
+                  className="
+    relative z-10
+
+    flex
+    flex-col
+    sm:flex-row
+
+    items-start
+    sm:items-center
+
+    justify-between
+
+    gap-3
+
+    mb-4
+  "
+                >
                   <div className="space-y-1">
                     <h2 className="text-[14px] font-semibold tracking-tight text-[color:var(--foreground)]">
                       Operações

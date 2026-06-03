@@ -90,7 +90,9 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
         rounded-[24px]
 
         px-4
-        py-3
+        sm:px-5
+
+        py-4
 
         space-y-3
       "
@@ -108,11 +110,11 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
         "
       >
         <div className="space-y-0">
-          <h2 className="text-[13px] font-bold tracking-tight text-[color:var(--foreground)]">
+          <h2 className="text-[15px] sm:text-[16px] font-bold tracking-tight text-[color:var(--foreground)]">
             Central de relatórios
           </h2>
 
-          <p className="text-[9px] text-[color:var(--muted)]">
+          <p className="text-[11px] sm:text-[12px] text-[color:var(--muted)]">
             Gere relatórios gerenciais por fornecedor, fazenda e período.
           </p>
         </div>
@@ -129,23 +131,33 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
         >
           <span className="w-[6px] h-[6px] rounded-full bg-emerald-500" />
 
-          <span className="uppercase tracking-[0.18em]">
-            Compras
-          </span>
+          <span className="uppercase tracking-[0.18em]">Compras</span>
         </div>
       </div>
 
       <div
         className="
-          flex
+    grid
 
-          flex-wrap
-          items-end
+    grid-cols-1
 
-          gap-3
-        "
+    md:flex
+    md:flex-wrap
+
+    items-end
+
+    gap-3
+  "
       >
-        <div className="space-y-1 w-[280px]">
+        <div
+          className="
+  space-y-1
+
+  w-full
+
+  md:w-[280px]
+"
+        >
           <label className="label-base">Fornecedor</label>
 
           <FornecedorSelect
@@ -158,7 +170,15 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           />
         </div>
 
-        <div className="space-y-1 w-[280px]">
+        <div
+          className="
+  space-y-1
+
+  w-full
+
+  md:w-[280px]
+"
+        >
           <label className="label-base">Fazenda</label>
 
           <FazendaSelect
@@ -168,7 +188,17 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           />
         </div>
 
-        <div className="space-y-1 w-[150px]">
+        <div
+          className="
+  space-y-1
+
+  w-full
+
+  sm:w-[220px]
+
+  md:w-[150px]
+"
+        >
           <label className="label-base">Data inicial</label>
 
           <input
@@ -193,21 +223,26 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
       <div
         className="
-          flex
-          items-center
+    flex
 
-          justify-between
+    flex-col
 
-          gap-3
+    md:flex-row
 
-          pt-1
-        "
+    md:items-center
+
+    md:justify-between
+
+    gap-3
+
+    pt-1
+  "
       >
         <button
           type="button"
           onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
           className="
-            h-[34px]
+            h-[42px]
             px-4
 
             rounded-[var(--radius-md)]
@@ -231,13 +266,23 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             : "Filtros avançados"}
         </button>
 
-        <div className="flex items-center gap-2">
+        <div
+          className="
+    flex
+
+    w-full
+
+    md:w-auto
+
+    gap-2
+  "
+        >
           <button
             type="button"
             onClick={handleClear}
             className="
-              h-[34px]
-              px-4
+              h-[42px]
+              px-5
 
               rounded-[var(--radius-md)]
 
@@ -265,7 +310,12 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             className="
               btn-primary
 
-              h-[34px]
+              h-[42px]
+
+              flex-1
+
+              md:flex-none
+
               px-5
 
               text-[12px]
