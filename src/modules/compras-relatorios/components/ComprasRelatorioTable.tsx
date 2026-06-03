@@ -17,9 +17,7 @@ function formatKg(value: number) {
   return `${value.toLocaleString("pt-BR")} kg`;
 }
 
-export function ComprasRelatorioTable({
-  compras,
-}: Props) {
+export function ComprasRelatorioTable({ compras }: Props) {
   return (
     <section
       className="
@@ -34,7 +32,9 @@ export function ComprasRelatorioTable({
 
       <div
         className="
-          px-5
+          px-4
+          sm:px-5
+
           py-4
 
           border-b
@@ -71,7 +71,8 @@ export function ComprasRelatorioTable({
       {compras.length === 0 && (
         <div
           className="
-            p-10
+            p-6
+            sm:p-10
 
             text-center
 
@@ -87,135 +88,193 @@ export function ComprasRelatorioTable({
       {/* TABLE */}
 
       {compras.length > 0 && (
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[1200px]">
-            <thead>
-              <tr
+        <>
+          {/* MOBILE CARDS */}
+          <div className="lg:hidden p-3 sm:p-4 space-y-3">
+            {compras.map((compra) => (
+              <div
+                key={compra.id}
                 className="
-                  border-b
+            rounded-2xl
+            border border-[color:var(--border-soft)]
+            bg-[color:var(--surface-100)]
+            p-4
 
-                  border-[color:var(--border-soft)]
-
-                  bg-[color:var(--surface-200)]
-                "
+            sm:p-5
+            space-y-3
+          "
               >
-                <th className="px-4 py-3 text-left text-xs">
-                  Fornecedor
-                </th>
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-[11px] text-[color:var(--muted)]">
+                      Fornecedor
+                    </p>
 
-                <th className="px-4 py-3 text-left text-xs">
-                  Fazenda
-                </th>
+                    <p className="text-sm font-semibold text-[color:var(--foreground)]">
+                      {compra.fornecedor?.nome ?? compra.cliente?.nome ?? "-"}
+                    </p>
+                  </div>
 
-                <th className="px-4 py-3 text-left text-xs">
-                  Data
-                </th>
+                  <span
+                    className={`
+                shrink-0 inline-flex px-2.5 py-1 rounded-full
+                text-[11px] font-medium
+                ${
+                  compra.status === "FECHADA"
+                    ? "bg-emerald-100 text-emerald-700"
+                    : compra.status === "ABERTA"
+                      ? "bg-amber-100 text-amber-700"
+                      : "bg-red-100 text-red-700"
+                }
+              `}
+                  >
+                    {compra.status}
+                  </span>
+                </div>
 
-                <th className="px-4 py-3 text-left text-xs">
-                  Placa
-                </th>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <MobileInfo
+                    label="Fazenda"
+                    value={compra.fazendaFornecedor?.nome ?? "-"}
+                  />
+                  <MobileInfo
+                    label="Data"
+                    value={new Date(compra.dataCompra).toLocaleDateString(
+                      "pt-BR",
+                    )}
+                  />
+                  <MobileInfo label="Placa" value={compra.placa} />
+                  <MobileInfo
+                    label="Kg líquido"
+                    value={formatKg(compra.kgLiquido)}
+                  />
+                  <MobileInfo
+                    label="Frutas"
+                    value={String(compra.quantidadeFrutas)}
+                  />
+                  <MobileInfo
+                    label="Preço/Kg"
+                    value={formatCurrency(compra.precoKg)}
+                  />
+                </div>
 
-                <th className="px-4 py-3 text-left text-xs">
-                  Kg Líquido
-                </th>
-
-                <th className="px-4 py-3 text-left text-xs">
-                  Frutas
-                </th>
-
-                <th className="px-4 py-3 text-left text-xs">
-                  Preço/Kg
-                </th>
-
-                <th className="px-4 py-3 text-left text-xs">
-                  Total
-                </th>
-
-                <th className="px-4 py-3 text-left text-xs">
-                  Status
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {compras.map((compra) => (
-                <tr
-                  key={compra.id}
+                <div
                   className="
-                    border-b
-
-                    border-[color:var(--border-soft)]
-
-                    hover:bg-black/[0.02]
-                  "
+              rounded-xl
+              border border-emerald-200
+              bg-emerald-50
+              px-3 py-2
+            "
                 >
-                  <td className="px-4 py-3 text-sm">
-                    {compra.fornecedor?.nome ??
-                      compra.cliente?.nome ??
-                      "-"}
-                  </td>
-
-                  <td className="px-4 py-3 text-sm">
-                    {compra.fazendaFornecedor?.nome ?? "-"}
-                  </td>
-
-                  <td className="px-4 py-3 text-sm">
-                    {new Date(
-                      compra.dataCompra,
-                    ).toLocaleDateString("pt-BR")}
-                  </td>
-
-                  <td className="px-4 py-3 text-sm">
-                    {compra.placa}
-                  </td>
-
-                  <td className="px-4 py-3 text-sm">
-                    {formatKg(compra.kgLiquido)}
-                  </td>
-
-                  <td className="px-4 py-3 text-sm">
-                    {compra.quantidadeFrutas}
-                  </td>
-
-                  <td className="px-4 py-3 text-sm">
-                    {formatCurrency(compra.precoKg)}
-                  </td>
-
-                  <td className="px-4 py-3 text-sm font-medium">
+                  <p className="text-[11px] text-emerald-700/80">Total</p>
+                  <p className="text-[20px] sm:text-[18px] font-semibold text-emerald-700">
                     {formatCurrency(compra.valorTotal)}
-                  </td>
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
 
-                  <td className="px-4 py-3">
-                    <span
-                      className={`
-                        inline-flex
-
-                        px-2.5
-                        py-1
-
-                        rounded-full
-
-                        text-[11px]
-                        font-medium
-
-                        ${
-                          compra.status === "FECHADA"
-                            ? "bg-emerald-100 text-emerald-700"
-                            : compra.status === "ABERTA"
-                              ? "bg-amber-100 text-amber-700"
-                              : "bg-red-100 text-red-700"
-                        }
-                      `}
-                    >
-                      {compra.status}
-                    </span>
-                  </td>
+          {/* DESKTOP TABLE */}
+          <div className="hidden lg:block overflow-x-auto">
+            <table className="w-full min-w-[1200px]">
+              <thead>
+                <tr className="border-b border-[color:var(--border-soft)] bg-[color:var(--surface-200)]">
+                  <th className="px-4 py-3 text-left text-xs">Fornecedor</th>
+                  <th className="px-4 py-3 text-left text-xs">Fazenda</th>
+                  <th className="px-4 py-3 text-left text-xs">Data</th>
+                  <th className="px-4 py-3 text-left text-xs">Placa</th>
+                  <th className="px-4 py-3 text-left text-xs">Kg Líquido</th>
+                  <th className="px-4 py-3 text-left text-xs">Frutas</th>
+                  <th className="px-4 py-3 text-left text-xs">Preço/Kg</th>
+                  <th className="px-4 py-3 text-left text-xs">Total</th>
+                  <th className="px-4 py-3 text-left text-xs">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+
+              <tbody>
+                {compras.map((compra) => (
+                  <tr
+                    key={compra.id}
+                    className="border-b border-[color:var(--border-soft)] hover:bg-black/[0.02]"
+                  >
+                    <td className="px-4 py-3 text-sm">
+                      {compra.fornecedor?.nome ?? compra.cliente?.nome ?? "-"}
+                    </td>
+
+                    <td className="px-4 py-3 text-sm">
+                      {compra.fazendaFornecedor?.nome ?? "-"}
+                    </td>
+
+                    <td className="px-4 py-3 text-sm">
+                      {new Date(compra.dataCompra).toLocaleDateString("pt-BR")}
+                    </td>
+
+                    <td className="px-4 py-3 text-sm">{compra.placa}</td>
+
+                    <td className="px-4 py-3 text-sm">
+                      {formatKg(compra.kgLiquido)}
+                    </td>
+
+                    <td className="px-4 py-3 text-sm">
+                      {compra.quantidadeFrutas}
+                    </td>
+
+                    <td className="px-4 py-3 text-sm">
+                      {formatCurrency(compra.precoKg)}
+                    </td>
+
+                    <td className="px-4 py-3 text-sm font-medium">
+                      {formatCurrency(compra.valorTotal)}
+                    </td>
+
+                    <td className="px-4 py-3">
+                      <span
+                        className={`
+                    inline-flex px-2.5 py-1 rounded-full text-[11px] font-medium
+                    ${
+                      compra.status === "FECHADA"
+                        ? "bg-emerald-100 text-emerald-700"
+                        : compra.status === "ABERTA"
+                          ? "bg-amber-100 text-amber-700"
+                          : "bg-red-100 text-red-700"
+                    }
+                  `}
+                      >
+                        {compra.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </section>
+  );
+}
+function MobileInfo({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p
+        className="
+          text-[11px]
+          text-[color:var(--muted)]
+        "
+      >
+        {label}
+      </p>
+
+      <p
+        className="
+          text-sm
+          font-medium
+          text-[color:var(--foreground)]
+        "
+      >
+        {value}
+      </p>
+    </div>
   );
 }

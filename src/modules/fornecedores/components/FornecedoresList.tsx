@@ -8,7 +8,7 @@ import { FornecedoresTable } from "./FornecedoresTable";
 
 export function FornecedoresList() {
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {/* HEADER */}
 
       <div
@@ -24,15 +24,19 @@ export function FornecedoresList() {
           bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.88))]
 
           px-4
-          py-3
+          sm:px-5
+
+          py-4
 
           shadow-[0_12px_40px_rgba(15,23,42,0.05)]
         "
       >
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <h1
             className="
-              text-[22px]
+              text-[24px]
+              sm:text-[22px]
+
               xl:text-[24px]
 
               font-semibold
@@ -45,7 +49,8 @@ export function FornecedoresList() {
 
           <p
             className="
-              text-[13px]
+              text-[14px]
+              sm:text-[13px]
 
               text-[color:var(--muted-soft)]
             "

@@ -142,10 +142,12 @@ export function FazendaSelect({
   ////////////////////////////////////////////////////////////
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       <div
         className="
-    rounded-2xl
+    rounded-xl
+
+    sm:rounded-2xl
 
     border
 
@@ -161,7 +163,7 @@ export function FazendaSelect({
         <div className="p-3">
           <div className="relative">
             <Search
-              size={14}
+              size={16}
               className="
                   absolute
 
@@ -181,7 +183,9 @@ export function FazendaSelect({
               className="
                   w-full
 
-                  h-[40px]
+                  h-[46px]
+
+                  sm:h-[40px]
 
                   pl-9
                   pr-3
@@ -194,7 +198,9 @@ export function FazendaSelect({
 
                   outline-none
 
-                  text-sm
+                  text-[16px]
+
+                  md:text-sm
                 "
             />
           </div>
@@ -205,7 +211,8 @@ export function FazendaSelect({
         {search.trim().length >= 2 && (
           <div
             className="
-      max-h-[320px]
+      max-h-[260px]
+      sm:max-h-[320px]
 
       overflow-y-auto
     "
@@ -243,7 +250,7 @@ export function FazendaSelect({
             w-full
 
             px-4
-            py-3
+            py-3.5
 
             flex
             items-center
@@ -265,7 +272,8 @@ export function FazendaSelect({
                   >
                     <span
                       className="
-                text-sm
+                      text-[14px]
+                sm:text-sm
                 font-medium
               "
                     >
@@ -278,7 +286,7 @@ export function FazendaSelect({
                 items-center
                 gap-1
 
-                text-xs
+                text-[11px]
 
                 text-[color:var(--muted)]
               "
