@@ -127,7 +127,7 @@ export function FazendaSelect({
           items-center
 
           px-4
-          
+
           text-[14px]
           sm:text-sm
 
@@ -144,9 +144,14 @@ export function FazendaSelect({
   ////////////////////////////////////////////////////////////
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full min-w-0">
       <div
         className="
+    w-full
+    min-w-0
+
+    overflow-hidden
+    
     rounded-xl
 
     sm:rounded-2xl

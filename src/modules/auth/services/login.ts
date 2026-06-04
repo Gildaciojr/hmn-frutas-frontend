@@ -17,14 +17,14 @@ interface LoginResponse {
 ////////////////////////////////////////////////////////////
 
 export async function login(
-  email: string,
+  login: string,
   senha: string,
 ): Promise<string> {
   const response =
     await api.post<LoginResponse>(
       "/auth/login",
       {
-        email,
+        login,
         senha,
       },
     );

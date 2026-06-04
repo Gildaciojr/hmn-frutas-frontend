@@ -5,7 +5,7 @@ import { AlertTriangle, CreditCard, TrendingUp, Wallet } from "lucide-react";
 
 import { useFornecedorHistorico } from "../hooks/useFornecedores";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 
 ////////////////////////////////////////////////////////////
 // TYPES
@@ -44,6 +44,10 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
   ////////////////////////////////////////////////////////////
 
   const { data, isLoading, error } = useFornecedorHistorico(fornecedorId);
+
+  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
+
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   ////////////////////////////////////////////////////////////
   // LOADING
@@ -173,59 +177,176 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
             Extrato Operacional
           </h3>
 
-          <button
-            type="button"
-            onClick={async () => {
-              try {
-                const response = await api.get<Blob>(
-                  `/fornecedores/${fornecedorId}/relatorio-pdf`,
-                  {
-                    responseType: "blob",
-                  },
-                );
-
-                const file = response.data;
-
-                const url = window.URL.createObjectURL(file);
-
-                window.open(url, "_blank");
-              } catch (error) {
-                console.error("Erro ao gerar PDF:", error);
-              }
-            }}
+          <div
             className="
-              inline-flex
-              items-center
-              gap-1
+    flex
 
-              rounded-xl
+    flex-col
+    sm:flex-row
 
-              border
-              border-[color:var(--border-soft)]
+    items-stretch
+    sm:items-center
 
-              bg-white
-
-              h-[46px]
-
-              px-5
-
-              text-sm
-              font-medium
-
-              shadow-sm
-
-              transition-all
-              duration-200
-
-              hover:border-[color:var(--brand)]
-
-              hover:text-[color:var(--brand)]
-
-              hover:shadow-md
-            "
+    gap-2
+  "
           >
-            📄 Gerar PDF
-          </button>
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  const response = await api.get<Blob>(
+                    `/fornecedores/${fornecedorId}/relatorio-pdf`,
+                    {
+                      responseType: "blob",
+                    },
+                  );
+
+                  const file = response.data;
+
+                  const url = window.URL.createObjectURL(file);
+
+                  setPdfBlob(file);
+
+                  setPdfUrl(url);
+
+                  const isMobile = /Android|iPhone|iPad|iPod/i.test(
+                    navigator.userAgent,
+                  );
+                  if (isMobile) {
+                    window.location.href = url;
+                  } else {
+                    window.open(url, "_blank", "noopener,noreferrer");
+                  }
+                } catch (error) {
+                  console.error("Erro ao gerar PDF:", error);
+                }
+              }}
+              className="
+      inline-flex
+
+      items-center
+      justify-center
+
+      gap-2
+
+      rounded-xl
+
+      border
+      border-[color:var(--border-soft)]
+
+      bg-white
+
+      h-[46px]
+
+      px-5
+
+      text-sm
+      font-medium
+
+      shadow-sm
+
+      transition-all
+      duration-200
+
+      hover:border-[color:var(--brand)]
+
+      hover:text-[color:var(--brand)]
+
+      hover:shadow-md
+
+      w-full
+      sm:w-auto
+    "
+            >
+              📄 Gerar PDF
+            </button>
+
+            {pdfBlob && pdfUrl && (
+              <button
+                type="button"
+                onClick={async () => {
+                  try {
+                    const file = new File(
+                      [pdfBlob],
+                      "relatorio-fornecedor.pdf",
+                      {
+                        type: "application/pdf",
+                      },
+                    );
+
+                    if (
+                      navigator.share &&
+                      navigator.canShare?.({
+                        files: [file],
+                      })
+                    ) {
+                      await navigator.share({
+                        title: "Relatório de Fornecedor",
+                        text: "Relatório gerado pelo sistema HMN Frutas",
+                        files: [file],
+                      });
+
+                      return;
+                    }
+
+                    const link = document.createElement("a");
+
+                    link.href = pdfUrl;
+
+                    link.download = "relatorio-fornecedor.pdf";
+
+                    document.body.appendChild(link);
+
+                    link.click();
+
+                    document.body.removeChild(link);
+                  } catch (error) {
+                    console.error("Erro ao exportar PDF:", error);
+                  }
+                }}
+                className="
+        inline-flex
+
+        items-center
+        justify-center
+
+        gap-2
+
+        rounded-xl
+
+        border
+        border-emerald-200
+
+        bg-emerald-50
+
+        h-[46px]
+
+        px-5
+
+        text-sm
+        font-medium
+
+        text-emerald-700
+
+        shadow-sm
+
+        transition-all
+        duration-200
+
+        hover:bg-emerald-100
+
+        hover:border-emerald-300
+
+        hover:shadow-md
+
+        w-full
+        sm:w-auto
+      "
+              >
+                📤 Exportar
+              </button>
+            )}
+          </div>
         </div>
 
         {historico.length === 0 && (

@@ -508,17 +508,55 @@ export function NovaVendaCard() {
       ////////////////////////////////////////////////////////
 
       setSuccess(true);
+
       ////////////////////////////////////////////////////////
-      // PDF
+      // PDF MOBILE + DESKTOP
       ////////////////////////////////////////////////////////
 
-      window.open(
-        `${api.defaults.baseURL}/romaneios/venda/${vendaCriada.id}/pdf`,
-        "_blank",
-      );
-    } catch (err: unknown) {
-      console.error("ERRO COMPLETO VENDA:", err);
+      try {
+        const response = await api.get<Blob>(
+          `/romaneios/venda/${vendaCriada.id}/pdf`,
+          {
+            responseType: "blob",
+          },
+        );
 
+        const file = response.data;
+
+        const url = window.URL.createObjectURL(file);
+
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+        if (isMobile) {
+          const pdfFile = new File([file], `romaneio-${vendaCriada.id}.pdf`, {
+            type: "application/pdf",
+          });
+
+          if (
+            navigator.share &&
+            navigator.canShare?.({
+              files: [pdfFile],
+            })
+          ) {
+            await navigator.share({
+              title: "Romaneio",
+              text: "Romaneio gerado pelo sistema HMN Frutas",
+              files: [pdfFile],
+            });
+          } else {
+            window.location.href = url;
+          }
+        } else {
+          window.open(url, "_blank", "noopener,noreferrer");
+        }
+
+        setTimeout(() => {
+          URL.revokeObjectURL(url);
+        }, 5000);
+      } catch (pdfError) {
+        console.error("Erro ao gerar PDF:", pdfError);
+      }
+    } catch (err) {
       if (typeof err === "object" && err !== null && "response" in err) {
         const errorResponse = err as {
           response?: {
@@ -2063,9 +2101,9 @@ export function NovaVendaCard() {
                   onChange={(e) =>
                     setPlaca(
                       e.target.value
-                      .toUpperCase()
-                      .replace(/[^A-Z0-9]/g, "")
-                      .slice(0, 7),
+                        .toUpperCase()
+                        .replace(/[^A-Z0-9]/g, "")
+                        .slice(0, 7),
                     )
                   }
                   className="
@@ -2983,7 +3021,7 @@ export function NovaVendaCard() {
                   overflow-hidden
 
                   h-[48px]
-                  md-h-[40px]
+                  md:-h-[40px]
 
                   rounded-[12px]
 

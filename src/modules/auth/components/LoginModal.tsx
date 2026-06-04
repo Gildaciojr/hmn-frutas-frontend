@@ -14,26 +14,26 @@ interface Props {
 
 export function LoginModal({ open, onClose, onSuccess }: Props) {
   // ================= STATES =================
-  const [email, setEmail] = useState("");
+  const [loginValue, setLoginValue] = useState("");
   const [senha, setSenha] = useState("");
 
   const [loading, setLoading] = useState(false);
 
   const [erro, setErro] = useState<string | null>(null);
 
-  const [focusedField, setFocusedField] = useState<"email" | "senha" | null>(
+  const [focusedField, setFocusedField] = useState<"login" | "senha" | null>(
     null,
   );
 
   // ================= REFS =================
-  const emailRef = useRef<HTMLInputElement | null>(null);
+  const loginRef = useRef<HTMLInputElement | null>(null);
 
   // ================= AUTO FOCUS =================
   useEffect(() => {
     if (!open) return;
 
     const timer = setTimeout(() => {
-      emailRef.current?.focus();
+      loginRef.current?.focus();
     }, 180);
 
     return () => clearTimeout(timer);
@@ -60,8 +60,8 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
   async function handleLogin() {
     try {
       // ================= VALIDATION =================
-      if (!email.trim()) {
-        setErro("Informe o e-mail de acesso");
+      if (!loginValue.trim()) {
+        setErro("Usuário ou e-mail");
         return;
       }
 
@@ -77,16 +77,16 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
       setErro(null);
 
       // ================= AUTH =================
-      const token = await login(email.trim(), senha);
+      const token = await login(loginValue.trim(), senha);
 
       // ================= STORE =================
       useAuthStore.getState().setToken(token);
 
       // ================= COOKIE =================
-      document.cookie = `token=${token}; path=/`;
+      document.cookie = `token=${token}; path=/; SameSite=Lax`;
 
       // ================= RESET FORM =================
-      setEmail("");
+      setLoginValue("");
       setSenha("");
 
       // ================= SUCCESS =================
@@ -527,7 +527,7 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
                       text-gray-400
                     "
                   >
-                    E-mail
+                    Usuário ou E-mail
                   </label>
 
                   <div
@@ -540,7 +540,7 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
                       transition-all duration-300
 
                       ${
-                        focusedField === "email"
+                        focusedField === "login"
                           ? `
                             border-black/30
                             bg-white
@@ -565,15 +565,15 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
                     </div>
 
                     <input
-                      ref={emailRef}
-                      type="email"
-                      value={email}
+                      ref={loginRef}
+                      type="text"
+                      value={loginValue}
                       disabled={loading}
-                      autoComplete="email"
-                      onFocus={() => setFocusedField("email")}
+                      autoComplete="username"
+                      onFocus={() => setFocusedField("login")}
                       onBlur={() => setFocusedField(null)}
                       onKeyDown={handleKeyDown}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => setLoginValue(e.target.value)}
                       className="
                         w-full
                         bg-transparent

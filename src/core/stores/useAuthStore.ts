@@ -1,86 +1,48 @@
 import { create } from "zustand";
 
 interface AuthState {
-  ////////////////////////////////////////////////////////////
-  // ESTADO
-  ////////////////////////////////////////////////////////////
-
   token: string | null;
-
   hydrated: boolean;
 
-  ////////////////////////////////////////////////////////////
-  // ACTIONS
-  ////////////////////////////////////////////////////////////
-
-  setToken: (
-    token: string,
-  ) => void;
-
+  setToken: (token: string) => void;
   logout: () => void;
-
   hydrate: () => void;
 }
 
-export const useAuthStore =
-  create<AuthState>((set) => ({
-    //////////////////////////////////////////////////////////
-    // ESTADO INICIAL
-    //////////////////////////////////////////////////////////
+export const useAuthStore = create<AuthState>((set) => ({
+  token: null,
+  hydrated: false,
 
-    token: null,
+  setToken: (token) => {
+    sessionStorage.setItem("auth_token", token);
 
-    hydrated: false,
+    localStorage.removeItem("auth_token");
 
-    //////////////////////////////////////////////////////////
-    // SET TOKEN
-    //////////////////////////////////////////////////////////
+    set({
+      token,
+    });
+  },
 
-    setToken: (token) => {
-      localStorage.setItem(
-        "auth_token",
-        token,
-      );
+  logout: () => {
+    sessionStorage.removeItem("auth_token");
+    localStorage.removeItem("auth_token");
 
-      set({
-        token,
-      });
-    },
+    document.cookie =
+      "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 
-    //////////////////////////////////////////////////////////
-    // LOGOUT
-    //////////////////////////////////////////////////////////
+    set({
+      token: null,
+    });
+  },
 
-    logout: () => {
-      localStorage.removeItem(
-        "auth_token",
-      );
+  hydrate: () => {
+    localStorage.removeItem("auth_token");
 
-      ////////////////////////////////////////////////////////
-      // REMOVE COOKIE USADO PELO MIDDLEWARE
-      ////////////////////////////////////////////////////////
+    const token = sessionStorage.getItem("auth_token");
 
-      document.cookie =
-        "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-
-      set({
-        token: null,
-      });
-    },
-
-    //////////////////////////////////////////////////////////
-    // HYDRATE
-    //////////////////////////////////////////////////////////
-
-    hydrate: () => {
-      const token =
-        localStorage.getItem(
-          "auth_token",
-        );
-
-      set({
-        token,
-        hydrated: true,
-      });
-    },
-  }));
+    set({
+      token,
+      hydrated: true,
+    });
+  },
+}));

@@ -112,11 +112,16 @@ export function FornecedorSelect({
   ////////////////////////////////////////////////////////////
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full min-w-0">
       {/* DROPDOWN */}
       <div
         className="
     mt-1
+
+    w-full
+    min-w-0
+
+    overflow-hidden
 
     rounded-xl
     sm:rounded-2xl
