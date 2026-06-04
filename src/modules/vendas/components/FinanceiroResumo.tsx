@@ -60,12 +60,19 @@ export function FinanceiroResumo() {
           relative
           overflow-hidden
 
-          rounded-[16px]
+          rounded-[18px]
+
+          sm:rounded-[16px]
 
           border
 
           px-4
-          py-3
+
+          sm:px-5
+
+          py-4
+
+          sm:py-3
 
           cursor-pointer
 
@@ -97,7 +104,7 @@ export function FinanceiroResumo() {
         {/* ========================================================= */}
         {/* CONTENT */}
         {/* ========================================================= */}
-        <div className="relative z-10 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+        <div className="relative z-10 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           {/* ===================================================== */}
           {/* LEFT */}
           {/* ===================================================== */}
@@ -125,9 +132,15 @@ export function FinanceiroResumo() {
             <div className="space-y-1">
               <h2
                 className={`
-                  text-[20px]
+                  text-[22px]
+
+                  sm:text-[20px]
+
+
                   xl:text-[20px]
+
                   leading-none
+
                   font-semibold
                   tracking-[-0.03em]
 
@@ -169,7 +182,7 @@ export function FinanceiroResumo() {
             </div>
 
             {/* FOOTER INFO */}
-            <div className="flex items-center gap-2 text-[10px] text-[color:var(--muted)]">
+            <div className="flex flex-wrap items-center gap-2 text-[11px] sm:text-[10px] text-[color:var(--muted)]">
               <span>
                 Diferença:
                 {" "}
@@ -196,7 +209,10 @@ export function FinanceiroResumo() {
           <div className="flex items-start gap-3">
             <div
               className={`
-                px-2 py-[4px] rounded-full
+                px-3
+                py-1.5
+
+                rounded-full
 
                 border
 
@@ -240,7 +256,7 @@ export function FinanceiroResumo() {
       {/* ========================================================= */}
       {/* ENTRADAS / SAÍDAS */}
       {/* ========================================================= */}
-      <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
+      <div className="grid sm:grid-cols-1 gap-3 xl:grid-cols-2">
         {/* ===================================================== */}
         {/* ENTRADAS */}
         {/* ===================================================== */}
@@ -258,7 +274,7 @@ export function FinanceiroResumo() {
             relative
             overflow-hidden
 
-            rounded-[12px]
+            rounded-[16px]
 
             border border-emerald-200
 
@@ -287,7 +303,7 @@ export function FinanceiroResumo() {
               </div>
 
               <div className="space-y-1">
-                <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-emerald-700">
+                <h3 className="text-[20px] sm:text-[18px] font-semibold tracking-[-0.02em] text-emerald-700">
                   {loading
                     ? "..."
                     : formatCurrency(entradas)}
@@ -304,7 +320,7 @@ export function FinanceiroResumo() {
               className="
                 flex items-center justify-center
 
-                w-6 h-6
+                w-7 h-7
                 rounded-2xl
 
                 bg-emerald-500
@@ -335,7 +351,7 @@ export function FinanceiroResumo() {
             relative
             overflow-hidden
 
-            rounded-[18px]
+            rounded-[16px]
 
             border border-red-200
 
@@ -365,7 +381,7 @@ export function FinanceiroResumo() {
               </div>
 
               <div className="space-y-1">
-                <h3 className="text-[18px] font-semibold tracking-[-0.02em] text-red-600">
+                <h3 className="text-[20px] sm:text-[18px] font-semibold tracking-[-0.02em] text-red-600">
                   {loading
                     ? "..."
                     : formatCurrency(saidas)}
@@ -382,7 +398,7 @@ export function FinanceiroResumo() {
               className="
                 flex items-center justify-center
 
-                w-5 h-5
+                w-7 h-7
                 rounded-2xl
 
                 bg-red-500

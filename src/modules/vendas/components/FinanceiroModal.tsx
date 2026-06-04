@@ -173,12 +173,19 @@ export function FinanceiroModal() {
               -translate-x-1/2
               -translate-y-1/2
 
-              w-[96%]
+              w-[98%]
+
+              sm:w-[96%]
+
               max-w-[980px]
+
+              max-h[95vh]
 
               overflow-hidden
 
-              rounded-[26px]
+              rounded-[20px]
+
+              sm:rounded-[26px]
 
               border border-white/20
 
@@ -217,10 +224,23 @@ export function FinanceiroModal() {
               className="
                 relative z-10
 
-                flex items-start justify-between
+                flex
 
-                px-5
+                flex-col
+
+                sm:flex-row
+
+                sm:items-start
+
+                justify-between
+
+                px-4
+
+                sm:px-5
+
                 py-4
+
+                gap-4
 
                 border-b border-[color:var(--border-soft)]
               "
@@ -302,15 +322,16 @@ export function FinanceiroModal() {
             {/* ================================================= */}
             {/* BODY */}
             {/* ================================================= */}
-            <div className="relative z-10 p-7 space-y-6">
+            <div className="relative z-10 p-4 sm:p-6 xl:p-7 space-y-5">
               {/* ============================================= */}
               {/* FORM */}
               {/* ============================================= */}
               {(isEntrada || isSaida) && (
                 <div
                   className="
-                    grid grid-cols-1
-                    lg:grid-cols-[1fr_1fr_auto]
+                    grid 
+                    grid-cols-1
+                    xl:grid-cols-[1fr_1fr_auto]
                     gap-4
                   "
                 >
@@ -345,7 +366,9 @@ export function FinanceiroModal() {
 
                           bg-[linear-gradient(135deg,#ffffff,#f8fafc)]
 
-                          text-[14px]
+                          text-[16px]
+                          md:text-[14px]
+
                           text-[color:var(--foreground)]
 
                           outline-none
@@ -393,7 +416,9 @@ export function FinanceiroModal() {
 
                         bg-[linear-gradient(135deg,#ffffff,#f8fafc)]
 
-                        text-[14px]
+                        text-[16px]
+
+                        md:text-[14px]
 
                         outline-none
 
@@ -417,7 +442,13 @@ export function FinanceiroModal() {
                         createMutation.isPending
                       }
                       className={`
-                        h-[42px]
+                        w-full
+
+                        xl:w-auto
+
+                        h-[46px]
+
+                        xl:h-[42px]
 
                         px-5
 
@@ -464,7 +495,7 @@ export function FinanceiroModal() {
               {/* ============================================= */}
               <div className="space-y-3">
                 {/* HEADER */}
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                   <div className="space-y-1">
                     <h3 className="text-[15px] font-semibold tracking-tight">
                       Movimentações
@@ -483,7 +514,10 @@ export function FinanceiroModal() {
                 {/* LIST */}
                 <div
                   className="
-                    max-h-[380px]
+                    max-h-[300px]
+
+                    sm:max-h-[380px]
+                    
                     overflow-auto
 
                     space-y-2
@@ -501,12 +535,23 @@ export function FinanceiroModal() {
                         whileHover={{ y: -1 }}
                         className="
                           group/item
+
                           relative
 
-                          flex items-center justify-between
+                          flex
+
+                          flex-col
+
+                          sm:flex-row
+
+                          sm:items-center
+
+                          justify-between
 
                           px-4
                           py-3
+
+                          gap-3
 
                           rounded-2xl
 
@@ -581,7 +626,10 @@ export function FinanceiroModal() {
                           className={`
                             relative z-10
 
-                            text-[14px]
+                            text-[16px]
+
+                            sm:text-[14px]
+
                             font-semibold
                             tracking-tight
 

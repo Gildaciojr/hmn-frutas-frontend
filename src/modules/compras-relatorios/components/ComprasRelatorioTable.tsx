@@ -95,22 +95,25 @@ export function ComprasRelatorioTable({ compras }: Props) {
               <div
                 key={compra.id}
                 className="
-            rounded-2xl
+            rounded-[18px]
             border border-[color:var(--border-soft)]
             bg-[color:var(--surface-100)]
             p-4
 
             sm:p-5
+            hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)]
+
+            transition-all
             space-y-3
           "
               >
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                   <div>
                     <p className="text-[11px] text-[color:var(--muted)]">
                       Fornecedor
                     </p>
 
-                    <p className="text-sm font-semibold text-[color:var(--foreground)]">
+                    <p className="text-[15px] sm:text-sm font-semibold text-[color:var(--foreground)]">
                       {compra.fornecedor?.nome ?? compra.cliente?.nome ?? "-"}
                     </p>
                   </div>
@@ -118,7 +121,7 @@ export function ComprasRelatorioTable({ compras }: Props) {
                   <span
                     className={`
                 shrink-0 inline-flex px-2.5 py-1 rounded-full
-                text-[11px] font-medium
+                text-[12px] sm:text-[11px] font-medium
                 ${
                   compra.status === "FECHADA"
                     ? "bg-emerald-100 text-emerald-700"

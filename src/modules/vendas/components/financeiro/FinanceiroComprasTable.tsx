@@ -150,14 +150,14 @@ export function FinanceiroComprasTable() {
               </span>
             </div>
 
-            <h2 className="text-[18px] font-semibold tracking-tight text-[color:var(--foreground)]">
+            <h2 className="text-[20px] sm:text-[18px] font-semibold tracking-tight text-[color:var(--foreground)]">
               Compras registradas
             </h2>
           </div>
 
           {/* RIGHT */}
           <div className="text-right">
-            <p className="text-[18px] font-semibold tracking-tight">
+            <p className="text-[20px] sm:text-[18px] font-semibold tracking-tight">
               {compras.length}
             </p>
 
@@ -175,11 +175,16 @@ export function FinanceiroComprasTable() {
             relative
             z-10
 
+            hidden
+
+            lg:block
+
             px-5
             py-2.5
 
 
             border-b
+
             border-[color:var(--border-soft)]
 
             bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.92))]
@@ -342,7 +347,7 @@ export function FinanceiroComprasTable() {
         {/* ================================================= */}
         {/* BODY */}
         {/* ================================================= */}
-        <div className="relative z-10 max-h-[520px] overflow-auto">
+        <div className="relative z-10 max-h-[420px] lg:max-h-[520px] overflow-auto">
           {/* ============================================= */}
           {/* LOADING */}
           {/* ============================================= */}
@@ -398,24 +403,35 @@ export function FinanceiroComprasTable() {
 
                     grid
 
-                    grid-cols-[1.8fr_0.7fr_0.7fr_1fr_1fr_1fr_1fr]
+                    grid-cols-1
 
-                    items-center
+                    lg:grid-cols-[1.8fr_0.7fr_0.7fr_1fr_1fr_1fr_1fr]
 
-                    px-5
-                    py-2.5
+                    items-start
+
+                    lg:items-center
+
+                    px-4
+
+                    sm:px-5
+
+                    py-3
 
                     border-b border-[color:var(--border-soft)]
 
                     transition-all duration-200
 
                     hover:bg-[color:var(--surface-200)]
+
+                    gap-3
+
+                    lg:gap-0
                   "
                 >
                   {/* ===================================== */}
                   {/* FORNECEDOR */}
                   {/* ===================================== */}
-                  <div className="relative z-10 flex flex-col gap-1 leading-tight">
+                  <div className="relative z-10 flex flex-col gap-1 leading-tight lg:col-auto">
                     <span className="text-[12px] font-semibold text-[color:var(--foreground)]">
                       {compra.fornecedor?.nome ??
                         compra.cliente?.nome ??
@@ -436,8 +452,8 @@ export function FinanceiroComprasTable() {
                   {/* ===================================== */}
                   {/* KG */}
                   {/* ===================================== */}
-                  <div className="relative z-10">
-                    <span className="text-[12px] font-medium">
+                  <div className="relative z-10 flex justify-between lg:block">
+                    <span className="text-[11px] text-[color:var(--muted-soft)] lg:hidden font-medium">
                       {Number(compra.kgLiquido).toLocaleString("pt-BR")}
                     </span>
                   </div>
@@ -445,8 +461,8 @@ export function FinanceiroComprasTable() {
                   {/* ===================================== */}
                   {/* CAMINHÕES */}
                   {/* ===================================== */}
-                  <div className="relative z-10">
-                    <span className="text-[12px]">
+                  <div className="relative z-10 flex justify-between lg:block">
+                    <span className="text-[11px] text-[color:var(--muted-soft)] lg:hidden font-medium">
                       {compra.caminhoes ?? "—"}
                     </span>
                   </div>
@@ -454,8 +470,8 @@ export function FinanceiroComprasTable() {
                   {/* ===================================== */}
                   {/* BRUTO */}
                   {/* ===================================== */}
-                  <div className="relative z-10">
-                    <span className="text-[12px] font-medium">
+                  <div className="relative z-10 flex justify-between lg:block">
+                    <span className="text-[11px] text-[color:var(--muted-soft)] lg:hidden font-medium">
                       {formatCurrency(compra.valorBruto)}
                     </span>
                   </div>
@@ -463,9 +479,9 @@ export function FinanceiroComprasTable() {
                   {/* ===================================== */}
                   {/* DESCONTO */}
                   {/* ===================================== */}
-                  <div className="relative z-10">
+                  <div className="relative z-10 flex justify-between lg:block">
                     {compra.descontoFinanceiro > 0 ? (
-                      <span className="text-[12px] font-medium text-red-500">
+                      <span className="text-[11px] text-[color:var(--muted-soft)] lg:hidden font-medium text-red-500">
                         - {formatCurrency(compra.descontoFinanceiro)}
                       </span>
                     ) : (
@@ -478,12 +494,12 @@ export function FinanceiroComprasTable() {
                   {/* ===================================== */}
                   {/* LÍQUIDO */}
                   {/* ===================================== */}
-                  <div className="relative z-10 flex flex-col gap-1">
+                  <div className="relative z-10 flex justify-between lg:block flex-col gap-1">
                     <span className="text-[12px] font-semibold">
                       {formatCurrency(compra.valorTotal)}
                     </span>
 
-                    <span className="text-[10px] text-[color:var(--muted-soft)]">
+                    <span className="text-[10px] flex justify-between lg:block text-[color:var(--muted-soft)]">
                       {formatCurrency(compra.custoPorKgReal)}
                       /kg
                     </span>
@@ -492,7 +508,7 @@ export function FinanceiroComprasTable() {
                   {/* ===================================== */}
                   {/* STATUS */}
                   {/* ===================================== */}
-                  <div className="relative z-10">
+                  <div className="relative z-10 flex justify-between lg:block">
                     <span
                       className={`
                         inline-flex items-center
@@ -541,7 +557,9 @@ export function FinanceiroComprasTable() {
 
                   bg-[color:var(--surface-200)]
 
-                  text-[18px]
+                  text-[20px]
+
+                  sm:text-[18px]
                 "
               >
                 🚚

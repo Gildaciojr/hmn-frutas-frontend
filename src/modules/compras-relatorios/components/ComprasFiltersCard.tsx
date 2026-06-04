@@ -87,7 +87,9 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
         max-w-[1400px]
         mx-auto
 
-        rounded-[24px]
+        rounded-[20px]
+
+        sm:rounded-[24px]
 
         px-4
         sm:px-5
@@ -243,7 +245,8 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           type="button"
           onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
           className="
-            h-[42px]
+            h-[46px]
+            sm:h-[42px]
             px-4
 
             rounded-[var(--radius-md)]
@@ -288,7 +291,8 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             type="button"
             onClick={handleClear}
             className="
-              h-[42px]
+              h-[46px]
+              sm:h-[42px]
               px-5
 
               rounded-[var(--radius-md)]
@@ -320,7 +324,8 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             className="
               btn-primary
 
-              h-[42px]
+              h-[46px]
+              sm:h-[42px]
 
               flex-1
 

@@ -585,7 +585,7 @@ export function NovaVendaCard() {
         transition-all
         duration-300
 
-        p-3
+        p-4
         xl:p-4
 
         space-y-4
@@ -791,8 +791,8 @@ export function NovaVendaCard() {
                   items-center
                   gap-1.5
 
-                  px-2.5
-                  py-1
+                  px-3
+                  py-2
 
                   rounded-full
 
@@ -876,7 +876,8 @@ export function NovaVendaCard() {
               items-center
               gap-2.5
 
-              h-[34px]
+              h-[46px]
+              md:h-[36px]
 
               px-3
 
@@ -1336,11 +1337,12 @@ export function NovaVendaCard() {
 
           grid
 
-          grid-cols-2
+          grid-cols-1
+          sm:grid-cols-2
           md:grid-cols-4
           xl:grid-cols-12
 
-          gap-2.5
+          gap-2
           xl:gap-3
 
           items-start
@@ -1527,7 +1529,8 @@ export function NovaVendaCard() {
                 items-center
                 gap-2
 
-                h-[34px]
+                h-[46px]
+                md:h-[36px]
 
                 px-3
 
@@ -1607,7 +1610,8 @@ export function NovaVendaCard() {
             className="
               grid
 
-              grid-cols-2
+              grid-cols-1
+              sm:grid-cols-2
               md:grid-cols-4
               xl:grid-cols-12
 
@@ -1641,7 +1645,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[34px]
+                  h-[46px]
+                  md:h-[36px]
 
                   rounded-[16px]
 
@@ -1709,7 +1714,8 @@ export function NovaVendaCard() {
 
                     px-3
 
-                    text-[12px]
+                    text-[16px]
+                    md:text-[12px]
                     font-medium
 
                     tracking-tight
@@ -3732,7 +3738,8 @@ export function NovaVendaCard() {
                 items-center
                 gap-2
 
-                h-[34px]
+                h-[46px]
+                md:h-[36px]
 
                 px-3
 

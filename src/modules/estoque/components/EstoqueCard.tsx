@@ -64,8 +64,9 @@ export function EstoqueCard() {
         className="
   cursor-pointer
 
-  w-full
-  max-w-[420px]
+  max-w-full
+
+  sm:max-w-[420px]
 
   group
   relative
@@ -77,7 +78,13 @@ export function EstoqueCard() {
 
   bg-[linear-gradient(135deg,#ffffff,#f8fafc)]
 
-  px-4 py-3
+  px-4
+
+  sm:px-4
+
+  py-4
+
+  sm:py-3
 
   flex items-center justify-between
 
@@ -242,11 +249,20 @@ export function EstoqueCard() {
           w-full
           max-w-[980px]
 
-          rounded-[26px]
+          max-h-[95vh]
+
+          overflow-hidden
+
+          rounded-[20px]
+
+          sm:rounded-[20px]
+
 
           bg-[linear-gradient(135deg,#ffffff,#f8fafc)]
 
-          p-6
+          p-4
+
+          sm:p-6
           space-y-6
 
           shadow-[0_50px_140px_rgba(0,0,0,0.30)]
@@ -289,9 +305,14 @@ export function EstoqueCard() {
                 className="
                   relative z-10
 
-                  flex items-start justify-between
+                  flex
+                  flex-col
+                  sm:flex-row
+                  sm:items-start
 
-                  gap-8
+                  justify-between
+
+                  gap-4
                 "
               >
                 {/* ================= LEFT ================= */}
@@ -380,7 +401,9 @@ export function EstoqueCard() {
                   <div className="space-y-4">
                     <h2
                       className="
-                        text-[20px]
+                        text-[24px]
+
+                        sm:text-[28px]
 
                         md:text-[38px]
 
@@ -563,7 +586,7 @@ export function EstoqueCard() {
               </div>
 
               {/* ================= KPIs ================= */}
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-4">
                 <Stat
                   label="Disponível"
                   value={formatKg(resumo?.estoqueDisponivelKg ?? 0)}
@@ -586,7 +609,7 @@ export function EstoqueCard() {
               </div>
 
               {/* ================= TIMELINE ================= */}
-              <div className="space-y-4 max-h-[400px] overflow-auto pr-1">
+              <div className="space-y-4 max-h-[280px] sm:max-h-[400px] overflow-auto pr-1">
                 {/* EMPTY STATE */}
                 {!resumo?.timeline || resumo.timeline.length === 0 ? (
                   <div
@@ -627,7 +650,15 @@ export function EstoqueCard() {
     group
     relative
 
-    flex items-center justify-between
+    flex
+
+    flex-col
+
+    sm:flex-row
+
+    sm:items-center
+
+    justify-between
 
     px-4 py-3
 
@@ -645,6 +676,8 @@ export function EstoqueCard() {
     duration-200
 
     will-change-transform
+
+    gap-3
   "
                       >
                         {/* LINHA LATERAL (IMPACTO VISUAL) */}
@@ -694,7 +727,7 @@ export function EstoqueCard() {
                         </div>
 
                         {/* DIREITA */}
-                        <div className="text-right space-y-[2px]">
+                        <div className="text-left sm:text-right space-y-[2px]">
                           <p
                             className={`
             text-[13px] font-semibold tracking-tight
@@ -732,8 +765,17 @@ function Stat({ label, value }: { label: string; value: string }) {
     relative
     overflow-hidden
 
-    px-8
-    py-8
+    px-4
+
+    sm:px-6
+
+    xl:px-8
+
+    py-5
+
+    sm:py-6
+
+    xl:py-8
 
     rounded-[var(--radius-md)]
 
@@ -791,7 +833,10 @@ function Stat({ label, value }: { label: string; value: string }) {
       {/* LABEL */}
       <p
         className="
-          text-[11px]
+          text-[10px]
+
+          sm:text-[11px]
+          
           uppercase
           tracking-[0.30em]
           text-[color:var(--muted-soft)]
@@ -803,7 +848,10 @@ function Stat({ label, value }: { label: string; value: string }) {
       {/* VALOR */}
       <p
         className="
-          text-[14px]
+          text-[16px]
+
+          sm:text-[14px]
+
           font-semibold
           tracking-tight
 

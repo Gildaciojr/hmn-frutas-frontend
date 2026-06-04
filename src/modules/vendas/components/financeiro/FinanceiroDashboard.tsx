@@ -25,8 +25,16 @@ export function FinanceiroDashboard() {
         <div
           className="
     flex
-    items-center
+
+    flex-col
+
+    sm:flex-row
+
+    sm:items-center
+
     justify-between
+
+    gap-3
 
   "
         >
@@ -52,7 +60,7 @@ export function FinanceiroDashboard() {
             </div>
 
             <div className="flex flex-col">
-              <h2 className="text-[28px] font-semibold tracking-tight text-[color:var(--foreground)]">
+              <h2 className="text-[24px] sm:text-[28px] font-semibold tracking-tight text-[color:var(--foreground)]">
                 Financeiro
               </h2>
             </div>
@@ -68,7 +76,10 @@ export function FinanceiroDashboard() {
             border border-[color:var(--border-soft)]
             bg-[color:var(--surface-100)]
             shadow-[var(--shadow-card)]
+
             overflow-hidden
+
+            min-w-0
           "
         >
           {/* ================= RESUMO ================= */}
@@ -80,7 +91,7 @@ export function FinanceiroDashboard() {
 
           {/* ================= TABS ================= */}
           <div className="px-3 py-2">
-            <div className="flex items-center gap-1 relative overflow-hidden">
+            <div className="flex items-center gap-1 relative overflow-x-auto pb-1">
               {(
                 [
                   { id: "vendas", label: "Vendas", icon: "🛒" },
@@ -100,7 +111,7 @@ export function FinanceiroDashboard() {
                     onClick={() => setTab(item.id)}
                     className={`
                       relative flex items-center gap-1.5
-                      px-2 py-1
+                      px-3 py-2
                       text-[12px]
                       rounded-[var(--radius-sm)]
                       whitespace-nowrap
@@ -134,15 +145,15 @@ export function FinanceiroDashboard() {
 
           {/* ================= CONTEÚDO ================= */}
           <div className="border-t border-[color:var(--border-soft)]">
-            <div className="flex items-center justify-between px-4 py-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3">
               <div className="space-y-0.5">
-                <h3 className="text-[14px] font-semibold text-[color:var(--foreground)]">
+                <h3 className="text-[16px] sm:text-[14px] font-semibold text-[color:var(--foreground)]">
                   {tab === "vendas" && "Vendas"}
                   {tab === "compras" && "Compras"}
                   {tab === "fluxo" && "Fluxo"}
                 </h3>
 
-                <p className="text-[11px] text-[color:var(--muted)]">
+                <p className="text-[12px] sm:text-[11px] text-[color:var(--muted)]">
                   {tab === "vendas" && "Histórico de vendas"}
                   {tab === "compras" && "Controle de compras"}
                   {tab === "fluxo" && "Movimentações financeiras"}
@@ -155,8 +166,14 @@ export function FinanceiroDashboard() {
                     <button
                       className="
                         flex items-center gap-1.5
-                        w-8 h-8
+                        w-10 h-10
+
+                        sm:w-8
+
+                        sm:h-8
+
                         justify-center
+
                         text-[11px]
                         rounded-[var(--radius-sm)]
                         border border-[color:var(--border-soft)]
@@ -175,7 +192,7 @@ export function FinanceiroDashboard() {
             </div>
 
             {/* ================= BODY ================= */}
-            <div className="px-4 pb-4 pt-3">
+            <div className="px-3 sm:px-4 pb-4 pt-3">
               {tab === "vendas" && (
                 <motion.div
                   key="vendas"

@@ -156,6 +156,12 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
           w-full
           max-w-[580px]
 
+          max-h-[95vh]
+
+          rounded-[18px]
+
+          max-h-[95vh]
+
           rounded-[22px]
 
           relative
@@ -211,14 +217,19 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
           className="
     relative
 
-    px-6
-    py-5
+    px-4
+
+    sm:px-6
+
+    py-4
+
+    sm:py-5
 
     border-b
     border-amber-100/60
   "
         >
-          <div className="flex items-start gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-4">
             {/* ICON */}
 
             <div className="relative">
@@ -278,7 +289,9 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
           px-3
           py-1
 
-          text-[10px]
+          text-[11px]
+
+          sm:text-[10px]
           font-semibold
 
           uppercase
@@ -295,7 +308,9 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
                 className="
           mt-3
 
-          text-[28px]
+          text-[24px]
+          sm:text-[28px]
+
           font-semibold
 
           tracking-[-0.04em]
@@ -310,7 +325,9 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
                 className="
           mt-1
 
-          text-[13px]
+          text-[14px]
+
+          sm:text-[13px]
 
           leading-relaxed
 
@@ -331,7 +348,9 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
 
             relative z-10
 
-            p-5
+            p-4
+
+            sm:p-5
 
             space-y-4
           "
@@ -341,7 +360,7 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
     grid
 
     grid-cols-1
-    md:grid-cols-12
+    lg:grid-cols-12
 
     gap-4
   "
@@ -379,7 +398,8 @@ bg-white/70
 px-4
 py-3
 
-text-[14px]
+text-[16px]
+md:text-[14px]
 
 shadow-[0_4px_14px_rgba(15,23,42,0.03)]
 
@@ -463,7 +483,8 @@ bg-white/70
 px-4
 py-3
 
-text-[14px]
+text-[16px]
+md:text-[14px]
 
 shadow-[0_4px_14px_rgba(15,23,42,0.03)]
 
@@ -512,7 +533,8 @@ bg-white/70
 px-4
 py-3
 
-text-[14px]
+text-[16px]
+md:text-[14px]
 
 shadow-[0_4px_14px_rgba(15,23,42,0.03)]
 
@@ -560,7 +582,8 @@ focus:ring-amber-500/10
   px-4
   py-3
 
-  text-[14px]
+  text-[16px]
+  md:text-[14px]
 
   resize-none
 
@@ -604,6 +627,11 @@ focus:ring-amber-500/10
           <div
             className="
     flex
+
+    flex-col-reverse
+
+    sm:flex-row
+
     justify-end
 
     gap-3
@@ -615,6 +643,11 @@ focus:ring-amber-500/10
               type="button"
               onClick={onClose}
               className="
+      w-full
+      
+      sm:w-auto
+      h-[48px]
+
       px-5
       py-3
 
@@ -648,6 +681,12 @@ focus:ring-amber-500/10
       relative
 
       overflow-hidden
+
+      w-full
+
+      sm:w-auto
+
+      h-[48px]
 
       px-6
       py-3

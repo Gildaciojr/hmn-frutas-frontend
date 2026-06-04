@@ -17,7 +17,8 @@ export function NovaDespesaCard() {
 
           overflow-hidden
 
-          rounded-[28px]
+          rounded-[20px]
+          sm:rounded-[28px]
 
           border
           border-[color:var(--border-soft)]
@@ -26,7 +27,7 @@ export function NovaDespesaCard() {
 
           shadow-[0_10px_35px_rgba(0,0,0,0.05)]
 
-          px-3 py-2
+          px-4 py-3
 
           transition-all
           duration-300
@@ -65,7 +66,8 @@ export function NovaDespesaCard() {
               px-2
               py-1
 
-              text-[10px]
+              text-[11px]
+              sm:text-[10px]
 
               font-medium
 
@@ -95,8 +97,11 @@ export function NovaDespesaCard() {
                 items-center
                 justify-center
 
-                w-10
-                h-10
+                w-11
+                h-11
+
+                sm:w-10
+                sm:h-10
 
                 rounded-xl
 
@@ -112,7 +117,8 @@ export function NovaDespesaCard() {
             <div>
               <h3
                 className="
-                  text-base
+                  text-[18px]
+                  sm:text-base
                   font-bold
 
                   text-[color:var(--foreground)]
@@ -130,14 +136,20 @@ export function NovaDespesaCard() {
 
               w-full
 
-              rounded-2xl
+              rounded-[18px]
+
+              h-[48px]
+
+              px-4
+
+              text-[15px]
 
               bg-amber-500
+              shadow-[0_10px_25px_rgba(245,158,11,0.18)
 
-              px-3
               py-2.5
 
-              text-sm
+              sm:text-sm
               font-medium
 
               text-white
@@ -145,6 +157,9 @@ export function NovaDespesaCard() {
               transition-all
 
               hover:bg-amber-600
+              hover:shadow-[0_14px_35px_rgba(245,158,11,0.28)]
+              hover:-translate-y-[1px]
+
             "
           >
             Nova Despesa

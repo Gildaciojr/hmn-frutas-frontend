@@ -69,8 +69,13 @@ export function FinanceiroVendasTable() {
       {/* TABELA */}
       <div
         className="
-          overflow-y-auto overflow-x-auto
-          rounded-[18px]
+          overflow-y-auto
+          overflow-x-auto
+          overscroll-x-contain
+          rounded-[16px]
+
+          sm:rounded-[18px]
+
           border border-[color:var(--border-soft)]
           bg-[color:var(--surface-100)]
         "
@@ -79,7 +84,7 @@ export function FinanceiroVendasTable() {
         <div
           className="
             grid
-            min-w-[860px]
+            min-w-[920px]
              grid-cols-[minmax(180px,2fr)_90px_110px_130px_130px_110px_100px]
 
             px-3 py-2
@@ -100,7 +105,7 @@ export function FinanceiroVendasTable() {
         </div>
 
         {/* BODY */}
-        <div className="max-h-[460px] overflow-auto overflow-x-auto">
+        <div className="max-h-[360px] sm:max-h-[460px] overflow-auto overflow-x-auto">
           {/* LOADING */}
           {loading && (
             <div className="divide-y divide-[color:var(--border-soft)]">
@@ -165,9 +170,9 @@ export function FinanceiroVendasTable() {
 
                   {/* AÇÕES */}
                   <div className="flex justify-end gap-2">
-                    <div className="h-6 w-[42px] rounded-lg bg-[color:var(--surface-200)]" />
+                    <div className="h-8 w-[42px] rounded-lg bg-[color:var(--surface-200)]" />
 
-                    <div className="h-6 w-[52px] rounded-lg bg-[color:var(--surface-200)]" />
+                    <div className="h-8 w-[52px] rounded-lg bg-[color:var(--surface-200)]" />
                   </div>
                 </div>
               ))}
@@ -200,12 +205,12 @@ export function FinanceiroVendasTable() {
                   "
                 >
                   {/* CLIENTE */}
-                  <div className="flex flex-col leading-tight">
-                    <span className="font-medium text-[color:var(--foreground)]">
+                  <div className="flex flex-col leading-tight min-w-[180px]">
+                    <span className="font-medium truncate text-[color:var(--foreground)]">
                       {venda.cliente?.nome ?? "Sem cliente"}
                     </span>
 
-                    <span className="text-[10px] text-[color:var(--muted-soft)]">
+                    <span className="text-[11px] sm:text-[10px] text-[color:var(--muted-soft)]">
                       {venda.cliente?.telefone ?? "—"}
                     </span>
 
@@ -232,7 +237,7 @@ export function FinanceiroVendasTable() {
                   <div className="flex items-center gap-1.5">
                     <span
                       className={`
-                        px-1.5 py-[3px]
+                        px-2.5 py-1
                         font-medium
                         tracking-[0.04em]
                         rounded-full
@@ -267,7 +272,7 @@ export function FinanceiroVendasTable() {
 
     bg-white
 
-    text-[10px]
+    text-[11px]
     font-medium
 
     text-[color:var(--muted)]
@@ -293,7 +298,7 @@ export function FinanceiroVendasTable() {
 
     bg-amber-50
 
-    text-[9px]
+    text-[11px]
     font-medium
 
     text-red-600
@@ -316,7 +321,7 @@ export function FinanceiroVendasTable() {
             <div className="flex flex-col items-center justify-center py-10 space-y-3">
               <div
                 className="
-                  w-10 h-10
+                  w-12 h-12
                   rounded-xl
                   bg-[color:var(--surface-200)]
                   flex items-center justify-center

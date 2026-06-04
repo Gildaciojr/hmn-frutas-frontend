@@ -17,7 +17,11 @@ export function VendasAdminDashboard() {
     <>
       <div
         className="
-          space-y-10
+          space-y-6
+
+          md:space-y-8
+
+          xl:space-y-10
           max-w-[1400px]
           mx-auto
         "
@@ -42,7 +46,12 @@ export function VendasAdminDashboard() {
               height={100}
               priority
               className="
-      h-[100px]
+      h-[72px]
+
+      sm:h-[88px]
+
+      xl:h-[100px]
+
       w-auto
 
       object-contain
@@ -62,7 +71,7 @@ export function VendasAdminDashboard() {
             className="
     grid
     grid-cols-1
-    lg:grid-cols-[1fr_320px]
+    xl:grid-cols-[1fr_320px]
     gap-4
   "
           >
@@ -109,7 +118,11 @@ export function VendasAdminDashboard() {
 
             overflow-hidden
 
-            rounded-[32px]
+            rounded-[22px]
+
+            sm:rounded-[28px]
+
+            xl:rounded-[32px]
 
             border border-[color:var(--border-soft)]
 
@@ -119,7 +132,11 @@ export function VendasAdminDashboard() {
 
             backdrop-blur-xl
 
-            p-7
+            p-4
+
+            sm:p-6
+
+            xl:p-7
 
             space-y-6
           "
@@ -134,8 +151,11 @@ export function VendasAdminDashboard() {
                 top-[-120px]
                 right-[-120px]
 
-                w-[320px]
-                h-[320px]
+                w-[180px]
+                h-[180px]
+
+                md:w-[320px]
+                md:h-[320px]
 
                 rounded-full
 
@@ -153,8 +173,11 @@ export function VendasAdminDashboard() {
                 bottom-[-140px]
                 left-[-120px]
 
-                w-[280px]
-                h-[280px]
+                w-[160px]
+                h-[160px]
+
+                md:w-[280px]
+                md:h-[280px]
 
                 rounded-full
 
@@ -192,7 +215,7 @@ export function VendasAdminDashboard() {
           </div>
 
           {/* ================= HEADER ================= */}
-          <div className="relative z-10 flex items-end justify-between">
+          <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             {/* LEFT */}
             <div className="space-y-3">
               {/* LABEL */}
@@ -230,7 +253,11 @@ export function VendasAdminDashboard() {
               <div className="space-y-2">
                 <h2
                   className="
-                    text-[28px]
+                    text-[22px]
+
+                    sm:text-[24px]
+
+                    xl:text-[28px]
 
                     font-semibold
 
@@ -246,7 +273,9 @@ export function VendasAdminDashboard() {
 
                 <p
                   className="
-                    text-[13px]
+                    text-[12px]
+
+                    sm:text-[13px]
 
                     leading-relaxed
 
@@ -266,6 +295,10 @@ export function VendasAdminDashboard() {
               className="
                 flex flex-col items-end justify-center
 
+                w-full
+
+                sm:w-auto
+
                 min-w-[120px]
 
                 rounded-2xl
@@ -283,7 +316,9 @@ export function VendasAdminDashboard() {
             >
               <p
                 className="
-                  text-[28px]
+                  text-[24px]
+
+                  xl:text-[28px]
 
                   font-semibold
 
