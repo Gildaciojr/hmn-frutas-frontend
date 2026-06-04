@@ -181,7 +181,7 @@ export default function SelectMode() {
   "
         />
 
-        <div className="relative z-10 w-full max-w-5xl space-y-4 md:space-y-3">
+        <div className="relative z-10 w-full max-w-5xl space-y-5 md:space-y-3">
           {/* HEADER PREMIUM */}
           <div className="relative text-center space-y-2">
             {/* AMBIENT LIGHT */}
@@ -306,7 +306,7 @@ export default function SelectMode() {
                   className="
       w-auto
 
-      h-[110px]
+      h-[90px]
       sm:h-[140px]
       md:h-[240px]
 
@@ -333,7 +333,7 @@ export default function SelectMode() {
 
     cursor-pointer
 
-    p-5
+    p-4
     sm:p-6
 
     rounded-[20px]
@@ -459,7 +459,7 @@ export default function SelectMode() {
 
                   <h2
                     className="
-          text-[20px] md:text-[26px] font-bold text-black
+          text-[22px] md:text-[26px] font-bold text-black
           leading-tight tracking-tight
         "
                   >
@@ -544,7 +544,7 @@ export default function SelectMode() {
 
                   <h2
                     className="
-          text-[20px]
+          text-[22px]
           md:text-[20px]
 
           font-semibold
@@ -592,7 +592,7 @@ export default function SelectMode() {
             </motion.div>
           </div>
 
-          {/* BOTÃO VOLTAR PREMIUM */}
+          {/* BOTÃO ENCERRAR SESSÃO */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -602,41 +602,116 @@ export default function SelectMode() {
             <button
               onClick={handleLogout}
               className="
-  group
+                group
 
-  w-full
-  max-w-[320px]
+                relative
 
-  px-8
-  py-3
+                w-full
+                max-w-[360px]
 
-  rounded-full
+                h-[52px]
 
-  bg-white
+                rounded-2xl
 
-  border border-gray-200
+                border
+                border-[rgba(0,0,0,0.08)]
 
-  text-sm
-  font-medium
-  text-gray-500
+                bg-[linear-gradient(180deg,#ffffff,#f8fafc)]
 
-  shadow-[0_10px_25px_rgba(0,0,0,0.05)]
+                shadow-[0_12px_30px_rgba(0,0,0,0.05)]
 
-  hover:text-black
-  hover:border-black
-  hover:shadow-[0_15px_40px_rgba(0,0,0,0.1)]
+                overflow-hidden
 
-  active:scale-[0.96]
+                transition-all
+                duration-300
 
-  transition-all
-  duration-300
-"
+                hover:-translate-y-[2px]
+
+                hover:border-red-200
+
+                hover:shadow-[0_18px_40px_rgba(239,68,68,0.12)]
+
+                active:scale-[0.98]
+              "
             >
-              <span className="flex items-center gap-2">
-                ⎋ Encerrar sessão
-                <span className="opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition">
-                  Logout
+              {/* Glow interno */}
+              <div
+                className="
+                  absolute
+
+                  inset-0
+
+                  opacity-0
+
+                  group-hover:opacity-100
+
+                  transition-opacity
+                  duration-300
+
+                  pointer-events-none
+                "
+              >
+                <div
+                  className="
+                    absolute
+
+                    top-0
+                    left-1/2
+
+                    -translate-x-1/2
+
+                    w-[120px]
+                    h-[120px]
+
+                    rounded-full
+
+                    bg-red-400/10
+
+                    blur-[28px]
+                  "
+                />
+              </div>
+
+              <span
+                className="
+                  relative
+
+                  flex
+                  items-center
+                  justify-center
+
+                  gap-3
+
+                  text-[14px]
+                  font-medium
+
+                  text-[color:var(--foreground)]
+                "
+              >
+                <span
+                  className="
+                    flex
+                    items-center
+                    justify-center
+
+                    w-7
+                    h-7
+
+                    rounded-full
+
+                    bg-red-50
+
+                    text-red-500
+
+                    transition-colors
+                    duration-300
+
+                    group-hover:bg-red-100
+                  "
+                >
+                  ⎋
                 </span>
+                Encerrar sessão
               </span>
             </button>
           </motion.div>

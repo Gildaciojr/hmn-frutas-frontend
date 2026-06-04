@@ -27,11 +27,19 @@ export function AppHeader() {
       className="
         group relative
 
-        w-full h-[58px]
+        w-full
+
+        h-[64px]
+
+        sm:h-[58px]
 
         flex items-center justify-between
 
-        px-5 md:px-6
+        px-3
+
+        sm:px-5 
+
+        md:px-6
 
         bg-[color:var(--surface-100)]/70 backdrop-blur-xl
 
@@ -68,7 +76,7 @@ export function AppHeader() {
       </div>
 
       {/* ================= ESQUERDA ================= */}
-      <div className="relative z-10 flex items-center gap-5">
+      <div className="relative z-10 flex items-center sm:gap-5 min-w-0">
         {/* INDICADOR ATIVO (MAIS FORTE) */}
         <div className="relative flex items-center justify-center">
           <div
@@ -98,11 +106,14 @@ export function AppHeader() {
         </div>
 
         {/* TEXTO */}
-        <div className="flex flex-col leading-tight">
+        <div className="flex flex-col leading-tight min-w-0">
           {/* IDENTIDADE */}
           <span
             className="
-            text-[9px]
+            text-[8px]
+
+            sm:text-[9px]
+            
             tracking-[0.32em]
             uppercase
             text-[color:var(--muted-soft)]
@@ -115,7 +126,7 @@ export function AppHeader() {
             {/* MODO */}
             <span
               className="
-              text-[14px] font-semibold tracking-tight
+              text-[13px] sm:text-[14px] font-semibold tracking-tight
               text-[color:var(--foreground)]
             "
             >
@@ -127,7 +138,8 @@ export function AppHeader() {
               className={`
                 relative overflow-hidden
 
-                px-2 py-[2px]
+                px-2.5
+                py-[2px]
                 rounded-full
 
                 text-[10px] font-medium
@@ -161,7 +173,7 @@ export function AppHeader() {
       </div>
 
       {/* ================= DIREITA ================= */}
-      <div className="relative z-10 flex items-center gap-3">
+      <div className="relative z-10 flex items-center gap-2 shrink-0">
         {/* 🔔 NOTIFICAÇÕES */}
         <NotificationBell />
 
@@ -176,7 +188,10 @@ export function AppHeader() {
           className="
       group relative flex items-center gap-2
 
-      px-3 py-2
+      px-2.5
+      sm:px-3
+
+      h-[40px]
 
       rounded-[var(--radius-md)]
 
@@ -217,7 +232,9 @@ export function AppHeader() {
           />
 
           {/* TEXTO */}
-          <span className="relative">Sair</span>
+          <span className="relative hidden sm:block">
+            Sair
+          </span>
 
           {/* LINHA BASE INTERATIVA */}
           <div

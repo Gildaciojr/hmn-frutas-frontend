@@ -94,7 +94,9 @@ export function ComprasResumoCard({ compras }: Props) {
 
         bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-        p-5
+        p-4
+
+        sm:p-5
 
         shadow-[0_18px_50px_rgba(0,0,0,0.05)]
 
@@ -145,7 +147,8 @@ export function ComprasResumoCard({ compras }: Props) {
 
           <span
             className="
-              text-[10px]
+              text-[11px]
+              sm:text-[10px]
               uppercase
 
               tracking-[0.24em]
@@ -161,7 +164,8 @@ export function ComprasResumoCard({ compras }: Props) {
           className="
             mt-1
 
-            text-[20px]
+            text-[22px]
+            sm:text-[20px]
             font-semibold
 
             tracking-[-0.03em]
@@ -178,10 +182,8 @@ export function ComprasResumoCard({ compras }: Props) {
         className="
           relative z-10
 
-          grid
-
           grid-cols-1
-          md:grid-cols-2
+          sm:grid-cols-2
           xl:grid-cols-5
 
           gap-3
@@ -196,7 +198,9 @@ export function ComprasResumoCard({ compras }: Props) {
               relative
               overflow-hidden
 
-              rounded-[20px]
+              rounded-[28px]
+
+              sm:rounded-[20px]
 
               border
               border-[color:var(--border-soft)]
@@ -204,6 +208,8 @@ export function ComprasResumoCard({ compras }: Props) {
               bg-[linear-gradient(135deg,#ffffff,#fafafa)]
 
               p-4
+
+              sm:p-5
 
               transition-all
               duration-300
@@ -257,7 +263,8 @@ export function ComprasResumoCard({ compras }: Props) {
                 className="
                   mt-2
 
-                  text-[24px]
+                  text-[20px]
+                  sm:text-[24px]
 
                   leading-none
 
@@ -275,7 +282,8 @@ export function ComprasResumoCard({ compras }: Props) {
                 className="
                   mt-2
 
-                  text-[11px]
+                  text-[12px]
+                  sm:text-[11px]
 
                   text-[color:var(--muted)]
                 "

@@ -69,7 +69,9 @@ export default function Dashboard() {
     <AppLayout>
       <div
         className="
-    space-y-6
+    space-y-5
+
+    sm:space-y-6
 
     max-w-[1400px]
 
@@ -202,7 +204,7 @@ export default function Dashboard() {
                 {/* TÍTULO */}
                 <h1
                   className="
-    text-[32px]
+    text-[28px]
 
     sm:text-[36px]
 
@@ -289,7 +291,11 @@ export default function Dashboard() {
         text-[13px]
         sm:text-[14px]
         text-[color:var(--muted)]
-        max-w-[540px]
+
+        max-w-full
+
+        sm:max-w-[540px]
+
         leading-relaxed
       "
                 >
@@ -544,7 +550,7 @@ export default function Dashboard() {
       grid
 
       grid-cols-1
-      md:grid-cols-3
+      lg:grid-cols-3
 
       items-start
 
@@ -575,7 +581,9 @@ export default function Dashboard() {
 
     shadow-[0_18px_50px_rgba(0,0,0,0.05)]
 
-    p-5
+    p-4
+
+    sm:p-5
 
     space-y-5
   "
@@ -651,7 +659,8 @@ export default function Dashboard() {
 
                   <h2
                     className="
-          text-[20px]
+          text-[22px]
+          sm:text-[20px]
           font-semibold
 
           tracking-[-0.03em]
@@ -675,7 +684,8 @@ export default function Dashboard() {
 
         bg-indigo-50
 
-        text-[11px]
+        text-[12px]
+        sm:text-[11px]
         font-medium
 
         text-indigo-600
@@ -918,7 +928,8 @@ export default function Dashboard() {
 
     gap-2
 
-    max-h-[620px]
+    max-h-[420px]
+    sm:max-h-[620px]
 
     overflow-y-auto
 
@@ -942,8 +953,8 @@ export default function Dashboard() {
 
     bg-[linear-gradient(135deg,#ffffff,#fafafa)]
 
-    px-2
-    py-1
+    px-3
+    py-2
 
     transition-[transform,box-shadow,border-color]
     duration-300
@@ -1352,7 +1363,8 @@ export default function Dashboard() {
                                       className="
             mt-1
 
-            text-[24px]
+            text-[18px]
+            sm:text-[24px]
             leading-none
 
             font-semibold

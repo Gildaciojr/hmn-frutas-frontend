@@ -45,7 +45,7 @@ export function AdminKpiGrid() {
       delta: loading ? undefined : margem,
     },
     {
-      label: "Clientes Ativos",
+      label: "Clientes",
       value: loading ? "..." : String(clientesAtivos),
       delta: null,
     },
@@ -55,9 +55,10 @@ export function AdminKpiGrid() {
   return (
     <div
       className="
-      grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4
+      grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4
 
       gap-3
+      sm:gap-4
     "
     >
       {kpis.map((item) => (
@@ -65,6 +66,8 @@ export function AdminKpiGrid() {
           key={item.label}
           className="
           animate-[fadeIn_.22s_ease-out]
+
+          min-w-0
         "
         >
           <KpiCard

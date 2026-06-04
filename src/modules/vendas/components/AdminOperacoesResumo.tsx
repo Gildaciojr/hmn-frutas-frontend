@@ -130,7 +130,7 @@ export function AdminOperacoesResumo() {
       </div>
 
       {/* ================= HEADER ================= */}
-      <div className="relative z-10 flex items-center justify-between">
+      <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="space-y-[0.10px]">
           <div className="flex items-center gap-1">
             <div className="w-2 h-1 rounded-full bg-[color:var(--brand)]" />
@@ -139,17 +139,17 @@ export function AdminOperacoesResumo() {
             </span>
           </div>
 
-          <h2 className="text-[17px] font-semibold tracking-tight">
+          <h2 className="text-[18px] sm:text-[17px] font-semibold tracking-tight">
             Operações
           </h2>
 
-          <p className="text-[10px] text-[color:var(--muted)]">
+          <p className="text-[11px] sm:text-[10px] text-[color:var(--muted)]">
             Movimentações financeiras recentes
           </p>
         </div>
 
         {/* FILTRO */}
-        <div className="flex gap-2">
+        <div className="flex w-full sm:w-auto gap-2">
           {["hoje", "7d", "30d"].map((item) => {
             const active = periodo === item;
 
@@ -158,7 +158,7 @@ export function AdminOperacoesResumo() {
                 key={item}
                 onClick={() => setPeriodo(item as Periodo)}
                 className={`
-                px-4.5 py-1.9 text-[12px] rounded-[20px] font-medium
+                w-full sm:w-auto h-[42px] px-4 text-[12px] rounded-[20px] font-medium
                 border transition-all duration-100
 
                 ${
@@ -187,7 +187,7 @@ export function AdminOperacoesResumo() {
       </div>
 
       {/* ================= LISTA ================= */}
-      <div className="relative z-10 space-y-2 max-h-[420px] overflow-auto pr-2">
+      <div className="relative z-10 space-y-2 max-h-[320px] sm:max-h-[420px] overflow-auto pr-2">
         {/* LOADING */}
         {loading && (
           <div className="space-y-3">
@@ -252,7 +252,7 @@ export function AdminOperacoesResumo() {
 
     bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))]
 
-    px-2 py-2.5
+    px-3 py-3
 
     transition-all
     duration-300
@@ -340,7 +340,12 @@ export function AdminOperacoesResumo() {
     z-10
 
     flex
-    items-center
+
+    flex-col
+
+    sm:flex-row
+    sm:items-center
+    
     justify-between
 
     gap-3
@@ -564,10 +569,12 @@ export function AdminOperacoesResumo() {
                       </div>
 
                       {/* RIGHT */}
-                      <div className="text-right shrink-0">
+                      <div className="text-left sm:text-right shrink-0">
                         <p
                           className={`
-          text-[18px]
+          text-[16px]
+
+          sm:text-[18px]
 
           font-semibold
 

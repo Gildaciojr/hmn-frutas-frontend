@@ -77,7 +77,10 @@ export function AppLayout({
             absolute
 
             top-[8%]
-            right-[-120px]
+            right-[-180px]
+
+            w-[280px]
+            h-[280px]
 
             w-[520px]
             h-[520px]
@@ -103,8 +106,11 @@ export function AppLayout({
             bottom-[0%]
             left-[-200px]
 
-            w-[420px]
-            h-[420px]
+            w-[220px]
+            h-[220px]
+
+            md:w-[420px]
+            md:h-[420px]
 
             rounded-full
 
@@ -130,7 +136,9 @@ export function AppLayout({
             bg-[linear-gradient(rgba(0,0,0,0.4)_1px,transparent_1px),
                 linear-gradient(90deg,rgba(0,0,0,0.4)_1px,transparent_1px)]
 
-            bg-[size:72px_72px]
+            bg-[size:52px_52px]
+
+            md:bg-[size:72px_72px]
 
             pointer-events-none
           "
@@ -146,7 +154,9 @@ export function AppLayout({
             inset-x-0
             bottom-0
 
-            h-[180px]
+            h-[100px]
+
+            md:h-[180px]
 
             bg-gradient-to-t
 
@@ -170,8 +180,9 @@ export function AppLayout({
 
             overflow-visible
 
-            px-8
-            py-8
+            px-3
+            sm:py-6
+            md:py-8
 
             transition-colors
           "
