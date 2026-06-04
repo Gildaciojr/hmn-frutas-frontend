@@ -567,7 +567,8 @@ export function NovaVendaCard() {
         relative
         overflow-hidden
 
-        rounded-[20px]
+        rounded-[18px]
+        sm:rounded-[20px]
 
         border
         border-white/10
@@ -769,7 +770,10 @@ export function NovaVendaCard() {
             <div className="flex items-center gap-3 flex-wrap">
               <h2
                 className="
-                  text-[20px]
+                  text-[24px]
+
+                  sm:text-[22px]
+
                   xl:text-[22px]
 
                   leading-none
@@ -792,7 +796,8 @@ export function NovaVendaCard() {
                   gap-1.5
 
                   px-3
-                  py-2
+                  py-2.5
+                  sm:py-2
 
                   rounded-full
 
@@ -876,7 +881,7 @@ export function NovaVendaCard() {
               items-center
               gap-2.5
 
-              h-[46px]
+              h-[48px]
               md:h-[36px]
 
               px-3
@@ -1214,7 +1219,7 @@ export function NovaVendaCard() {
 
     overflow-visible
 
-    rounded-[14px]
+    rounded-[16px]
 
     border
 
@@ -1314,7 +1319,9 @@ export function NovaVendaCard() {
 
               bg-red-50
 
-              text-[11px]
+              text-[12px]
+              md:text-[11px]
+
               text-red-600
 
               shadow-[0_6px_18px_rgba(239,68,68,0.08)]
@@ -1338,8 +1345,7 @@ export function NovaVendaCard() {
           grid
 
           grid-cols-1
-          sm:grid-cols-2
-          md:grid-cols-4
+          md:grid-cols-2
           xl:grid-cols-12
 
           gap-2
@@ -1360,7 +1366,8 @@ export function NovaVendaCard() {
             relative
             overflow-hidden
 
-            min-h-[340px]
+            min-h-auto
+            xl:min-h-[340px]
 
             rounded-[16px]
 
@@ -1754,7 +1761,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[36px]
+                  h-[46px]
+                  md:h-[36px]
 
                   rounded-[14px]
 
@@ -1823,7 +1831,8 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[12px]
+                    text-[16px]
+                    md:text-[12px]
                     font-medium
 
                     tracking-tight
@@ -1864,7 +1873,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[36px]
+                  h-[46px]
+                  md:h-[36px]
 
                   rounded-[14px]
 
@@ -1932,7 +1942,8 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[12px]
+                    text-[16px]
+                    md:text-[12px]
                     font-medium
 
                     tracking-tight
@@ -2068,7 +2079,8 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[12px]
+                    text-[16px]
+                    md:text-[12px]
                     font-semibold
 
                     uppercase
@@ -2205,7 +2217,8 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[12px]
+                    text-[16px]
+                    md:text-[12px]
                     font-medium
 
                     tracking-tight
@@ -2314,7 +2327,8 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[12px]
+                    text-[16px]
+                    md:text-[12px]
                     font-medium
 
                     tracking-tight
@@ -2423,7 +2437,8 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[12px]
+                    text-[16px]
+                    md:text-[12px]
                     font-medium
 
                     tracking-tight
@@ -2544,7 +2559,8 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[12px]
+                    text-[16px]
+                    md:text-[12px]
                     font-medium
 
                     tracking-tight
@@ -2653,7 +2669,8 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[12px]
+                    text-[16px]
+                    md:text-[12px]
                     font-medium
 
                     tracking-tight
@@ -2729,7 +2746,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[40px]
+                  h-[48px]
+                  md:h-[40px]
 
                   rounded-[12px]
 
@@ -2812,8 +2830,11 @@ export function NovaVendaCard() {
                     items-center
                     justify-center
 
-                    w-6
-                    h-6
+                    w-7
+                    h-7
+
+                    md:w-6
+                    md:h-6
 
                     rounded-full
 
@@ -2961,7 +2982,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[40px]
+                  h-[48px]
+                  md-h-[40px]
 
                   rounded-[12px]
 
@@ -3038,8 +3060,11 @@ export function NovaVendaCard() {
                     items-center
                     justify-center
 
-                    w-6
-                    h-6
+                    w-7
+                    h-7
+
+                    md:w-6
+                    md:h-6
 
                     rounded-full
 
@@ -3181,7 +3206,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[40px]
+                  h-[48px]
+                  md:h-[40px]
 
                   rounded-[12px]
 
@@ -3258,8 +3284,11 @@ export function NovaVendaCard() {
                     items-center
                     justify-center
 
-                    w-6
-                    h-6
+                    w-7
+                    h-7
+
+                    md:w-6
+                    md:h-6
 
                     rounded-full
 
@@ -3400,7 +3429,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[40px]
+                  h-[48px]
+                  md:h-[40px]
 
                   rounded-[12px]
 
@@ -3481,8 +3511,14 @@ export function NovaVendaCard() {
                     items-center
                     justify-center
 
-                    w-6
-                    h-6
+                    w-7
+                    h-7
+
+                    md:w-7
+                    md:h-7
+
+                    md:w-6
+                    md:h-6
 
                     rounded-full
 
@@ -3570,7 +3606,8 @@ export function NovaVendaCard() {
             relative
             overflow-hidden
 
-            rounded-[16px]
+            rounded-[18px]
+            xl:rounded-[16px]
 
             border
             border-white/10
@@ -3579,7 +3616,7 @@ export function NovaVendaCard() {
 
             backdrop-blur-xl
 
-            p-2.5
+            p-3
             xl:p-3
 
             shadow-[0_10px_30px_rgba(15,23,42,0.06)]
@@ -3655,7 +3692,7 @@ export function NovaVendaCard() {
               sm:items-center
               justify-between
 
-              gap-2
+              gap-3
 
               mb-2.5
             "
@@ -3711,7 +3748,10 @@ export function NovaVendaCard() {
                 className="
                   mt-2
 
-                  text-[18px]
+                  text-[24px]
+
+                  sm:text-[22px]
+
                   xl:text-[20px]
 
                   font-semibold
@@ -3738,7 +3778,7 @@ export function NovaVendaCard() {
                 items-center
                 gap-2
 
-                h-[46px]
+                h-[48px]
                 md:h-[36px]
 
                 px-3
@@ -4007,7 +4047,8 @@ export function NovaVendaCard() {
                     pl-14
                     pr-4
 
-                    text-[16px]
+                    text-[17px]
+                    md:text-[12px]
                     font-semibold
 
                     tracking-tight
@@ -4032,7 +4073,8 @@ export function NovaVendaCard() {
                       top-1/2
                       -translate-y-1/2
 
-                      text-[10px]
+                      text-[11px]
+                      md:text-[10px]
                       font-medium
 
                       tracking-[0.12em]
@@ -4226,6 +4268,7 @@ export function NovaVendaCard() {
                   <p
                     className="
                       text-[16px]
+                      md:text-[12px]
                       font-semibold
 
                       tracking-tight
@@ -4439,6 +4482,8 @@ export function NovaVendaCard() {
                     pr-4
 
                     text-[16px]
+                    md:text-[12px]
+
                     font-semibold
 
                     tracking-tight
@@ -4460,7 +4505,8 @@ export function NovaVendaCard() {
                       top-1/2
                       -translate-y-1/2
 
-                      text-[10px]
+                      text-[11px]
+                      md:text-[10px]
                       font-medium
 
                       tracking-[0.12em]
@@ -4542,7 +4588,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[62px]
+                  h-[72px]
+                  md:h-[62px]
 
                   rounded-[22px]
 
@@ -4643,8 +4690,16 @@ export function NovaVendaCard() {
                     h-full
 
                     flex
-                    items-center
+
+                    flex-col
+
+                    sm:flex-row
+
+                    sm:items-center
+
                     justify-between
+
+                    gap-2
 
                     px-4
                   "
@@ -4658,8 +4713,11 @@ export function NovaVendaCard() {
                         items-center
                         justify-center
 
-                        w-9
-                        h-9
+                        w-10
+                        h-10
+
+                        md:w-9
+                        md:h-9
 
                         rounded-full
 
@@ -4680,7 +4738,8 @@ export function NovaVendaCard() {
                     >
                       <span
                         className={`
-                          text-[12px]
+                          text-[16px]
+                          md:text-[12px]
                           font-semibold
 
                           ${
@@ -4698,7 +4757,10 @@ export function NovaVendaCard() {
                     <div>
                       <p
                         className={`
-                          text-[20px]
+                          text-[24px]
+
+                          sm:text-[22px]
+                          md:text-[20px]
                           font-semibold
 
                           tracking-[-0.05em]
@@ -4722,8 +4784,8 @@ export function NovaVendaCard() {
                       items-center
                       gap-2
 
-                      px-2.5
-                      py-1.5
+                      px-3
+                      py-2
 
                       rounded-full
 
@@ -4780,10 +4842,12 @@ export function NovaVendaCard() {
                     {/* TEXT */}
                     <span
                       className={`
-                        text-[10px]
+                        text-[11px]
+                        md:text-[10px]
+
                         font-medium
 
-                        tracking-[0.12em]
+                        tracking-[0.14em]
 
                         uppercase
 
@@ -4819,7 +4883,7 @@ export function NovaVendaCard() {
                 flex-col
                 justify-between
 
-                gap-3
+                gap-4
               "
         >
           {/* ========================================= */}
@@ -4878,7 +4942,8 @@ export function NovaVendaCard() {
                     className="
                           mt-1
 
-                          text-[11px]
+                          text-[12px]
+                          md:text-[11px]
                           leading-[1.45]
 
                           font-medium
@@ -4904,7 +4969,8 @@ export function NovaVendaCard() {
                     relative
                     overflow-hidden
 
-                    rounded-[24px]
+                    rounded-[18px]
+                    sm:rounded-[24px]
 
                     border
                     border-emerald-300/16
@@ -5106,7 +5172,7 @@ export function NovaVendaCard() {
 
                             uppercase
 
-                            tracking-[0.12em]
+                            tracking-[0.14em]
 
                             text-emerald-700/70
                           "
@@ -5120,7 +5186,9 @@ export function NovaVendaCard() {
                     className="
                           mt-2
 
-                          text-[14px]
+                          text-[16px]
+                          md:text-[14px]
+
                           font-semibold
 
                           tracking-[-0.02em]
@@ -5164,7 +5232,8 @@ export function NovaVendaCard() {
                 flex-col
                 gap-3
 
-                -translate-y-8
+                -translate-y-0
+                xl:-translate-y-8
               "
         >
           <motion.button
@@ -5185,8 +5254,13 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[50px]
-                  w-[340px]
+                  w-full
+
+                  xl:w-[340px]
+
+                  h-[56px]
+
+                  xl:h-[50px]
 
                   rounded-[16px]
 
@@ -5314,8 +5388,9 @@ export function NovaVendaCard() {
   h-full
 
   flex
-  items-center
-  justify-between
+  justify-center
+  xl:justify-between
+
 
   gap-4
 
@@ -5394,7 +5469,7 @@ export function NovaVendaCard() {
   items-center
   gap-1
 
-  h-[18px]
+  h-[22px]
 
   px-1.8
 
@@ -5419,11 +5494,11 @@ export function NovaVendaCard() {
 
                   <span
                     className="
-        text-[8px]
+        text-[9px]
 
         uppercase
 
-        tracking-[0.12em]
+        tracking-[0.14em]
 
         text-white/72
       "
@@ -5464,7 +5539,9 @@ export function NovaVendaCard() {
                     className="
                           block
 
-                          text-[16px]
+                          text-[18px]
+
+                          sm:text-[17px]
                           xl:text-[17px]
 
                           font-semibold

@@ -87,7 +87,9 @@ export function ComprasResumoCard({ compras }: Props) {
         relative
         overflow-hidden
 
-        rounded-[24px]
+        rounded-[20px]
+
+        sm:rounded-[24px]
 
         border
         border-[rgba(0,0,0,0.06)]
@@ -112,8 +114,11 @@ export function ComprasResumoCard({ compras }: Props) {
             top-0
             right-0
 
-            w-[220px]
-            h-[220px]
+            w-[140px]
+            h-[140px]
+
+            md:w-[220px]
+            md:h-[220px]
 
             rounded-full
 
@@ -164,8 +169,11 @@ export function ComprasResumoCard({ compras }: Props) {
           className="
             mt-1
 
-            text-[22px]
-            sm:text-[20px]
+            text-[24px]
+            sm:text-[22px]
+
+            xl:text-[20px]
+
             font-semibold
 
             tracking-[-0.03em]
@@ -182,8 +190,10 @@ export function ComprasResumoCard({ compras }: Props) {
         className="
           relative z-10
 
+          grid
+
           grid-cols-1
-          sm:grid-cols-2
+          md:grid-cols-2
           xl:grid-cols-5
 
           gap-3
@@ -198,7 +208,7 @@ export function ComprasResumoCard({ compras }: Props) {
               relative
               overflow-hidden
 
-              rounded-[28px]
+              rounded-[18px]
 
               sm:rounded-[20px]
 
@@ -209,12 +219,12 @@ export function ComprasResumoCard({ compras }: Props) {
 
               p-4
 
-              sm:p-5
+              md:p-5
 
               transition-all
               duration-300
 
-              hover:-translate-y-[1px]
+              hover:-translate-y-[2px]
 
               hover:border-indigo-200
 
@@ -248,7 +258,9 @@ export function ComprasResumoCard({ compras }: Props) {
             <div className="relative z-10">
               <p
                 className="
-                  text-[10px]
+                  text-[11px]
+                  sm:text-[10px]
+
                   uppercase
 
                   tracking-[0.20em]
@@ -263,8 +275,9 @@ export function ComprasResumoCard({ compras }: Props) {
                 className="
                   mt-2
 
-                  text-[20px]
-                  sm:text-[24px]
+                  text-[24px]
+                  sm:text-[26px]
+                  xl:text-[24px]
 
                   leading-none
 
@@ -282,7 +295,7 @@ export function ComprasResumoCard({ compras }: Props) {
                 className="
                   mt-2
 
-                  text-[12px]
+                  text-[13px]
                   sm:text-[11px]
 
                   text-[color:var(--muted)]
