@@ -142,7 +142,14 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
       className="
         fixed inset-0 z-[999]
 
-        flex items-center justify-center
+        flex
+        items-start 
+        justify-center
+
+        sm:items-center
+
+        pt-4
+        pb-4
 
         bg-[rgba(15,23,42,0.52)]
           backdrop-blur-[6px]
@@ -153,29 +160,27 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
     >
       <div
         className="
-          w-full
-          max-w-[580px]
+    w-full
+    max-w-[580px]
 
-          max-h-[95vh]
+    max-h-[92dvh]
 
-          rounded-[18px]
+    rounded-[22px]
 
-          max-h-[95vh]
+    relative
 
-          rounded-[22px]
+    border
+    border-amber-200/30
 
-          relative
+    bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,251,235,0.94))]
 
-          border
-          border-amber-200/30
+    shadow-[0_30px_90px_rgba(251,191,36,0.10)]
 
-          bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,251,235,0.94))]
+    backdrop-blur-xl
 
-          shadow-[0_30px_90px_rgba(251,191,36,0.10)]
-          backdrop-blur-xl
-
-          overflow-hidden
-        "
+    overflow-y-auto
+    overflow-x-hidden
+  "
       >
         {/* ========================================= */}
         {/* FX BACKGROUND */}

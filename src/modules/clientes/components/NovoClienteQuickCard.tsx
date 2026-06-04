@@ -26,7 +26,7 @@ export function NovoClienteQuickCard({ onClick }: Props) {
         overflow-hidden
 
         h-full
-        min-h-[78px]
+        min-h-[88px]
 
         w-full
 
@@ -85,7 +85,7 @@ export function NovoClienteQuickCard({ onClick }: Props) {
 
       <div className="relative z-10 flex items-center justify-between">
         {/* LEFT */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           {/* ICON */}
           <div
             className="

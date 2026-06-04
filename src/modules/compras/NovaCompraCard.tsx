@@ -897,9 +897,9 @@ export function NovaCompraCard() {
                 w-full
                 max-w-[1120px]
 
-                max-h-[96vh]
+                max-h-[96dvh]
 
-                md:max-h-[92vh]
+                md:max-h-[92dvh]
 
                 rounded-[22px]
 
@@ -2113,7 +2113,7 @@ export function NovaCompraCard() {
                     </div>
 
                     {/* GRID */}
-                    <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                       {/* =============================================== */}
                       {/* KPIS */}
                       {/* =============================================== */}
@@ -2123,7 +2123,7 @@ export function NovaCompraCard() {
                           className="
     grid
     grid-cols-1
-    md:grid-cols-3
+    sm:grid-cols-3
 
     gap-5
 

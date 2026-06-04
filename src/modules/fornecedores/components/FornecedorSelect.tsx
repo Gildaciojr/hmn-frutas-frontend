@@ -157,7 +157,12 @@ export function FornecedorSelect({
             />
 
             <input
-              value={search}
+              value={
+                search ||
+                (fornecedorSelecionado
+                  ? `${fornecedorSelecionado.nome}${fornecedorSelecionado.sobrenome ? ` ${fornecedorSelecionado.sobrenome}` : ""}`
+                  : "")
+              }
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar fornecedor"
               className="

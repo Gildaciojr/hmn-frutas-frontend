@@ -145,7 +145,7 @@ export function NovaDespesaCard() {
               text-[15px]
 
               bg-amber-500
-              shadow-[0_10px_25px_rgba(245,158,11,0.18)
+              shadow-[0_10px_25px_rgba(245,158,11,0.18)]
 
               py-2.5
 

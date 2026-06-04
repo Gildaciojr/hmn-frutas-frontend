@@ -184,7 +184,9 @@ export function FazendaSelect({
             />
 
             <input
-              value={search}
+              value={
+                search || (fazendaSelecionada ? fazendaSelecionada.nome : "")
+              }
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar fazenda..."
               className="
