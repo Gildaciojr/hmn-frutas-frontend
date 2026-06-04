@@ -3740,7 +3740,7 @@ export function NovaVendaCard() {
             {/* ============================================= */}
 
             <div className="min-w-0">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <div className="relative">
                   <div
                     className="
@@ -4978,11 +4978,11 @@ export function NovaVendaCard() {
 
                   <p
                     className="
-                          mt-1
+                          mt-1.5
 
                           text-[12px]
                           md:text-[11px]
-                          leading-[1.45]
+                          leading-relaxed
 
                           font-medium
 
@@ -5018,7 +5018,10 @@ export function NovaVendaCard() {
                     backdrop-blur-sm
 
                     px-4
-                    py-4
+                    py-5
+
+                    sm:px-4
+                    sm:py-4
 
                     shadow-[0_18px_50px_rgba(16,185,129,0.12)]
 
@@ -5098,6 +5101,9 @@ export function NovaVendaCard() {
                       z-10
 
                       flex
+                      flex-col
+
+                      sm:flex-row
                       items-start
 
                       gap-3
@@ -5178,7 +5184,7 @@ export function NovaVendaCard() {
 
                 <div className="min-w-0 flex-1">
                   {/* TOP */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <span
                       className="
                             text-[9px]
@@ -5224,8 +5230,10 @@ export function NovaVendaCard() {
                     className="
                           mt-2
 
-                          text-[16px]
-                          md:text-[14px]
+                          text-[14px]
+                          md:text-[16px]
+
+                          leading-snug
 
                           font-semibold
 
@@ -5242,8 +5250,8 @@ export function NovaVendaCard() {
                     className="
                           mt-1.5
 
-                          text-[11px]
-                          leading-[1.45]
+                          text-[12px]
+                          leading-relaxed
 
                           text-emerald-700/80
                         "
