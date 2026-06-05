@@ -150,7 +150,7 @@ export function FazendaSelect({
     w-full
     min-w-0
 
-    overflow-hidden
+    overflow-visible
     
     rounded-xl
 
@@ -168,7 +168,7 @@ export function FazendaSelect({
         {/* SEARCH */}
 
         <div className="p-3">
-          <div className="relative">
+          <div className="relative w-full">
             <Search
               size={16}
               className="
@@ -220,10 +220,29 @@ export function FazendaSelect({
         {search.trim().length >= 2 && (
           <div
             className="
-      max-h-[260px]
-      sm:max-h-[320px]
+            absolute
 
-      overflow-y-auto
+            left-0
+            right-0
+
+            top-full
+            z-50
+
+            mt-2
+
+            max-h-[220px]
+
+            overflow-y-auto
+
+            rounded-xl
+
+            border
+
+            border-[color:var(--border-soft)]
+
+            bg-white
+
+            shadow-[0_20px_50px_rgba(0,0,0,0.15)]
     "
           >
             {filtered.length === 0 && (

@@ -747,12 +747,12 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                 {/* FX */}
                                 <div className="absolute inset-0 pointer-events-none"></div>
 
-                                <div className="relative z-10 flex items-start justify-between gap-3">
+                                <div className="relative z-10 flex flex-col lg:flex-row gap-3">
                                   {/* ====================================== */}
                                   {/* ESQUERDA */}
                                   {/* ====================================== */}
 
-                                  <div className="flex items-center gap-3 min-w-0">
+                                  <div className="flex items-start gap-3 min-w-0 flex-1">
                                     {/* ICON */}
                                     <div
                                       className={`
@@ -1071,13 +1071,18 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
       from-red-50/75
       to-white
 
-      px-4 py-3
+      px-3
+      sm:px-4
+
+      py-3
 
       space-y-2
+
+      overflow-hidden
     "
                                         >
                                           {/* HEADER */}
-                                          <div className="flex items-center justify-between gap-3">
+                                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                                             <div className="flex items-center gap-2">
                                               <div className="w-2 h-2 rounded-full bg-emerald-500" />
 
@@ -1094,14 +1099,14 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                           </div>
 
                                           {/* GRID */}
-                                          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-3">
+                                          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-3 gap-y-3">
                                             {/* DATA */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Data venda
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.dataVenda
                                                   ? new Date(
                                                       t.venda.dataVenda,
@@ -1113,89 +1118,89 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                             </div>
 
                                             {/* PEDIDO */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Nº pedido
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.numeroPedido || "—"}
                                               </p>
                                             </div>
 
                                             {/* ROMANEIO */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Romaneio
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.numeroRomaneio || "—"}
                                               </p>
                                             </div>
 
                                             {/* MODELO */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Modelo
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.modeloCaminhao || "—"}
                                               </p>
                                             </div>
 
                                             {/* PLACA */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Placa
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.placa || "—"}
                                               </p>
                                             </div>
 
                                             {/* DESTINO */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Destino
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.destino || "—"}
                                               </p>
                                             </div>
 
                                             {/* LOCAL ENTREGA */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Entrega
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.localEntrega || "—"}
                                               </p>
                                             </div>
 
                                             {/* TIPO FRETE */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Tipo frete
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.tipoFrete || "—"}
                                               </p>
                                             </div>
 
                                             {/* PESO BRUTO */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Peso bruto
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {Number(
                                                   t.venda.pesoBruto ?? 0,
                                                 ).toLocaleString("pt-BR")}{" "}
@@ -1204,12 +1209,12 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                             </div>
 
                                             {/* DESCONTO */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Desconto
                                               </p>
 
-                                              <p className="text-[12px] font-medium text-amber-600">
+                                              <p className="text-[12px] font-medium text-amber-600 break-words leading-tight">
                                                 {Number(
                                                   t.venda.pesoDesconto ?? 0,
                                                 ).toLocaleString("pt-BR")}{" "}
@@ -1218,12 +1223,12 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                             </div>
 
                                             {/* PESO LÍQUIDO */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Peso líquido
                                               </p>
 
-                                              <p className="text-[12px] font-medium text-emerald-600">
+                                              <p className="text-[12px] font-medium text-emerald-600 break-words leading-tight">
                                                 {Number(
                                                   t.venda.pesoLiquido ?? 0,
                                                 ).toLocaleString("pt-BR")}{" "}
@@ -1232,12 +1237,12 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                             </div>
 
                                             {/* QUANTIDADE */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Frutas
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {Number(
                                                   t.venda.quantidadeFrutas ?? 0,
                                                 ).toLocaleString("pt-BR")}
@@ -1245,12 +1250,12 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                             </div>
 
                                             {/* MÉDIA */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Média
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {Number(
                                                   t.venda.mediaFruta ?? 0,
                                                 ).toLocaleString("pt-BR")}
@@ -1258,12 +1263,12 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                             </div>
 
                                             {/* PREÇO */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Preço melancia
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {formatCurrency(
                                                   Number(
                                                     t.venda.precoMelancia ?? 0,
@@ -1273,7 +1278,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                             </div>
 
                                             {/* FRETE */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Frete
                                               </p>
@@ -1286,12 +1291,12 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                             </div>
 
                                             {/* TOTAL */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Valor venda
                                               </p>
 
-                                              <p className="text-[12px] font-semibold text-emerald-600">
+                                              <p className="text-[12px] font-semibold text-emerald-600 break-words leading-tight">
                                                 {formatCurrency(
                                                   t.venda.valorTotal,
                                                 )}
@@ -1299,23 +1304,23 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                             </div>
 
                                             {/* STATUS */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Status
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.statusPagamento || "—"}
                                               </p>
                                             </div>
 
                                             {/* REGISTRO */}
-                                            <div>
+                                            <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Registrada em
                                               </p>
 
-                                              <p className="text-[12px] font-medium">
+                                              <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.createdAt
                                                   ? new Date(
                                                       t.venda.createdAt,
@@ -1348,9 +1353,9 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
       items-center
       gap-2
 
-      h-8
+      h-7
 
-      px-4
+      px-3
 
       rounded-lg
 
@@ -1619,7 +1624,20 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                     </button>
                                   )}
 
-                                  <div className="text-right shrink-0 space-y-1">
+                                  <div
+                                    className="
+    text-left
+    lg:text-right
+
+    w-full
+    
+    lg:w-auto
+
+    shrink-0
+
+    space-y-1
+  "
+                                  >
                                     <span
                                       className={`
                                       text-[15px]

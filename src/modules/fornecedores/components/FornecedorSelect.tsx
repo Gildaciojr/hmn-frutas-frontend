@@ -121,7 +121,7 @@ export function FornecedorSelect({
     w-full
     min-w-0
 
-    overflow-hidden
+    overflow-visible
 
     rounded-xl
     sm:rounded-2xl
@@ -140,6 +140,8 @@ export function FornecedorSelect({
           <div
             className="
                 relative
+
+                w-full
               "
           >
             <Search
@@ -193,9 +195,30 @@ export function FornecedorSelect({
         {search.trim().length >= 2 && (
           <div
             className="
-      max-h-[220px]
-      sm:max-h-[280px]
-      overflow-y-auto
+            absolute
+
+            left-0
+            right-0
+
+            top-full
+
+            z-50
+
+            mt-2
+
+            max-h-[220px]
+
+            overflow-y-auto
+
+            rounded-xl
+
+            border
+
+            border-[color:var(--border-soft)]
+
+            bg-white
+
+            shadow-[0_20px_50px_rgba(0,0,0,0.15)]
     "
           >
             {filtered.length === 0 && (
