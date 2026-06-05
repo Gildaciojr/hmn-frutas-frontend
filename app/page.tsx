@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { useRouter } from "next/navigation";
 
 import Image from "next/image";
@@ -8,8 +10,12 @@ import { motion } from "framer-motion";
 
 import { LogIn } from "lucide-react";
 
+import { LoginModal } from "@/modules/auth/components/LoginModal";
+
 export default function Home() {
   const router = useRouter();
+
+  const [loginOpen, setLoginOpen] = useState(false);
 
   return (
     <div
@@ -28,7 +34,16 @@ export default function Home() {
       {/* BACKGROUND */}
       {/* ================================================= */}
 
-      <div className="absolute inset-0 bg-[color:var(--background)]" />
+      <div
+        className="
+    absolute
+    inset-0
+
+    bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.10),transparent_35%),
+        radial-gradient(circle_at_bottom_right,rgba(239,68,68,0.08),transparent_35%),
+        radial-gradient(circle_at_center,rgba(255,255,255,0.85),rgba(248,250,252,1))]
+  "
+      />
 
       <div
         className="
@@ -45,7 +60,7 @@ export default function Home() {
 
           rounded-full
 
-          bg-indigo-500/10
+          bg-emerald-500/15
 
           blur-[70px]
 
@@ -68,7 +83,7 @@ export default function Home() {
 
           rounded-full
 
-          bg-red-500/5
+          bg-red-500/12
 
           blur-[90px]
 
@@ -118,7 +133,7 @@ export default function Home() {
           whileTap={{
             scale: 0.98,
           }}
-          onClick={() => router.push("/select-mode")}
+          onClick={() => setLoginOpen(true)}
           className="
             group
 
@@ -304,6 +319,35 @@ export default function Home() {
             >
               Ambiente Corporativo
             </div>
+            <div
+              className="
+    absolute
+
+    inset-0
+
+    flex
+    items-center
+    justify-center
+
+    pointer-events-none
+  "
+            >
+              <div
+                className="
+      w-[180px]
+      h-[180px]
+
+      md:w-[260px]
+      md:h-[260px]
+
+      rounded-full
+
+      bg-[radial-gradient(circle,rgba(34,197,94,0.18),transparent_70%)]
+
+      blur-[40px]
+    "
+              />
+            </div>
 
             {/* LOGO */}
 
@@ -448,6 +492,15 @@ export default function Home() {
           </div>
         </motion.div>
       </div>
+      <LoginModal
+        open={loginOpen}
+        onClose={() => setLoginOpen(false)}
+        onSuccess={() => {
+          setLoginOpen(false);
+
+          router.push("/select-mode");
+        }}
+      />
     </div>
   );
 }
