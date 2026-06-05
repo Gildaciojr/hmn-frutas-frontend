@@ -121,7 +121,7 @@ export function FornecedorSelect({
     w-full
     min-w-0
 
-    overflow-visible
+    overflow-hidden
 
     rounded-xl
     sm:rounded-2xl

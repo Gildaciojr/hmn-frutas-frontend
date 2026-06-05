@@ -150,7 +150,7 @@ export function FazendaSelect({
     w-full
     min-w-0
 
-    overflow-visible
+    overflow-hidden
     
     rounded-xl
 
