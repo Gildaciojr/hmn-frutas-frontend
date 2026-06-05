@@ -132,14 +132,22 @@ export function ClientesTable() {
     relative
     z-20
 
-    px-6
+    px-4
+    md:px-6
+
     py-4
 
     flex
-    items-center
+    flex-col
+
+    md:flex-row
+
+    items-start
+    md:items-center
+
     justify-between
 
-    gap-4
+    gap-3
   "
       >
         {/* ESQUERDA — IDENTIDADE + CONTEXTO */}
@@ -167,13 +175,16 @@ export function ClientesTable() {
     relative
     z-30
 
-    hidden
+    flex
+
     md:flex
 
     items-center
     gap-2
 
-    min-w-[280px]
+    w-full
+
+    md:min-w-[280px]
 
     px-3
     py-2
@@ -209,7 +220,7 @@ export function ClientesTable() {
               placeholder="Buscar cliente..."
               className="
       flex-1
-      min-w-[220px]
+      min-w-0
 
       bg-transparent
 
@@ -251,17 +262,22 @@ export function ClientesTable() {
       {/* ================= HEADER TABELA ================= */}
       <div
         className="
-    relative
+    hidden
 
-    grid
+    lg:grid
+
+    relative
 
     grid-cols-[minmax(280px,2.2fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(140px,1fr)_minmax(220px,0.9fr)]
 
     items-center
 
+    lg:items-center
+
     gap-6
 
-    px-6 py-2
+    px-6
+    py-2
 
     overflow-hidden
   "
@@ -403,7 +419,7 @@ export function ClientesTable() {
     px-2
     py-2
 
-    max-h-[560px]
+    max-h-[70dvh]
 
     overflow-y-auto
     overflow-x-hidden
@@ -451,23 +467,46 @@ export function ClientesTable() {
                     setCreateMode(false);
                   }}
                   className="
-                  group
-                  relative
-                  grid
-                  grid-cols-[minmax(280px,2.2fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(140px,1fr)_minmax(220px,0.9fr)]
-                  items-center
-                  gap-6
-                  px-5 py-3
-                  rounded-[20px]
-                  bg-[color:var(--surface-100)]
-                  border border-[color:var(--border-soft)]
-                  shadow-[0_8px_24px_rgba(0,0,0,0.04)]
-                  hover:border-[color:var(--border-strong)]
-                  hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]
-                  transition-all duration-300
-                  cursor-pointer
-                  overflow-hidden
-                "
+  group
+  relative
+
+  grid
+
+  grid-cols-1
+
+  lg:grid-cols-[minmax(280px,2.2fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(140px,1fr)_minmax(220px,0.9fr)]
+
+  items-start
+  lg:items-center
+
+  gap-3
+  lg:gap-6
+
+  px-4
+  lg:px-5
+
+  py-4
+  lg:py-3
+
+  rounded-[20px]
+
+  bg-[color:var(--surface-100)]
+
+  border
+  border-[color:var(--border-soft)]
+
+  shadow-[0_8px_24px_rgba(0,0,0,0.04)]
+
+  hover:border-[color:var(--border-strong)]
+  hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]
+
+  transition-all
+  duration-300
+
+  cursor-pointer
+
+  overflow-hidden
+"
                 >
                   {/* CLIENTE */}
                   <div className="flex items-center gap-4 relative z-10 min-w-0">
@@ -480,6 +519,8 @@ export function ClientesTable() {
 
                       flex
                       items-center
+
+                      lg:items-center
                       justify-center
 
                       shrink-0
@@ -636,34 +677,109 @@ export function ClientesTable() {
                   </div>
 
                   {/* COMPRAS */}
-                  <div className="text-[13px]">
-                    {formatCurrency(cliente.totalCompras)}
+                  <div
+                    className="
+    flex
+    justify-between
+
+    lg:block
+
+    text-[13px]
+  "
+                  >
+                    <span
+                      className="
+      lg:hidden
+
+      text-[11px]
+
+      text-[color:var(--muted)]
+    "
+                    >
+                      Compras
+                    </span>
+
+                    <span>{formatCurrency(cliente.totalCompras)}</span>
                   </div>
 
                   {/* VENDAS */}
-                  <div className="text-[13px]">
-                    {formatCurrency(cliente.totalVendas)}
+                  <div
+                    className="
+    flex
+    justify-between
+
+    lg:block
+
+    text-[13px]
+  "
+                  >
+                    <span
+                      className="
+      lg:hidden
+
+      text-[11px]
+
+      text-[color:var(--muted)]
+    "
+                    >
+                      Vendas
+                    </span>
+
+                    <span>{formatCurrency(cliente.totalVendas)}</span>
                   </div>
 
                   {/* SALDO */}
                   <div
-                    className={`text-[13px] font-semibold ${
-                      isPositivo ? "text-green-600" : "text-red-500"
-                    }`}
+                    className={`
+    flex
+    justify-between
+
+    lg:block
+
+    text-[13px]
+    font-semibold
+
+    ${isPositivo ? "text-green-600" : "text-red-500"}
+  `}
                   >
-                    {formatCurrency(cliente.saldo)}
+                    <span
+                      className="
+      lg:hidden
+
+      text-[11px]
+
+      text-[color:var(--muted)]
+      font-normal
+    "
+                    >
+                      Saldo
+                    </span>
+
+                    <span>{formatCurrency(cliente.saldo)}</span>
                   </div>
 
                   {/* STATUS + AÇÕES */}
                   <div
                     className="
-                    flex items-center justify-end gap-3
+                    flex
+                    flex-col
 
-                    min-w-[210px]
+                    sm:flex-row
+
+                    items-start
+                    sm:items-center
+
+                    justify-end
+
+                    gap-3
+
+                    w-full
+
+                    lg:min-w-[210px]
                   "
                   >
                     {/* STATUS */}
-                    <div className="flex justify-end">
+                    <div className="flex justify-start lg:justify-end w-full lg:w-auto">
                       <span
                         className={`
                         inline-flex items-center justify-center
@@ -712,7 +828,7 @@ export function ClientesTable() {
                     </div>
 
                     {/* AÇÕES */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 w-full lg:w-auto">
                       {/* WHATSAPP */}
                       <WhatsappButton clienteId={cliente.id} />
 
@@ -731,6 +847,9 @@ export function ClientesTable() {
                         relative
 
                         h-9
+
+                        flex-1
+                        lg:flex-none
 
                         px-4
 

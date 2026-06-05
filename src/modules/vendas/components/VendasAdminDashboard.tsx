@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-import { AdminKpiGrid } from "./AdminKpiGrid";
 import { ClientesTable } from "@/modules/clientes/components/ClientesTable";
 import { NovaVendaCard } from "./NovaVendaCard";
 import { useClientes } from "@/modules/clientes/hooks/useClientes";
@@ -17,11 +16,12 @@ export function VendasAdminDashboard() {
     <>
       <div
         className="
-          space-y-6
+          space-y-4
 
           md:space-y-8
 
           xl:space-y-10
+
           max-w-[1400px]
           mx-auto
         "
@@ -46,7 +46,7 @@ export function VendasAdminDashboard() {
               height={100}
               priority
               className="
-      h-[72px]
+      h-[60px]
 
       sm:h-[88px]
 
@@ -132,13 +132,13 @@ export function VendasAdminDashboard() {
 
             backdrop-blur-xl
 
-            p-4
+            p-3
 
             sm:p-6
 
             xl:p-7
 
-            space-y-6
+            space-y-4
           "
         >
           {/* ================= BACKGROUND FX ================= */}
@@ -295,9 +295,11 @@ export function VendasAdminDashboard() {
               className="
                 flex flex-col items-end justify-center
 
-                w-full
+                w-fit
 
-                sm:w-auto
+                self-start
+
+                sm:self-auto
 
                 min-w-[120px]
 

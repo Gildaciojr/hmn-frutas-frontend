@@ -80,7 +80,25 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
         "
       >
         {/* ================= BACKGROUND EFFECT ================= */}
-        <div className="relative z-10 flex items-start justify-between gap-6">
+        <div
+          className="
+    relative
+    z-10
+
+    flex
+    flex-col
+
+    md:flex-row
+
+    items-start
+
+    md:items-start
+
+    justify-between
+
+    gap-6
+  "
+        >
           {/* ================================================== */}
           {/* ESQUERDA */}
           {/* ================================================== */}
@@ -199,7 +217,7 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
           {/* DIREITA */}
           {/* ================================================== */}
 
-          <div className="flex flex-col items-end gap-2 shrink-0">
+          <div className="flex flex-col sm:flex-row items-start gap-3 w-full lg:w-auto shrink-0">
             {/* TOTAL */}
             <span className="text-[11px] text-[color:var(--muted-soft)]">
               {clientes.length} registros
@@ -239,7 +257,7 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
     divide-y
     divide-[color:var(--border-soft)]
 
-    max-h-[64vh]
+    max-h-[70dvh]
     overflow-y-auto
 
     scrollbar-thin
@@ -473,7 +491,7 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
                 "
               >
                 {/* ================= MOVIMENTAÇÃO ================= */}
-                <div className="text-right min-w-[110px]">
+                <div className="text-left sm:text-right w-full sm:min-w-[110px]">
                   <p
                     className="
                       text-[10px]
@@ -500,7 +518,7 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
                 </div>
 
                 {/* ================= SALDO ================= */}
-                <div className="text-right min-w-[130px]">
+                <div className="text-left sm:text-right w-full sm:min-w-[130px]">
                   <p
                     className="
                       text-[10px]
@@ -537,7 +555,7 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
                 </div>
 
                 {/* ================= STATUS ================= */}
-                <div className="text-right">
+                <div className="text-left sm:text-right w-full sm:w-auto">
                   <p
                     className="
                       text-[10px]

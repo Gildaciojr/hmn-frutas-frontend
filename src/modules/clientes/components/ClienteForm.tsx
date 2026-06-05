@@ -331,7 +331,7 @@ export function ClienteForm({
     `}
     >
       {/* ================= HEADER ================= */}
-      <div className="flex items-start justify-between pb-4 border-b border-[color:var(--border-soft)]">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 pb-4 border-b border-[color:var(--border-soft)]">
         <div className="space-y-1">
           <h2 className="text-[18px] font-semibold tracking-tight text-[color:var(--foreground)]">
             {isEditMode ? "Editar cliente" : "Novo cliente"}
@@ -395,7 +395,7 @@ export function ClienteForm({
           <div className="col-span-2">
             <label className="label-base">Tipo de cliente</label>
 
-            <div className="mt-3 flex gap-6">
+            <div className="mt-3 flex flex-col sm:flex-row gap-3 sm:gap-6">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
@@ -520,7 +520,7 @@ export function ClienteForm({
 
           <div className="grid grid-cols-12 gap-3">
             {/* TELEFONE */}
-            <div className="col-span-6">
+            <div className="col-span-12 md:col-span-6">
               <label className="label-base">Telefone</label>
 
               <input
@@ -534,7 +534,7 @@ export function ClienteForm({
             </div>
 
             {/* EMAIL */}
-            <div className="col-span-6">
+            <div className="col-span-12 md:col-span-6">
               <label className="label-base">Email</label>
 
               <input
@@ -548,7 +548,7 @@ export function ClienteForm({
             </div>
 
             {/* ENDEREÇO */}
-            <div className="col-span-6">
+            <div className="col-span-12 md:col-span-6">
               <label className="label-base">Endereço</label>
 
               <input
@@ -559,7 +559,7 @@ export function ClienteForm({
               />
             </div>
 
-            <div className="col-span-6">
+            <div className="col-span-12 md:col-span-6">
               <label className="label-base">Bairro</label>
 
               <input
@@ -571,7 +571,7 @@ export function ClienteForm({
             </div>
 
             {/* CEP */}
-            <div className="col-span-4">
+            <div className="col-span-12 md:col-span-4">
               <label className="label-base">CEP</label>
 
               <input
@@ -582,7 +582,7 @@ export function ClienteForm({
             </div>
 
             {/* CIDADE */}
-            <div className="col-span-5">
+            <div className="col-span-12 md:col-span-5">
               <label className="label-base">Cidade</label>
 
               <input
@@ -593,7 +593,7 @@ export function ClienteForm({
             </div>
 
             {/* ESTADO */}
-            <div className="relative z-50 col-span-3">
+            <div className="relative z-50 col-span-12 md:col-span-3">
               <label className="label-base">Estado</label>
 
               <Autocomplete
@@ -657,7 +657,7 @@ export function ClienteForm({
             className="
       w-full
 
-      min-h-[70px]
+      min-h-[100px]
 
       rounded-[18px]
 
@@ -739,8 +739,9 @@ export function ClienteForm({
     pt-6
 
     flex
-    items-center
-    justify-end
+
+    justify-stretch
+    sm:justify-end
 
     border-t
     border-[color:var(--border-soft)]
@@ -749,7 +750,7 @@ export function ClienteForm({
           <button
             type="submit"
             disabled={creating || updating}
-            className="btn-primary px-6"
+            className="btn-primary w-full sm:w-auto px-6"
           >
             {creating || updating
               ? "Salvando..."

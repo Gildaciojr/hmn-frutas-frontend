@@ -222,7 +222,8 @@ export function ClienteFinanceiroModal({
         className="
           w-full
           max-w-[500px]
-          max-h-[90vh]
+
+          max-h-[92dvh]
 
           rounded-[20px]
 
@@ -252,12 +253,14 @@ export function ClienteFinanceiroModal({
             border-[color:var(--border)]
           "
         >
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start justify-between gap-3">
             <div className="space-y-1">
               <h3
                 className="
-                  text-[14px]
-                  font-semibold
+                  text-[15px]
+                  sm:text-[14px]
+
+                  font-bold
                   text-[color:var(--foreground)]
                 "
               >
@@ -311,11 +314,11 @@ export function ClienteFinanceiroModal({
               p-1
             "
           >
-            <div className="grid grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-8">
               <div>
                 <p className="text-[10px] text-emerald-700">Valor total</p>
 
-                <p className="text-[13px] font-semibold text-emerald-700">
+                <p className="text-[14px] font-bold text-emerald-700">
                   {formatCurrency(transacao.valor)}
                 </p>
               </div>
@@ -323,7 +326,7 @@ export function ClienteFinanceiroModal({
               <div>
                 <p className="text-[11px] text-amber-700">Restante</p>
 
-                <p className="text-[14px] font-semibold text-amber-700">
+                <p className="text-[14px] font-bold text-amber-700">
                   {formatCurrency(valorRestante)}
                 </p>
               </div>
@@ -525,7 +528,7 @@ export function ClienteFinanceiroModal({
 
   z-[200]
 
-  max-h-[220px]
+  max-h-[40dvh]
 
   overflow-y-auto
   overflow-x-hidden
@@ -678,7 +681,7 @@ export function ClienteFinanceiroModal({
             <textarea
               value={observacoesPagamento}
               onChange={(e) => setObservacoesPagamento(e.target.value)}
-              rows={2}
+              rows={3}
               className="
                 w-full
 
@@ -716,7 +719,8 @@ export function ClienteFinanceiroModal({
             border-[color:var(--border)]
 
             flex
-            justify-end
+            justify-stretch
+            sm:justify-end
           "
         >
           <button
@@ -753,17 +757,21 @@ export function ClienteFinanceiroModal({
               });
             }}
             className="
-              h-[30px]
+              h-[42px]
+
+              w-full
+
+              sm:w-auto
 
               rounded-xl
 
-              px-2
+              px-4
 
               bg-emerald-600
 
               text-white
 
-              text-[11px]
+              text-[12px]
               font-medium
 
               shadow-[0_8px_18px_rgba(16,185,129,0.16)]

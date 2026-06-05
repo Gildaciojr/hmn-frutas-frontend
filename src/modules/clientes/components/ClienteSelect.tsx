@@ -173,8 +173,8 @@ export function ClienteSelect() {
       >
         {/* CLIENTE SELECIONADO */}
         {clienteSelecionado && !open && (
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-[13px] font-medium">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <span className="text-[13px] font-medium truncate">
               {clienteSelecionado.nome}
             </span>
 
@@ -258,7 +258,7 @@ export function ClienteSelect() {
             clienteSelecionado && !open ? "" : "Buscar ou criar cliente..."
           }
           className={`
-          w-full bg-transparent outline-none
+          w-full bg-transparent outline-none min-w-0
           text-[13px]
           placeholder:text-[color:var(--muted-soft)]
 
@@ -311,9 +311,13 @@ export function ClienteSelect() {
             {/* LISTA */}
             <div
               className="
-    relative z-20
+    relative z-30
 
-    max-h-[50vh]
+    flex
+    md:flex
+    items-center
+
+    max-h-[65dvh]
 
     overflow-y-auto
     overflow-x-hidden
@@ -637,7 +641,7 @@ export function ClienteSelect() {
                       shadow-[0_10px_24px_rgba(0,0,0,0.04)]
                     "
                   >
-                    <div className="relative z-10 flex items-start justify-between gap-4">
+                    <div className="relative z-10 flex flex-col sm:flex-row items-start justify-between gap-4">
                       {/* ESQUERDA */}
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
@@ -701,6 +705,10 @@ export function ClienteSelect() {
                           setOpen(false);
                         }}
                         className="
+                          w-full
+
+                          sm:w-auto
+                          
                           shrink-0
 
                           px-3 py-2
