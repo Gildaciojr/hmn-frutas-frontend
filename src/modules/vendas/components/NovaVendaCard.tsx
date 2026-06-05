@@ -732,7 +732,7 @@ export function NovaVendaCard() {
 
         <div className="min-w-0 space-y-2">
           {/* TOP BAR */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             {/* INDICADOR */}
             <div className="relative">
               <div
@@ -917,10 +917,10 @@ export function NovaVendaCard() {
 
               flex
               items-center
-              gap-2.5
+              gap-2
 
-              h-[48px]
-              md:h-[36px]
+              h-[42px]
+              md:h-[40px]
 
               px-3
 
@@ -1110,7 +1110,7 @@ export function NovaVendaCard() {
           {/* TITLE */}
           {/* ========================================= */}
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             {/* INDICADOR */}
             <div className="relative">
               <div
@@ -1416,7 +1416,7 @@ export function NovaVendaCard() {
 
             backdrop-blur-xl
 
-            p-2.5
+            p-2
             xl:p-3
 
             shadow-[0_6px_20px_rgba(15,23,42,0.05)]
@@ -1574,7 +1574,7 @@ export function NovaVendaCard() {
                 items-center
                 gap-2
 
-                h-[46px]
+                h-[42px]
                 md:h-[36px]
 
                 px-3
@@ -1670,11 +1670,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -1690,7 +1690,7 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[46px]
+                  h-[42px]
                   md:h-[36px]
 
                   rounded-[16px]
@@ -1759,7 +1759,7 @@ export function NovaVendaCard() {
 
                     px-3
 
-                    text-[16px]
+                    text-[14px]
                     md:text-[12px]
                     font-medium
 
@@ -1779,11 +1779,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -1799,7 +1799,7 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[46px]
+                  h-[42px]
                   md:h-[36px]
 
                   rounded-[14px]
@@ -1869,7 +1869,7 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[16px]
+                    text-[14px]
                     md:text-[12px]
                     font-medium
 
@@ -1891,11 +1891,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -1911,7 +1911,7 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[46px]
+                  h-[42px]
                   md:h-[36px]
 
                   rounded-[14px]
@@ -1980,7 +1980,7 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[16px]
+                    text-[14px]
                     md:text-[12px]
                     font-medium
 
@@ -1999,7 +1999,7 @@ export function NovaVendaCard() {
             {/* TELEFONE MOTORISTA */}
             <div className="col-span-1 xl:col-span-2 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-[9px] uppercase tracking-[0.20em] text-[color:var(--muted-soft)]">
+                <span className="text-[8px] uppercase tracking-[0.16em] text-[color:var(--muted-soft)]">
                   Tel. motorista
                 </span>
               </div>
@@ -2022,11 +2022,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -2117,7 +2117,7 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[16px]
+                    text-[14px]
                     md:text-[12px]
                     font-semibold
 
@@ -2137,7 +2137,7 @@ export function NovaVendaCard() {
             {/* MODELO CAMINHÃO */}
             <div className="col-span-1 xl:col-span-2 space-y-1">
               <div className="flex items-center justify-between">
-                <span className="text-[9px] uppercase tracking-[0.20em] text-[color:var(--muted-soft)]">
+                <span className="text-[8px] uppercase tracking-[0.16em] text-[color:var(--muted-soft)]">
                   Modelo
                 </span>
               </div>
@@ -2166,11 +2166,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -2255,7 +2255,7 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[16px]
+                    text-[14px]
                     md:text-[12px]
                     font-medium
 
@@ -2277,11 +2277,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -2365,7 +2365,7 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[16px]
+                    text-[14px]
                     md:text-[12px]
                     font-medium
 
@@ -2387,11 +2387,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -2475,7 +2475,7 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[16px]
+                    text-[14px]
                     md:text-[12px]
                     font-medium
 
@@ -2497,11 +2497,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -2597,7 +2597,7 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[16px]
+                    text-[14px]
                     md:text-[12px]
                     font-medium
 
@@ -2619,11 +2619,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -2707,7 +2707,7 @@ export function NovaVendaCard() {
 
                     px-4
 
-                    text-[16px]
+                    text-[14px]
                     md:text-[12px]
                     font-medium
 
@@ -2729,11 +2729,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -2784,7 +2784,7 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[48px]
+                  h-[42px]
                   md:h-[40px]
 
                   rounded-[12px]
@@ -2915,10 +2915,10 @@ export function NovaVendaCard() {
 
                     bg-transparent
 
-                    pl-12
+                    pl-11
                     pr-4
 
-                    text-[15px]
+                    text-[14px]
                     font-semibold
 
                     tracking-tight
@@ -2965,11 +2965,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -3020,8 +3020,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[48px]
-                  md:-h-[40px]
+                  h-[42px]
+                  md:h-[40px]
 
                   rounded-[12px]
 
@@ -3142,10 +3142,10 @@ export function NovaVendaCard() {
 
                     bg-transparent
 
-                    pl-12
+                    pl-11
                     pr-4
 
-                    text-[15px]
+                    text-[14px]
                     font-semibold
 
                     tracking-tight
@@ -3189,11 +3189,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -3244,7 +3244,7 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[48px]
+                  h-[42px]
                   md:h-[40px]
 
                   rounded-[12px]
@@ -3366,10 +3366,10 @@ export function NovaVendaCard() {
 
                     bg-transparent
 
-                    pl-12
+                    pl-11
                     pr-4
 
-                    text-[15px]
+                    text-[14px]
                     font-semibold
 
                     tracking-tight
@@ -3412,11 +3412,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -3467,7 +3467,7 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[48px]
+                  h-[42px]
                   md:h-[40px]
 
                   rounded-[12px]
@@ -3593,13 +3593,13 @@ export function NovaVendaCard() {
                     items-center
                     gap-3
 
-                    pl-12
+                    pl-11
                     pr-4
                   "
                 >
                   <p
                     className="
-                      text-[15px]
+                      text-[14px]
                       font-semibold
 
                       tracking-tight
@@ -3816,7 +3816,7 @@ export function NovaVendaCard() {
                 items-center
                 gap-2
 
-                h-[48px]
+                h-[42px]
                 md:h-[36px]
 
                 px-3
@@ -3900,11 +3900,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -3955,7 +3955,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[46px]
+                  h-[42px]
+                  md:h-[36px]
 
                   rounded-[18px]
 
@@ -4134,11 +4135,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -4305,7 +4306,7 @@ export function NovaVendaCard() {
                 >
                   <p
                     className="
-                      text-[16px]
+                      text-[14px]
                       md:text-[12px]
                       font-semibold
 
@@ -4343,11 +4344,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -4398,7 +4399,8 @@ export function NovaVendaCard() {
                   relative
                   overflow-hidden
 
-                  h-[46px]
+                  h-[42px]
+                  md:h-[36px]
 
                   rounded-[18px]
 
@@ -4519,7 +4521,7 @@ export function NovaVendaCard() {
                     pl-14
                     pr-4
 
-                    text-[16px]
+                    text-[14px]
                     md:text-[12px]
 
                     font-semibold
@@ -4565,11 +4567,11 @@ export function NovaVendaCard() {
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[9px]
+                    text-[8px]
 
                     uppercase
 
-                    tracking-[0.20em]
+                    tracking-[0.16em]
 
                     text-[color:var(--muted-soft)]
                   "
@@ -4776,7 +4778,7 @@ export function NovaVendaCard() {
                     >
                       <span
                         className={`
-                          text-[16px]
+                          text-[14px]
                           md:text-[12px]
                           font-semibold
 
@@ -4954,7 +4956,7 @@ export function NovaVendaCard() {
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-red-300/60 to-transparent" />
               </div>
 
-              <div className="relative z-10 flex items-start gap-2.5">
+              <div className="relative z-10 flex items-start gap-2">
                 {/* DOT */}
                 <div className="mt-[3px] relative shrink-0">
                   <div className="w-[7px] h-[7px] rounded-full bg-red-500" />
@@ -5449,7 +5451,7 @@ export function NovaVendaCard() {
 
               <div className="flex items-center justify-between gap-4">
                 {/* STATUS */}
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2">
                   {/* DOT */}
                   <div
                     className={`

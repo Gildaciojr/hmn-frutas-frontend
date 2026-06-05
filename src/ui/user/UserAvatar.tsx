@@ -69,7 +69,20 @@ export function UserAvatar({ name }: { name?: string }) {
   "
       />
 
-      <span className="relative">{initials}</span>
+      <span
+        className="
+    relative
+
+    text-[11px]
+    sm:text-[10px]
+
+    font-bold
+
+    tracking-tight
+  "
+      >
+        HMN
+      </span>
     </motion.div>
   );
 }

@@ -150,6 +150,10 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
     items-end
 
     gap-3
+
+    w-full
+
+    min-w-0
   "
       >
         <div
@@ -197,26 +201,39 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
   w-full
 
-  sm:w-[220px]
+  min-w-0
 
-  md:w-[150px]
+  sm:flex-1
+  md:flex-1
+
+  md:max-w-[180px]
 "
         >
           <label className="label-base">Data inicial</label>
 
           <input
-            className="input-base"
+            className="input-base w-full min-w-0"
+            style={{
+              width: "100%",
+              minWidth: 0,
+              maxWidth: "100%",
+            }}
             type="date"
             value={dataInicio}
             onChange={(event) => setDataInicio(event.target.value)}
           />
         </div>
 
-        <div className="space-y-1 w-full sm:w-[220px] md:w-[150px]">
+        <div className="space-y-1 w-full min-w-0 sm:flex-1 md:flex-1 md:max-w-[180px]">
           <label className="label-base">Data final</label>
 
           <input
-            className="input-base"
+            className="input-base w-full min-w-0"
+            style={{
+              width: "100%",
+              minWidth: 0,
+              maxWidth: "100%",
+            }}
             type="date"
             value={dataFim}
             onChange={(event) => setDataFim(event.target.value)}

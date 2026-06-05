@@ -178,7 +178,7 @@ export function AppHeader() {
         <NotificationBell />
 
         {/* 👤 AVATAR */}
-        <UserAvatar name="Gildácio" />
+        <UserAvatar name="HMN" />
 
         {/* ================= BOTÃO SAIR ================= */}
         <motion.button
