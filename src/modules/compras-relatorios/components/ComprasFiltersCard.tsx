@@ -144,16 +144,15 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
     grid-cols-1
 
-    lg:flex
-    lg:flex-wrap
+    md:grid-cols-2
 
-    items-end
+    xl:grid-cols-[280px_280px_180px_180px]
 
     gap-3
 
-    w-full
+    items-end
 
-    min-w-0
+    w-full
   "
       >
         <div
@@ -162,7 +161,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
   w-full
 
-  md:w-[280px]
+  min-w-0
 "
         >
           <label className="label-base">Fornecedor</label>
@@ -183,7 +182,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
   w-full
 
-  md:w-[280px]
+  min-w-0
 "
         >
           <label className="label-base">Fazenda</label>
@@ -202,11 +201,6 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
   w-full
 
   min-w-0
-
-  sm:flex-1
-  md:flex-1
-
-  md:max-w-[180px]
 "
         >
           <label className="label-base">Data inicial</label>
@@ -224,7 +218,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           />
         </div>
 
-        <div className="space-y-1 w-full min-w-0 sm:flex-1 md:flex-1 md:max-w-[180px]">
+        <div className="space-y-1 w-full min-w-0">
           <label className="label-base">Data final</label>
 
           <input
