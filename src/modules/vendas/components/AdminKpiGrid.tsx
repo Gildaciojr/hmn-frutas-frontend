@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useFinanceiroResumo } from "../hooks/useFinanceiro";
 import { useClientes } from "@/modules/clientes/hooks/useClientes";
 import { KpiCard } from "@/ui/dashboard/KpiCard";
@@ -55,7 +54,7 @@ export function AdminKpiGrid() {
   return (
     <div
       className="
-      grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4
+      grid grid-cols-2 xl:grid-cols-4
 
       gap-3
       sm:gap-4

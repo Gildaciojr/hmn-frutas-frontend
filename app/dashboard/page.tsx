@@ -204,11 +204,11 @@ export default function Dashboard() {
                 {/* TÍTULO */}
                 <h1
                   className="
-    text-[28px]
+    text-[24px]
 
-    sm:text-[36px]
+    sm:text-[30px]
 
-    md:text-[26px]
+    md:text-[36px]
 
     font-semibold
 
@@ -399,6 +399,9 @@ export default function Dashboard() {
       w-[280px]
       h-[160px]
 
+      xl:w-[320px]
+      xl:h-[180px]
+
       rounded-[40px]
 
       border border-white/80
@@ -550,7 +553,10 @@ export default function Dashboard() {
       grid
 
       grid-cols-1
-      lg:grid-cols-3
+
+      md:grid-cols-3
+
+      xl:grid-cols-3
 
       items-start
 
@@ -581,7 +587,7 @@ export default function Dashboard() {
 
     shadow-[0_18px_50px_rgba(0,0,0,0.05)]
 
-    p-4
+    p-3
 
     sm:p-5
 
@@ -631,6 +637,8 @@ export default function Dashboard() {
 
     flex-col
     sm:flex-row
+
+    leading-relaxed
 
     items-start
     sm:items-center
@@ -840,7 +848,17 @@ export default function Dashboard() {
 
   rounded-xl
 
-  flex items-center justify-center
+  flex
+
+  flex-col
+
+  lg:flex-row
+
+  lg:items-center
+
+  justify-center
+
+  gap-4
 
   bg-[linear-gradient(135deg,var(--surface-200),#ffffff)]
 
@@ -928,7 +946,7 @@ export default function Dashboard() {
 
     gap-2
 
-    max-h-[420px]
+    max-h-[50dvh]
     sm:max-h-[620px]
 
     overflow-y-auto
@@ -1264,7 +1282,9 @@ export default function Dashboard() {
                                 className="
       flex
       flex-col
-      items-end
+      items-start
+
+      lg:items-end
 
       justify-center
 
@@ -1363,8 +1383,8 @@ export default function Dashboard() {
                                       className="
             mt-1
 
-            text-[18px]
-            sm:text-[24px]
+            text-[16px]
+            sm:text-[22px]
             leading-none
 
             font-semibold
@@ -1461,7 +1481,8 @@ export default function Dashboard() {
       border border-[color:var(--border-soft)]
       bg-[color:var(--surface-100)]
 
-      p-4
+      p-3
+      sm:p-4
 
       shadow-[var(--shadow-soft)]
     "

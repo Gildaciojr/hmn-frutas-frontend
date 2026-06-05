@@ -64,6 +64,8 @@ export function EstoqueCard() {
         className="
   cursor-pointer
 
+  w-full
+
   max-w-full
 
   sm:max-w-[420px]
@@ -249,14 +251,13 @@ export function EstoqueCard() {
           w-full
           max-w-[980px]
 
-          max-h-[95vh]
+          max-h-[92dvh]
 
-          overflow-hidden
+          overflow-y-auto
 
           rounded-[20px]
 
           sm:rounded-[20px]
-
 
           bg-[linear-gradient(135deg,#ffffff,#f8fafc)]
 
@@ -401,7 +402,7 @@ export function EstoqueCard() {
                   <div className="space-y-4">
                     <h2
                       className="
-                        text-[24px]
+                        text-[20px]
 
                         sm:text-[28px]
 
@@ -426,7 +427,7 @@ export function EstoqueCard() {
                 {/* ================= RIGHT ================= */}
                 <div
                   className="
-                    flex items-start gap-3
+                    flex w-full sm:w-auto items-center justify-between gap-3
                   "
                 >
                   {/* STATUS */}
@@ -586,7 +587,7 @@ export function EstoqueCard() {
               </div>
 
               {/* ================= KPIs ================= */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-4">
+              <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-4">
                 <Stat
                   label="Disponível"
                   value={formatKg(resumo?.estoqueDisponivelKg ?? 0)}
@@ -609,7 +610,7 @@ export function EstoqueCard() {
               </div>
 
               {/* ================= TIMELINE ================= */}
-              <div className="space-y-4 max-h-[280px] sm:max-h-[400px] overflow-auto pr-1">
+              <div className="space-y-4 max-h-[50dvh] sm:max-h-[400px] overflow-auto pr-1">
                 {/* EMPTY STATE */}
                 {!resumo?.timeline || resumo.timeline.length === 0 ? (
                   <div
@@ -660,7 +661,9 @@ export function EstoqueCard() {
 
     justify-between
 
-    px-4 py-3
+    px-3 py-3
+
+    sm:px-4
 
     rounded-[var(--radius-md)]
 
@@ -714,7 +717,7 @@ export function EstoqueCard() {
                                 : "Venda realizada"}
                             </p>
 
-                            <p className="text-[12px] text-[color:var(--foreground)] font-medium">
+                            <p className="text-[12px] text-[color:var(--foreground)] font-medium break-words">
                               {isEntrada
                                 ? `Fornecedor: ${item.cliente}`
                                 : `Cliente: ${item.cliente}`}
@@ -848,9 +851,9 @@ function Stat({ label, value }: { label: string; value: string }) {
       {/* VALOR */}
       <p
         className="
-          text-[16px]
+          text-[14px]
 
-          sm:text-[14px]
+          sm:text-[16px]
 
           font-semibold
           tracking-tight

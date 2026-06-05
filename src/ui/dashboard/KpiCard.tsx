@@ -22,7 +22,7 @@ export function KpiCard({ label, value, delta, highlight }: Props) {
     relative
     overflow-hidden
 
-    ${highlight ? "px-4 py-4 sm:px-3.5 sm:py-3.5" : "px-4 py-3.5 sm:px-3 sm:py-2.5"}
+    ${highlight ? "px-3 py-3 sm:px-4 sm:py-4" : "px-3 py-3 sm:px-3 sm:py-2.5"}
 
     rounded-[var(--radius-md)]
 
@@ -31,7 +31,7 @@ export function KpiCard({ label, value, delta, highlight }: Props) {
     transition-all
     duration-300
 
-    hover:-translate-y-[3px]
+    sm:hover:-translate-y-[3px]
 
     will-change-transform
 
@@ -101,8 +101,11 @@ export function KpiCard({ label, value, delta, highlight }: Props) {
         top-0
         right-0
 
-        w-[120px]
-        h-[120px]
+        w-[80px]
+        h-[80px]
+
+        sm:w-[120px]
+        sm:h-[120px]
 
         rounded-full
 
@@ -140,11 +143,11 @@ export function KpiCard({ label, value, delta, highlight }: Props) {
         <div className="flex items-center justify-between">
           <p
             className={`
-              text-[10px]
-              sm:text-[9px]
+              text-[9px]
+              sm:text-[10px]
 
               uppercase
-              tracking-[0.14em]
+              tracking-[0.08em]
               sm:tracking-[0.18em]
 
               ${
@@ -188,10 +191,10 @@ export function KpiCard({ label, value, delta, highlight }: Props) {
         </div>
 
         {/* VALOR */}
-        <div className="mt-2 flex items-end justify-between">
+        <div className="mt-1.5 sm:mt-2 flex items-end justify-between">
           <p
             className={`
-              ${highlight ? "text-[22px] sm:text-[21px]" : "text-[18px] sm:text-[17px]"}
+              ${highlight ? "text-[18px] sm:text-[22px]" : "text-[15px] sm:text-[18px]"}
               leading-none
               break-words
 

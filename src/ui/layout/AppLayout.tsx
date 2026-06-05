@@ -12,7 +12,8 @@ export function AppLayout({
   return (
     <div
       className="
-        min-h-screen
+        min-h-dvh
+
         w-full
 
         flex
@@ -82,14 +83,16 @@ export function AppLayout({
             w-[280px]
             h-[280px]
 
-            w-[520px]
-            h-[520px]
+            md:w-[520px]
+            md:h-[520px]
 
             rounded-full
 
-            bg-red-500/8
+            bg-red-500/5
 
-            blur-[80px]
+            blur-[60px]
+
+            md:blur-[80px]
 
             pointer-events-none
           "
@@ -131,7 +134,9 @@ export function AppLayout({
             absolute
             inset-0
 
-            opacity-[0.012]
+            opacity-[0.018]
+
+            md:opacity-[0.012]
 
             bg-[linear-gradient(rgba(0,0,0,0.4)_1px,transparent_1px),
                 linear-gradient(90deg,rgba(0,0,0,0.4)_1px,transparent_1px)]
@@ -154,7 +159,7 @@ export function AppLayout({
             inset-x-0
             bottom-0
 
-            h-[100px]
+            h-[80px]
 
             md:h-[180px]
 
@@ -181,10 +186,12 @@ export function AppLayout({
             overflow-visible
 
             px-3
+            py-3
             sm:py-6
             md:py-8
 
             transition-colors
+            duration-300
           "
         >
           {children}

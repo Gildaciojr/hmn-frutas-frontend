@@ -1,106 +1,452 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+
+import Image from "next/image";
+
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+
+import { LogIn } from "lucide-react";
 
 export default function Home() {
   const router = useRouter();
 
-  // ================= REDIRECT =================
-  // 🔥 ENTRADA OFICIAL DO SISTEMA
-  // Toda autenticação agora acontece
-  // no fluxo modal-first em /select-mode
-  useEffect(() => {
-    router.replace("/select-mode");
-  }, [router]);
-
-  // 🔥 ESTA ROTA NÃO RENDERIZA MAIS INTERFACE
-  // O sistema agora inicia diretamente
-  // na seleção de operação.
   return (
-    <div className="h-screen w-full flex items-center justify-center px-4 relative overflow-hidden">
-      {/* BACKGROUND GLOBAL */}
-      <div className="absolute inset-0 bg-[#fafafa]" />
+    <div
+      className="
+        relative
 
-      {/* LIGHT EFFECT */}
+        min-h-dvh
+        w-full
+
+        overflow-hidden
+
+        bg-[color:var(--background)]
+      "
+    >
+      {/* ================================================= */}
+      {/* BACKGROUND */}
+      {/* ================================================= */}
+
+      <div className="absolute inset-0 bg-[color:var(--background)]" />
+
       <div
         className="
-  absolute
-  top-[-40px]
-  left-[-40px]
+          absolute
 
-  w-[320px]
-  h-[320px]
+          top-[-80px]
+          left-[-80px]
 
-  rounded-full
+          w-[320px]
+          h-[320px]
 
-  bg-indigo-500/10
+          md:w-[520px]
+          md:h-[520px]
 
-  blur-[40px]
+          rounded-full
 
-  pointer-events-none
-"
+          bg-indigo-500/10
+
+          blur-[70px]
+
+          pointer-events-none
+        "
       />
 
-      {/* REDIRECT FEEDBACK */}
       <div
         className="
-    relative z-10
-    w-full max-w-md
-    rounded-[var(--radius-lg)]
-    border border-[color:var(--border-soft)]
-    bg-[color:var(--surface-100)]
+          absolute
 
-    shadow-[0_10px_30px_rgba(0,0,0,0.08)]
+          bottom-[-120px]
+          right-[-120px]
 
-    p-10
-    overflow-hidden
+          w-[320px]
+          h-[320px]
 
-    will-change-transform
+          md:w-[520px]
+          md:h-[520px]
 
-    animate-[fadeIn_.22s_ease-out]
-  "
+          rounded-full
+
+          bg-red-500/5
+
+          blur-[90px]
+
+          pointer-events-none
+        "
+      />
+
+      <div
+        className="
+          absolute
+          inset-0
+
+          opacity-[0.018]
+
+          bg-[linear-gradient(rgba(0,0,0,0.35)_1px,transparent_1px),
+              linear-gradient(90deg,rgba(0,0,0,0.35)_1px,transparent_1px)]
+
+          bg-[size:42px_42px]
+
+          md:bg-[size:72px_72px]
+
+          pointer-events-none
+        "
+      />
+
+      {/* ================================================= */}
+      {/* LOGIN */}
+      {/* ================================================= */}
+
+      <div
+        className="
+          absolute
+
+          top-4
+          right-4
+
+          md:top-8
+          md:right-8
+
+          z-20
+        "
       >
-        {/* CAMADA VISUAL */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-black/[0.015] to-black/[0.03]" />
+        <motion.button
+          whileHover={{
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.98,
+          }}
+          onClick={() => router.push("/select-mode")}
+          className="
+            group
 
-          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-        </div>
+            flex
+            items-center
 
-        {/* CONTEÚDO */}
-        <div className="relative z-10 flex flex-col items-center text-center space-y-5">
-          {/* INDICADOR */}
-          <div
+            gap-2
+
+            h-11
+
+            px-5
+
+            rounded-full
+
+            border
+            border-[color:var(--border-soft)]
+
+            bg-white/80
+
+            backdrop-blur-xl
+
+            text-[13px]
+            font-medium
+
+            text-[color:var(--foreground)]
+
+            shadow-[0_10px_30px_rgba(0,0,0,0.06)]
+
+            hover:border-[color:var(--border-strong)]
+
+            transition-all
+            duration-300
+          "
+        >
+          <LogIn
+            size={16}
             className="
-              w-12 h-12 rounded-full
-              border-2 border-black/10
-              border-t-black
-              animate-spin
+              transition-transform
+              duration-300
+
+              group-hover:translate-x-[1px]
             "
           />
 
-          {/* TEXTO */}
-          <div className="space-y-2">
-            <div className="text-[10px] tracking-[0.28em] uppercase text-[color:var(--muted-soft)]">
-              Inicializando
+          <span>Login</span>
+        </motion.button>
+      </div>
+
+      {/* ================================================= */}
+      {/* CONTENT */}
+      {/* ================================================= */}
+
+      <div
+        className="
+          relative
+          z-10
+
+          flex
+          items-center
+          justify-center
+
+          min-h-dvh
+
+          px-5
+        "
+      >
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 20,
+          }}
+          animate={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 0.45,
+          }}
+          className="
+            relative
+
+            w-full
+            max-w-[820px]
+
+            overflow-hidden
+
+            rounded-[32px]
+
+            border
+            border-[color:var(--border-soft)]
+
+            bg-[color:var(--surface-100)]
+
+            shadow-[0_25px_90px_rgba(0,0,0,0.10)]
+
+            px-6
+            py-10
+
+            sm:px-10
+            sm:py-14
+
+            md:px-16
+            md:py-16
+          "
+        >
+          {/* CAMADA VISUAL */}
+
+          <div className="absolute inset-0 pointer-events-none">
+            <div
+              className="
+                absolute
+                inset-0
+
+                bg-gradient-to-br
+
+                from-transparent
+                via-black/[0.015]
+                to-black/[0.03]
+              "
+            />
+
+            <div
+              className="
+                absolute
+
+                inset-x-0
+                top-0
+
+                h-[1px]
+
+                bg-gradient-to-r
+
+                from-transparent
+                via-black/10
+                to-transparent
+              "
+            />
+          </div>
+
+          {/* CONTEÚDO */}
+
+          <div
+            className="
+              relative
+              z-10
+
+              flex
+              flex-col
+
+              items-center
+
+              text-center
+            "
+          >
+            {/* BADGE */}
+
+            <div
+              className="
+                inline-flex
+
+                items-center
+
+                rounded-full
+
+                border
+                border-[color:var(--border-soft)]
+
+                bg-[color:var(--surface-200)]
+
+                px-4
+                py-2
+
+                text-[10px]
+
+                font-medium
+
+                uppercase
+
+                tracking-[0.28em]
+
+                text-[color:var(--muted)]
+              "
+            >
+              Ambiente Corporativo
             </div>
 
-            <h1 className="text-2xl font-semibold tracking-tight text-[color:var(--foreground)]">
-              Controle de Frutas
+            {/* LOGO */}
+
+            <div
+              className="
+    mt-8
+
+    flex
+    justify-center
+  "
+            >
+              <div
+                className="
+      relative
+
+      w-[180px]
+      h-[80px]
+
+      sm:w-[240px]
+      sm:h-[100px]
+
+      md:w-[320px]
+      md:h-[130px]
+    "
+              >
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_UPLOADS_URL}/empresa/logo-hmn.png`}
+                  alt="HMN Frutas"
+                  fill
+                  priority
+                  className="object-contain"
+                />
+              </div>
+            </div>
+
+            {/* TÍTULO */}
+
+            <h1
+              className="
+                mt-8
+
+                text-[24px]
+
+                sm:text-[30px]
+
+                md:text-[40px]
+
+                font-black
+
+                tracking-[-0.05em]
+
+                text-[color:var(--foreground)]
+              "
+            >
+              HMN FRUTAS
             </h1>
 
-            <p className="text-sm text-[color:var(--muted)] leading-relaxed">
-              Redirecionando para o ambiente operacional...
-            </p>
-          </div>
+            {/* SUBTÍTULO */}
 
-          {/* FOOTER */}
-          <div className="pt-4 text-xs text-[color:var(--muted-soft)]">
-            Plataforma operacional • v1.0
+            <p
+              className="
+                mt-6
+
+                text-[11px]
+
+                sm:text-[12px]
+
+                uppercase
+
+                tracking-[0.35em]
+
+                text-[color:var(--muted-soft)]
+              "
+            >
+              Plataforma Operacional Privada
+            </p>
+
+            {/* AVISO */}
+
+            <div
+              className="
+                mt-8
+
+                rounded-full
+
+                border
+
+                border-amber-200
+
+                bg-amber-50
+
+                px-5
+                py-3
+
+                text-[11px]
+
+                font-semibold
+
+                uppercase
+
+                tracking-[0.14em]
+
+                text-amber-700
+              "
+            >
+              Somente Uso Interno Autorizado
+            </div>
+
+            {/* DESCRIÇÃO */}
+
+            <p
+              className="
+                mt-10
+
+                max-w-[640px]
+
+                text-[14px]
+
+                sm:text-[15px]
+
+                leading-relaxed
+
+                text-[color:var(--muted)]
+              "
+            >
+              Plataforma corporativa para gestão operacional HMN Frutas.
+            </p>
+
+            {/* FOOTER */}
+
+            <div
+              className="
+                mt-10
+
+                text-[12px]
+
+                text-[color:var(--muted-soft)]
+              "
+            >
+              Compras • Vendas • Estoque • Financeiro
+            </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
