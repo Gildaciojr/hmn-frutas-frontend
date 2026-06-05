@@ -253,7 +253,7 @@ export function ClienteFinanceiroModal({
             border-[color:var(--border)]
           "
         >
-          <div className="flex items-start justify-between gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div className="space-y-1">
               <h3
                 className="
@@ -300,7 +300,7 @@ export function ClienteFinanceiroModal({
 
         {/* BODY */}
 
-        <div className="p-4 space-y-2 overflow-y-auto scrollbar-thin">
+        <div className="p-3 sm:p-4 space-y-3 overflow-y-auto scrollbar-thin">
           {/* RESUMO */}
 
           <div
@@ -311,7 +311,7 @@ export function ClienteFinanceiroModal({
 
               bg-emerald-50/60
 
-              p-1
+              p-3
             "
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-8">

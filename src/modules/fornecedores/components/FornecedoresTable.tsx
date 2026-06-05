@@ -295,8 +295,8 @@ export function FornecedoresTable() {
         <div>
           <h2
             className="
-      text-[20px]
-      sm:text-[18px]
+      text-[18px]
+      sm:text-[20px]
 
       font-semibold
 
@@ -389,7 +389,7 @@ export function FornecedoresTable() {
       "
           >
             <div>
-              <p className="text-[15px] font-semibold text-[color:var(--foreground)]">
+              <p className="text-[15px] font-semibold text-[color:var(--foreground)] break-words">
                 {fornecedor.nome} {fornecedor.sobrenome}
               </p>
 
@@ -398,7 +398,7 @@ export function FornecedoresTable() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3">
               <MobileInfo label="UF" value={fornecedor.estado || "-"} />
             </div>
 
@@ -453,7 +453,7 @@ export function FornecedoresTable() {
           className="
             w-full
 
-            min-w-[980px]
+            min-w-[920px]
           "
         >
           <thead>

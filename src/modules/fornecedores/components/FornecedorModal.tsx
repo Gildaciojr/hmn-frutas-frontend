@@ -209,8 +209,9 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
           <div>
             <h2
               className="
-                text-[22px]
-                sm:text-[26px]
+                text-[18px]
+                sm:text-[22px]
+                lg:text-[26px]
                 font-semibold
                 tracking-[-0.04em]
               "
@@ -264,6 +265,8 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
 
         <div
           className="
+            grid
+
             grid-cols-1
 
             lg:grid-cols-[240px_1fr]
@@ -289,7 +292,7 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
               grid-cols-2
               sm:grid-cols-4
 
-              lg-grid-cols-1
+              lg:grid-cols-1
 
               gap-2
               bg-slate-50/70
@@ -781,36 +784,52 @@ function Info({
   value?: string | null;
 }) {
   return (
-    <div>
+    <div
+      className="
+        group
+        relative
+
+        rounded-[16px]
+
+        border
+        border-[color:var(--border-soft)]
+
+        bg-white/80
+
+        px-4
+        py-3
+
+        shadow-[0_6px_20px_rgba(15,23,42,0.03)]
+      "
+    >
       <div
         className="
-    group
-    relative
+          text-[10px]
 
-    rounded-[16px]
+          uppercase
 
-    border
-    border-[color:var(--border-soft)]
+          tracking-[0.18em]
 
-    bg-white/80
+          font-medium
 
-    px-4
-    py-3
-
-    shadow-[0_6px_20px_rgba(15,23,42,0.03)]
-  "
+          text-[color:var(--muted-soft)]
+        "
       >
         {label}
       </div>
 
       <div
         className="
-          text-[10px]
+          mt-2
 
-          mt-1
+          text-[14px]
+          sm:text-[15px]
 
-          tracking-[0.18em]
-font-medium
+          font-semibold
+
+          text-[color:var(--foreground)]
+
+          break-words
         "
       >
         {value || "-"}

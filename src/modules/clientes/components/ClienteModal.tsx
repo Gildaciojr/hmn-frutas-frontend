@@ -919,7 +919,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                           </div>
 
                                           {/* GRID */}
-                                          <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+                                          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
                                             <div>
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
                                                 Safra
@@ -1094,7 +1094,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                           </div>
 
                                           {/* GRID */}
-                                          <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-3">
+                                          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-4 gap-y-3">
                                             {/* DATA */}
                                             <div>
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">

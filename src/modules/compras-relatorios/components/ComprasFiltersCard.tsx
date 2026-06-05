@@ -144,8 +144,8 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
     grid-cols-1
 
-    md:flex
-    md:flex-wrap
+    lg:flex
+    lg:flex-wrap
 
     items-end
 

@@ -275,8 +275,8 @@ export function ComprasResumoCard({ compras }: Props) {
                 className="
                   mt-2
 
-                  text-[24px]
-                  sm:text-[26px]
+                  text-[20px]
+                  sm:text-[22px]
                   xl:text-[24px]
 
                   leading-none

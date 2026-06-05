@@ -136,7 +136,7 @@ export function ComprasRelatorioTable({ compras }: Props) {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <MobileInfo
                     label="Fazenda"
                     value={compra.fazendaFornecedor?.nome ?? "-"}
@@ -171,7 +171,7 @@ export function ComprasRelatorioTable({ compras }: Props) {
             "
                 >
                   <p className="text-[11px] text-emerald-700/80">Total</p>
-                  <p className="text-[22px] sm:text-[20px] lg:text-[18px] font-semibold text-emerald-700">
+                  <p className="text-[18px] sm:text-[20px] lg:text-[22px] font-semibold text-emerald-700">
                     {formatCurrency(compra.valorTotal)}
                   </p>
                 </div>

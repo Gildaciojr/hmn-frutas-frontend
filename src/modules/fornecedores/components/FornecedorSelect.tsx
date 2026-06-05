@@ -193,8 +193,8 @@ export function FornecedorSelect({
         {search.trim().length >= 2 && (
           <div
             className="
-      max-h-[260px]
-      sm:max-h-[320px]
+      max-h-[220px]
+      sm:max-h-[280px]
       overflow-y-auto
     "
           >
@@ -256,6 +256,7 @@ export function FornecedorSelect({
 
                           sm:text-sm
                           font-medium
+                          truncate
                         "
                     >
                       {fornecedor.nome} {fornecedor.sobrenome}
