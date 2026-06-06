@@ -166,9 +166,9 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
 
           max-w-[1200px]
 
-          max-h-[95vh]
+          max-h-[95dvh]
 
-          overflow-hidden
+          overflow-y-auto
 
           rounded-[28px]
 
@@ -331,7 +331,9 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
 
           <div
             className="
-              overflow-y-auto
+              overflow-visible
+
+              lg:overflow-y-auto
 
               p-4
               sm:p-7

@@ -204,9 +204,9 @@ export function NovaCompraCard() {
 
       quantidadeFrutas: toNumber(quantidadeFrutas),
 
-      precoKg: toNumber(precoKg),
+      precoKg: Number(precoKg.replace(/\D/g, "")) / 100,
 
-      despesas: toNumber(despesas),
+      despesas: Number(despesas.replace(/\D/g, "")) / 100,
 
       descontoPercentualAplicado: toNumber(descontoPercentualAplicado),
 
@@ -363,23 +363,18 @@ export function NovaCompraCard() {
   ////////////////////////////////////////////////////////////
 
   const valorFinalEfetivo = useMemo(() => {
-    //////////////////////////////////////////////////////////
-    // MANUAL
-    //////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+// MANUAL
+//////////////////////////////////////////////////////////
 
-    if (editarValorFinal) {
-      const normalized = valorTotalManual
-        .trim()
-        .replace(/\s/g, "")
-        .replace(/\.(?=\d{3}(,|$))/g, "")
-        .replace(",", ".");
+if (editarValorFinal) {
+  const parsedManual =
+    Number(valorTotalManual.replace(/\D/g, "")) / 100;
 
-      const parsedManual = Number(normalized);
-
-      if (!Number.isNaN(parsedManual) && parsedManual > 0) {
-        return parsedManual;
-      }
-    }
+  if (!Number.isNaN(parsedManual) && parsedManual > 0) {
+    return parsedManual;
+  }
+}
 
     //////////////////////////////////////////////////////////
     // AUTOMÁTICO
