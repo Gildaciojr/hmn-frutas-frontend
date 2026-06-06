@@ -1025,11 +1025,17 @@ export default function Dashboard() {
     relative
     z-10
 
-    flex
-    items-center
-    justify-between
+  flex
 
-    gap-5
+  flex-col
+
+  lg:flex-row
+
+  lg:items-center
+
+  lg:justify-between
+
+  gap-4
   "
                             >
                               {/* ================================================= */}
@@ -1042,8 +1048,11 @@ export default function Dashboard() {
                                   className="
   relative
 
-  w-[26px]
-  h-[26px]
+  w-[22px]
+  h-[22px]
+
+  md:w-[26px]
+  md:h-[26px]
 
   rounded-[10px]
 
@@ -1100,7 +1109,7 @@ export default function Dashboard() {
                                 {/* INFO */}
                                 <div className="min-w-0 flex-1">
                                   {/* TOP */}
-                                  <div className="flex items-center gap-2 flex-wrap">
+                                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                                     <p
                                       className="
             text-[15px]
@@ -1214,7 +1223,9 @@ export default function Dashboard() {
       border
       border-[color:var(--border-soft)]
 
-      text-[11px]
+      text-[10px]
+      sm:text-[11px]
+
       font-medium
 
       text-[color:var(--foreground)]
@@ -1238,7 +1249,9 @@ export default function Dashboard() {
       border
       border-[color:var(--border-soft)]
 
-      text-[11px]
+      text-[10px]
+      sm:text-[11px]
+      
       font-medium
 
       text-[color:var(--foreground)]
@@ -1280,17 +1293,20 @@ export default function Dashboard() {
 
                               <div
                                 className="
-      flex
-      flex-col
-      items-start
+    flex
+    flex-col
 
-      lg:items-end
+    w-full
 
-      justify-center
+    lg:w-auto
 
-      gap-2
+    items-start
 
-      shrink-0
+    lg:items-end
+
+    justify-center
+
+    gap-2
     "
                               >
                                 {/* VALOR */}
@@ -1305,6 +1321,10 @@ export default function Dashboard() {
   border-emerald-200
 
   bg-[linear-gradient(135deg,rgba(236,253,245,0.96),rgba(209,250,229,0.78))]
+
+  w-full
+
+  lg:w-auto
 
   px-3.5
   py-2.5

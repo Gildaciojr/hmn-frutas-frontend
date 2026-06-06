@@ -215,7 +215,7 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
             className="
               relative z-10
               w-full
-              max-w-[400px]
+              max-w-[440px]
 
               max-h-[92vh]
 
@@ -289,7 +289,7 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
                 {/* TOP */}
                 {/* ================================================= */}
 
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center justify-between gap-4">
                   {/* LEFT */}
                   <div className="flex-1">
                     <div
@@ -405,10 +405,10 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
       relative
       z-10
 
-      w-[150px]
+      w-[170px]
 
-      sm:w-[180px]
-      md:w-[220px]
+      sm:w-[210px]
+      md:w-[250px]
 
       object-contain
 
@@ -785,17 +785,21 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
                     disabled={loading}
                     className="
     group
-    relative overflow-hidden
+    relative
+
+    overflow-hidden
 
     w-full
 
-    rounded-2xl
+    rounded-[20px]
 
+    border
     border border-red-200/70
 
     bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(254,242,242,0.92))]
 
-    px-4 py-3.5
+    px-4
+    py-3.5
 
     shadow-[0_10px_30px_rgba(239,68,68,0.08)]
 
@@ -805,8 +809,8 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
     hover:border-red-300
     hover:shadow-[0_18px_45px_rgba(239,68,68,0.14)]
 
-    hover:scale-[1.01]
-    active:scale-[0.985]
+    hover:-translate-y-[1px]
+    active:translate-y-0
 
     will-change-transform
 
@@ -821,7 +825,8 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
       opacity-0
       group-hover:opacity-100
 
-      transition-opacity duration-300
+      transition-opacity
+      duration-300
 
       bg-[radial-gradient(circle_at_top,rgba(239,68,68,0.12),transparent_70%)]
     "
@@ -829,21 +834,65 @@ export function LoginModal({ open, onClose, onSuccess }: Props) {
 
                     <span
                       className="
-      relative z-10
+      relative
+      z-10
 
-      flex items-center justify-center gap-2
-
-      text-[13px]
-      font-semibold
-
-      text-red-500
-      group-hover:text-red-600
-
-      transition-colors
+      flex
+      items-center
+      justify-center
+      gap-3
     "
                     >
-                      <span className="text-[15px]">✕</span>
-                      Cancelar operação
+                      <div
+                        className="
+        flex
+        items-center
+        justify-center
+
+        w-8
+        h-8
+
+        rounded-full
+
+        bg-red-50
+
+        border
+        border-red-100
+
+        text-red-500
+
+        text-[15px]
+      "
+                      >
+                        ✕
+                      </div>
+
+                      <div className="flex flex-col items-start">
+                        <span
+                          className="
+          text-[13px]
+          font-semibold
+
+          text-red-600
+        "
+                        >
+                          Encerrar acesso
+                        </span>
+
+                        <span
+                          className="
+          text-[10px]
+
+          uppercase
+
+          tracking-[0.18em]
+
+          text-red-400
+        "
+                        >
+                          Voltar para seleção
+                        </span>
+                      </div>
                     </span>
                   </button>
                 </div>

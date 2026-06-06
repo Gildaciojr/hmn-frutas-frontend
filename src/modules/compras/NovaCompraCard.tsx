@@ -2688,12 +2688,43 @@ export function NovaCompraCard() {
 /* FORMAT */
 /* ========================================================= */
 
-function formatBR(value: string): string {
+function formatIntegerBR(value: string): string {
   if (!value) {
     return "";
   }
 
   const numeric = Number(value);
+
+  if (Number.isNaN(numeric)) {
+    return value;
+  }
+
+  return numeric.toLocaleString("pt-BR");
+}
+
+function formatCurrencyInput(value: string): string {
+  if (!value) {
+    return "";
+  }
+
+  const digits = value.replace(/\D/g, "");
+
+  const numeric = Number(digits) / 100;
+
+  return numeric.toLocaleString("pt-BR", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+function formatDecimalBR(value: string): string {
+  if (!value) {
+    return "";
+  }
+
+  const normalized = value.replace(",", ".");
+
+  const numeric = Number(normalized);
 
   if (Number.isNaN(numeric)) {
     return value;
@@ -2778,7 +2809,13 @@ function Input({
   ////////////////////////////////////////////////////////////
 
   const displayValue =
-    type === "date" ? value : isNumericField ? formatBR(value) : value;
+    type === "date"
+      ? value
+      : isMoneyField
+        ? formatCurrencyInput(value)
+        : isIntegerField
+          ? formatIntegerBR(value)
+          : value;
 
   ////////////////////////////////////////////////////////////
   // CHANGE
@@ -2822,32 +2859,7 @@ function Input({
       // REMOVE CARACTERES INVÁLIDOS
       //////////////////////////////////////////////////////////
 
-      raw = raw.replace(/[^\d,]/g, "");
-
-      //////////////////////////////////////////////////////////
-      // APENAS UMA VÍRGULA
-      //////////////////////////////////////////////////////////
-
-      const commaParts = raw.split(",");
-
-      if (commaParts.length > 2) {
-        raw =
-          commaParts[0] + "," + commaParts.slice(1).join("").replace(/,/g, "");
-      }
-
-      //////////////////////////////////////////////////////////
-      // LIMITA CASAS DECIMAIS
-      //////////////////////////////////////////////////////////
-
-      if (raw.includes(",")) {
-        const [integer, decimal] = raw.split(",");
-
-        raw = `${integer},${decimal.slice(0, 2)}`;
-      }
-
-      //////////////////////////////////////////////////////////
-      // UPDATE
-      //////////////////////////////////////////////////////////
+      raw = raw.replace(/\D/g, "");
 
       onChange(raw);
 

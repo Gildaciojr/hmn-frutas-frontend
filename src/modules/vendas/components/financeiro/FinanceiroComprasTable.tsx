@@ -347,7 +347,18 @@ export function FinanceiroComprasTable() {
         {/* ================================================= */}
         {/* BODY */}
         {/* ================================================= */}
-        <div className="relative z-10 max-h-[420px] lg:max-h-[520px] overflow-auto">
+        <div
+          className="
+    relative
+    z-10
+
+    max-h-[70vh]
+
+    lg:max-h-[520px]
+
+    overflow-auto
+  "
+        >
           {/* ============================================= */}
           {/* LOADING */}
           {/* ============================================= */}
@@ -415,7 +426,8 @@ export function FinanceiroComprasTable() {
 
                     sm:px-5
 
-                    py-3
+                    py-4
+                    sm:py-3
 
                     border-b border-[color:var(--border-soft)]
 
@@ -518,7 +530,9 @@ export function FinanceiroComprasTable() {
 
                         rounded-full
 
-                        text-[9px]
+                        text-[11px]
+                        sm:text-[9px]
+                        
                         font-medium
 
                         border
