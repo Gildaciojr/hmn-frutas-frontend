@@ -1618,8 +1618,8 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
       transition-all duration-200
     "
                                     >
-                                      <span className="text-[14px] font-bold">
-                                        R$
+                                      <span className="text-[10px] font-bold">
+                                        Registrar Pagamento
                                       </span>
                                     </button>
                                   )}
