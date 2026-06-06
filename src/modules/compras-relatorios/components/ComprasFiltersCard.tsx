@@ -206,7 +206,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           <label className="label-base">Data inicial</label>
 
           <input
-            className="input-base w-full min-w-0"
+            className="input-base w-full min-w-0 block overflow-hidden appearance-none [-webkit-appearance:none]"
             style={{
               width: "100%",
               minWidth: 0,
@@ -222,7 +222,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           <label className="label-base">Data final</label>
 
           <input
-            className="input-base w-full min-w-0"
+            className="input-base w-full min-w-0 block overflow-hidden appearance-none [-webkit-appearance:none]"
             style={{
               width: "100%",
               minWidth: 0,
