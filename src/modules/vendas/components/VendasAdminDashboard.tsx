@@ -284,8 +284,6 @@ export function VendasAdminDashboard() {
                     max-w-[520px]
                   "
                 >
-                  Visão financeira consolidada, operações, saldo operacional e
-                  comunicação estratégica integrada.
                 </p>
               </div>
             </div>
@@ -301,7 +299,7 @@ export function VendasAdminDashboard() {
 
                 sm:self-auto
 
-                min-w-[120px]
+                min-w-[1400px]
 
                 rounded-2xl
 
@@ -338,7 +336,7 @@ export function VendasAdminDashboard() {
                 className="
                   mt-1
 
-                  text-[10px]
+                  text-[9px]
 
                   uppercase
 

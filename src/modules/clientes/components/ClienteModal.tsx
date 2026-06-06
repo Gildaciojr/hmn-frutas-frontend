@@ -1590,7 +1590,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                       className="
       group/financeiro
 
-      w-8 h-8
+      w-10 h-10
 
       rounded-lg
 
