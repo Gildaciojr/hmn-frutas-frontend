@@ -1398,7 +1398,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                               {/* ICON */}
                                               <div
                                                 className="
-        w-5 h-5
+        w-8 h-8
 
         rounded-md
 
@@ -1406,7 +1406,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
         items-center
         justify-center
 
-        bg-emerald-100
+        bg-emerald-200
 
         text-[10px]
 
