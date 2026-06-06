@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useAppStore } from "@/core/stores/useAppStore";
+import { useAuthStore } from "@/core/stores/useAuthStore";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 import { NotificationBell } from "@/ui/notifications/NotificationBell";
@@ -9,13 +10,17 @@ import { UserAvatar } from "@/ui/user/UserAvatar";
 
 export function AppHeader() {
   const mode = useAppStore((state) => state.mode);
-  const logout = useAppStore((state) => state.logout);
+  const logoutApp = useAppStore((state) => state.logout);
+  const logoutAuth = useAuthStore((state) => state.logout);
 
   const router = useRouter();
 
   function handleLogout() {
-    logout();
-    router.push("/");
+    logoutApp();
+
+    logoutAuth();
+
+    router.replace("/");
   }
 
   const isCompras = mode === "COMPRAS";
@@ -232,9 +237,7 @@ export function AppHeader() {
           />
 
           {/* TEXTO */}
-          <span className="relative hidden sm:block">
-            Sair
-          </span>
+          <span className="relative hidden sm:block">Sair</span>
 
           {/* LINHA BASE INTERATIVA */}
           <div

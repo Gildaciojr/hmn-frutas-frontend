@@ -1353,7 +1353,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
       items-center
       gap-2
 
-      h-6
+      h-11
 
       px-3
 
@@ -1365,7 +1365,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
       from-emerald-50
       to-white
 
-      text-[10px]
+      text-[12px]
       font-semibold
 
       tracking-[0.04em]
@@ -1398,7 +1398,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                               {/* ICON */}
                                               <div
                                                 className="
-        w-8 h-8
+        w-7 h-7
 
         rounded-md
 
@@ -1408,7 +1408,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
 
         bg-emerald-200
 
-        text-[8px]
+        text-[9px]
 
         shrink-0
       "
@@ -1417,7 +1417,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                               </div>
 
                                               <span className="relative z-10">
-                                                Ver romaneio da venda
+                                                Abrir Romaneio
                                               </span>
                                             </button>
                                           </div>
