@@ -1590,7 +1590,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                       className="
       group/financeiro
 
-      w-10 h-10
+      w-12 h-12
 
       rounded-lg
 
@@ -1618,7 +1618,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
       transition-all duration-200
     "
                                     >
-                                      <span className="text-[10px] font-bold">
+                                      <span className="text-[9px] font-bold">
                                         Registrar Pagamento
                                       </span>
                                     </button>
