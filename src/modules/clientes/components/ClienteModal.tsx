@@ -1353,7 +1353,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
       items-center
       gap-2
 
-      h-7
+      h-6
 
       px-3
 
@@ -1365,7 +1365,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
       from-emerald-50
       to-white
 
-      text-[11px]
+      text-[10px]
       font-semibold
 
       tracking-[0.04em]
@@ -1408,7 +1408,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
 
         bg-emerald-200
 
-        text-[10px]
+        text-[8px]
 
         shrink-0
       "
