@@ -40,6 +40,7 @@ export function AppLayout({
 
           flex-1
 
+          overflow-x-hidden
           overflow-visible
         "
       >
@@ -78,7 +79,7 @@ export function AppLayout({
             absolute
 
             top-[8%]
-            right-[-180px]
+            right-[-80px]
 
             w-[280px]
             h-[280px]
