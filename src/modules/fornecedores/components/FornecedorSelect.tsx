@@ -116,12 +116,14 @@ export function FornecedorSelect({
       {/* DROPDOWN */}
       <div
         className="
+    relative
+
     mt-1
 
     w-full
     min-w-0
 
-    overflow-hidden
+    overflow-visible
 
     rounded-xl
     sm:rounded-2xl
@@ -271,6 +273,8 @@ export function FornecedorSelect({
                     className="
                         flex
                         flex-col
+
+                        min-w-0
                       "
                   >
                     <span
@@ -291,6 +295,8 @@ export function FornecedorSelect({
                             text-[11px]
 
                             text-[color:var(--muted)]
+
+                            truncate
                           "
                       >
                         {fornecedor.telefone}

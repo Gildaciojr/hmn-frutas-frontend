@@ -147,10 +147,12 @@ export function FazendaSelect({
     <div className="space-y-2 w-full min-w-0">
       <div
         className="
+    relative
+
     w-full
     min-w-0
 
-    overflow-hidden
+    overflow-visible
     
     rounded-xl
 
@@ -296,6 +298,8 @@ export function FazendaSelect({
               flex
               flex-col
               gap-1
+
+              min-w-0
             "
                   >
                     <span
@@ -303,6 +307,8 @@ export function FazendaSelect({
                       text-[14px]
                 sm:text-sm
                 font-medium
+
+                truncate
               "
                     >
                       {fazenda.nome}
@@ -313,6 +319,8 @@ export function FazendaSelect({
                 flex
                 items-center
                 gap-1
+
+                min-w-0
 
                 text-[11px]
 
