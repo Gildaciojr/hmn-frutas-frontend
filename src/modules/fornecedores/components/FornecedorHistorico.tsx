@@ -366,7 +366,7 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
         bg-white
       "
           >
-            <table className="min-w-[1800px] text-sm">
+            <table className="min-w-[1900px] text-sm">
               <thead
                 className="
             bg-slate-50
@@ -411,6 +411,8 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
                   <th className="px-4 py-3">Status Compra</th>
 
                   <th className="px-4 py-3">Status Financeiro</th>
+
+                  <th className="px-4 py-3 text-center">Ações</th>
                 </tr>
               </thead>
 
@@ -545,6 +547,47 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
                       </td>
                     </tr>
 
+                    <td className="px-4 py-4 text-center">
+                      {Number(item.valorPago) === 0 ? (
+                        <button
+                          type="button"
+                          className="
+        inline-flex
+        items-center
+        justify-center
+
+        px-3
+        py-2
+
+        rounded-xl
+
+        border
+        border-blue-200
+
+        bg-blue-50
+
+        text-blue-700
+        text-xs
+        font-semibold
+
+        hover:bg-blue-100
+        transition-all
+      "
+                        >
+                          Editar
+                        </button>
+                      ) : (
+                        <span
+                          className="
+        text-[11px]
+        text-slate-400
+      "
+                        >
+                          Bloqueado
+                        </span>
+                      )}
+                    </td>
+
                     {item.pagamentos.length > 0 && (
                       <tr
                         className="
@@ -554,7 +597,7 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
                     bg-slate-50/40
                   "
                       >
-                        <td colSpan={18} className="px-6 py-4">
+                        <td colSpan={19} className="px-6 py-4">
                           <div className="space-y-2">
                             <div
                               className="

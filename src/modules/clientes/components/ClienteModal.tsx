@@ -1699,11 +1699,15 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
 
                             endereco: data.cliente.endereco ?? undefined,
 
+                            bairro: data.cliente.bairro ?? undefined,
+
                             cep: data.cliente.cep ?? undefined,
 
                             cidade: data.cliente.cidade ?? undefined,
 
                             estado: data.cliente.estado ?? undefined,
+
+                            inscricaoEstadual: data.cliente.inscricaoEstadual ?? undefined,
 
                             observacoes: data.cliente.observacoes ?? undefined,
 

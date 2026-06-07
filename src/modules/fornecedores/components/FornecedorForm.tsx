@@ -26,6 +26,16 @@ interface Props {
 ////////////////////////////////////////////////////////////
 
 type FormData = CreateFornecedorPayload & {
+  nome: string;
+
+  sobrenome?: string;
+
+  telefone?: string;
+
+  estado?: string;
+
+  observacoes?: string;
+
   criarFazenda?: boolean;
 
   nomeFazenda?: string;
@@ -65,10 +75,6 @@ export function FornecedorForm({
 
       estado: "",
 
-      limiteFinanceiroValor: 0,
-
-      limiteFinanceiroDias: 0,
-
       observacoes: "",
 
       criarFazenda: false,
@@ -104,10 +110,6 @@ export function FornecedorForm({
       return;
     }
 
-    const limiteFinanceiroValor = fornecedor.limiteFinanceiroValor
-      ? Number(fornecedor.limiteFinanceiroValor)
-      : 0;
-
     reset({
       nome: fornecedor.nome,
 
@@ -116,10 +118,6 @@ export function FornecedorForm({
       telefone: fornecedor.telefone ?? "",
 
       estado: fornecedor.estado ?? "",
-
-      limiteFinanceiroValor,
-
-      limiteFinanceiroDias: fornecedor.limiteFinanceiroDias ?? 0,
 
       observacoes: fornecedor.observacoes ?? "",
     });
@@ -130,9 +128,6 @@ export function FornecedorForm({
   ////////////////////////////////////////////////////////////
 
   async function submit(data: FormData) {
-    const limiteFinanceiroValor = data.limiteFinanceiroValor ?? 0;
-
-    const limiteFinanceiroDias = data.limiteFinanceiroDias ?? 0;
 
     await onSubmit({
       nome: data.nome.trim(),
@@ -142,10 +137,6 @@ export function FornecedorForm({
       telefone: data.telefone?.trim() || undefined,
 
       estado: data.estado?.trim().toUpperCase() || undefined,
-
-      limiteFinanceiroValor,
-
-      limiteFinanceiroDias,
 
       observacoes: data.observacoes?.trim() || undefined,
 

@@ -88,7 +88,7 @@ export interface Compra {
   clienteTelefoneSnapshot?: string | null;
 
   clienteDocumentoSnapshot?: string | null;
-  
+
   clienteEnderecoSnapshot?: string | null;
 
   ////////////////////////////////////////////////////////////
@@ -271,6 +271,18 @@ async function createCompra(payload: CreateCompraPayload): Promise<Compra> {
   return response.data.data;
 }
 
+async function updateCompra(
+  id: string,
+  payload: CreateCompraPayload,
+): Promise<Compra> {
+  const response = await api.patch<ApiResponse<Compra>>(
+    `/compras/${id}`,
+    payload,
+  );
+
+  return response.data.data;
+}
+
 export function useCompras() {
   const queryClient = useQueryClient();
 
@@ -299,12 +311,39 @@ export function useCompras() {
     },
   });
 
+  const updateMutation = useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: string;
+      payload: CreateCompraPayload;
+    }) => updateCompra(id, payload),
+
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.refetchQueries({ queryKey: ["compras"] }),
+        queryClient.refetchQueries({ queryKey: ["compras-dashboard"] }),
+        queryClient.refetchQueries({ queryKey: ["admin-dashboard"] }),
+        queryClient.refetchQueries({ queryKey: ["financeiro-resumo"] }),
+        queryClient.refetchQueries({ queryKey: ["financeiro-fluxo"] }),
+        queryClient.refetchQueries({ queryKey: ["clientes"] }),
+        queryClient.refetchQueries({ queryKey: ["clientes-resumo"] }),
+        queryClient.refetchQueries({ queryKey: ["estoque-resumo"] }),
+      ]);
+    },
+  });
+
   return {
     compras: query.data ?? [],
     loading: query.isLoading,
     error: query.error,
     refetch: query.refetch,
+
     createCompra: mutation.mutateAsync,
     creating: mutation.isPending,
+
+    updateCompra: updateMutation.mutateAsync,
+    updating: updateMutation.isPending,
   };
 }

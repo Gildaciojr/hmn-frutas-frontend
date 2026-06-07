@@ -282,3 +282,19 @@ export async function createCompra(
 
   return response.data.data;
 }
+
+////////////////////////////////////////////////////////////
+// UPDATE COMPRA
+////////////////////////////////////////////////////////////
+
+export async function updateCompra(
+  id: string,
+  payload: CreateCompraPayload,
+): Promise<Compra> {
+  const response = await api.patch<ApiResponse<Compra>>(
+    `/compras/${id}`,
+    payload,
+  );
+
+  return response.data.data;
+}

@@ -21,6 +21,8 @@ import { FornecedorHistorico } from "@/modules/fornecedores/components/Fornecedo
 
 import type { SearchCompraParams } from "@/modules/compras-relatorios/services/compras-relatorios.service";
 
+import type { Compra } from "@/modules/compras/hooks/useCompras";
+
 import { useAuthStore } from "@/core/stores/useAuthStore";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -36,6 +38,8 @@ export default function Dashboard() {
   const [searchFilters, setSearchFilters] = useState<SearchCompraParams | null>(
     null,
   );
+
+  const [compraEditando, setCompraEditando] = useState<Compra | null>(null);
 
   const { compras, loading: relatorioLoading } = useComprasRelatorio(
     searchFilters ?? {},
@@ -511,7 +515,10 @@ export default function Dashboard() {
               <>
                 {searchFilters && <ComprasResumoCard compras={compras} />}
 
-                <ComprasRelatorioTable compras={compras} />
+                <ComprasRelatorioTable
+                  compras={compras}
+                  onEditar={setCompraEditando}
+                />
               </>
             )}
 

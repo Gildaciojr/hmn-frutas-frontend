@@ -66,7 +66,7 @@ export interface Fornecedor {
 
   _count?: {
     fazendas: number;
-  },
+  };
 
   createdAt: string;
 
@@ -266,11 +266,7 @@ export interface HistoricoOperacionalFornecedor {
   // STATUS
   ////////////////////////////////////////////////////////////
 
-  statusFinanceiro:
-    | "PENDENTE"
-    | "PARCIAL"
-    | "PAGO"
-    | "VENCIDO";
+  statusFinanceiro: "PENDENTE" | "PARCIAL" | "PAGO" | "VENCIDO";
 
   valorPago: number;
 
@@ -336,14 +332,20 @@ export interface CreateFornecedorPayload {
 
   estado?: string;
 
-  limiteFinanceiroValor?: number;
-
-  limiteFinanceiroDias?: number;
-
   observacoes?: string;
 }
 
-export type UpdateFornecedorPayload = CreateFornecedorPayload;
+export interface UpdateFornecedorPayload {
+  nome?: string;
+
+  sobrenome?: string;
+
+  telefone?: string;
+
+  estado?: string;
+
+  observacoes?: string;
+}
 
 ////////////////////////////////////////////////////////////
 // FAZENDA

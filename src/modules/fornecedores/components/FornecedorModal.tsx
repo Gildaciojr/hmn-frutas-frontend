@@ -80,56 +80,78 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
     return null;
   }
 
-  ////////////////////////////////////////////////////////////
-  // HANDLERS
-  ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+// HANDLERS
+////////////////////////////////////////////////////////////
 
-  function handleClose() {
-    setTab("dados");
+function handleClose() {
+  setTab("dados");
 
-    setEditingFornecedor(false);
+  setEditingFornecedor(false);
 
-    setCreatingFazenda(false);
+  setCreatingFazenda(false);
 
-    onClose();
+  onClose();
+}
+
+async function handleUpdateFornecedor(data: {
+  nome: string;
+
+  sobrenome?: string;
+
+  telefone?: string;
+
+  estado?: string;
+
+  observacoes?: string;
+}) {
+  if (!fornecedor?.id) {
+    return;
   }
 
-  async function handleUpdateFornecedor(
-    data: Parameters<typeof updateFornecedor>[0]["payload"],
-  ) {
-    if (!fornecedor) {
-      return;
-    }
-
+  try {
     await updateFornecedor({
       id: fornecedor.id,
-      payload: data,
+      payload: {
+        nome: data.nome,
+
+        sobrenome: data.sobrenome,
+
+        telefone: data.telefone,
+
+        estado: data.estado,
+
+        observacoes: data.observacoes,
+      },
     });
 
-    setEditingFornecedor(false);
-
     await resumoQuery.refetch();
+
+    setEditingFornecedor(false);
+  } catch (error) {
+    console.error("Erro ao atualizar fornecedor:", error);
   }
+}
 
-  async function handleCreateFazenda(_data: {
-    nome: string;
+async function handleCreateFazenda(_data: {
+  nome: string;
 
-    cidade?: string;
+  cidade?: string;
 
-    estado?: string;
+  estado?: string;
 
-    observacoes?: string;
-  }) {
-    /**
-     * Será ligado
-     * ao createFazenda
-     * no próximo passo.
-     */
+  observacoes?: string;
+}) {
+  /**
+   * Será ligado
+   * ao createFazenda
+   * no próximo passo.
+   */
 
-    setCreatingFazenda(false);
+  setCreatingFazenda(false);
 
-    await fazendasQuery.refetch();
-  }
+  await fazendasQuery.refetch();
+}
 
   ////////////////////////////////////////////////////////////
   // RENDER
