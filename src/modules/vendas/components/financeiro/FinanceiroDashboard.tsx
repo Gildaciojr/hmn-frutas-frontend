@@ -10,8 +10,9 @@ import { useFinanceiroModalStore } from "@/core/stores/useFinanceiroModalStore";
 import { AdminOperacoesResumo } from "../AdminOperacoesResumo";
 import { FinanceiroVendasTable } from "./FinanceiroVendasTable";
 import { FinanceiroComprasTable } from "./FinanceiroComprasTable";
+import { RelatorioProducao } from "./RelatorioProducao";
 
-type FinanceiroTab = "vendas" | "compras" | "fluxo";
+type FinanceiroTab = "vendas" | "compras" | "fluxo" | "producao";
 
 export function FinanceiroDashboard() {
   const [tab, setTab] = useState<FinanceiroTab>("vendas");
@@ -97,6 +98,7 @@ export function FinanceiroDashboard() {
                   { id: "vendas", label: "Vendas", icon: "🛒" },
                   { id: "compras", label: "Compras", icon: "🚚" },
                   { id: "fluxo", label: "Fluxo", icon: "↻" },
+                  { id: "producao", label: "Produção", icon: "📄" },
                 ] as {
                   id: FinanceiroTab;
                   label: string;
@@ -151,17 +153,22 @@ export function FinanceiroDashboard() {
                   {tab === "vendas" && "Vendas"}
                   {tab === "compras" && "Compras"}
                   {tab === "fluxo" && "Fluxo"}
+                  {tab === "producao" && "Relatório de Produção"}
                 </h3>
 
                 <p className="text-[12px] sm:text-[11px] text-[color:var(--muted)]">
                   {tab === "vendas" && "Histórico de vendas"}
                   {tab === "compras" && "Controle de compras"}
                   {tab === "fluxo" && "Movimentações financeiras"}
+                  {tab === "producao" && "Produção operacional por usuário"}
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
-                {(tab === "vendas" || tab === "compras" || tab === "fluxo") && (
+                {(tab === "vendas" ||
+                  tab === "compras" ||
+                  tab === "fluxo" ||
+                  tab === "producao") && (
                   <>
                     <button
                       className="
@@ -220,6 +227,16 @@ export function FinanceiroDashboard() {
                   animate={{ opacity: 1, y: 0 }}
                 >
                   <AdminOperacoesResumo />
+                </motion.div>
+              )}
+
+              {tab === "producao" && (
+                <motion.div
+                  key="producao"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <RelatorioProducao />
                 </motion.div>
               )}
             </div>

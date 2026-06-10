@@ -4,6 +4,7 @@ import { api } from "@/core/http/api";
 import { AlertTriangle, CreditCard, TrendingUp, Wallet } from "lucide-react";
 
 import { useFornecedorHistorico } from "../hooks/useFornecedores";
+import { CompraEditModal } from "@/modules/compras/components/CompraEditModal";
 
 import { Fragment, useState } from "react";
 
@@ -48,6 +49,12 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
   const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
 
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+
+  const [compraSelecionadaId, setCompraSelecionadaId] = useState<string | null>(
+    null,
+  );
+
+  const [editarCompraOpen, setEditarCompraOpen] = useState(false);
 
   ////////////////////////////////////////////////////////////
   // LOADING
@@ -521,37 +528,42 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
                       <td className="px-4 py-4">
                         <span
                           className={`
-                            inline-flex
+      inline-flex
 
-                            rounded-full
+      rounded-full
 
-                            px-2
-                            py-1
+      px-2
+      py-1
 
-                            text-[11px]
-                            font-medium
+      text-[11px]
+      font-medium
 
-                            ${
-                              item.statusFinanceiro === "PAGO"
-                                ? "bg-emerald-100 text-emerald-700"
-                                : item.statusFinanceiro === "PARCIAL"
-                                  ? "bg-amber-100 text-amber-700"
-                                  : item.statusFinanceiro === "VENCIDO"
-                                    ? "bg-red-100 text-red-700"
-                                    : "bg-blue-100 text-blue-700"
-                            }
-                          `}
+      ${
+        item.statusFinanceiro === "PAGO"
+          ? "bg-emerald-100 text-emerald-700"
+          : item.statusFinanceiro === "PARCIAL"
+            ? "bg-amber-100 text-amber-700"
+            : item.statusFinanceiro === "VENCIDO"
+              ? "bg-red-100 text-red-700"
+              : "bg-blue-100 text-blue-700"
+      }
+    `}
                         >
                           {item.statusFinanceiro}
                         </span>
                       </td>
-                    </tr>
 
-                    <td className="px-4 py-4 text-center">
-                      {Number(item.valorPago) === 0 ? (
-                        <button
-                          type="button"
-                          className="
+                      <td className="px-4 py-4 text-center">
+                        {Number(item.valorPago ?? 0) === 0 &&
+                        item.pagamentos.length === 0 &&
+                        item.statusCompra === "FECHADA" ? (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCompraSelecionadaId(item.compraId);
+                              setEditarCompraOpen(true);
+                            }}
+                            className="
         inline-flex
         items-center
         justify-center
@@ -571,22 +583,24 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
         font-semibold
 
         hover:bg-blue-100
+
         transition-all
       "
-                        >
-                          Editar
-                        </button>
-                      ) : (
-                        <span
-                          className="
+                          >
+                            Editar
+                          </button>
+                        ) : (
+                          <span
+                            className="
         text-[11px]
         text-slate-400
       "
-                        >
-                          Bloqueado
-                        </span>
-                      )}
-                    </td>
+                          >
+                            Bloqueado
+                          </span>
+                        )}
+                      </td>
+                    </tr>
 
                     {item.pagamentos.length > 0 && (
                       <tr
@@ -688,6 +702,15 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
           </div>
         )}
       </section>
+
+      <CompraEditModal
+        open={editarCompraOpen}
+        compraId={compraSelecionadaId}
+        onClose={() => {
+          setEditarCompraOpen(false);
+          setCompraSelecionadaId(null);
+        }}
+      />
     </div>
   );
 }

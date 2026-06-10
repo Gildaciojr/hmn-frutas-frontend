@@ -13,6 +13,8 @@ export type TipoDescontoCompra =
 
 export type StatusCompra = "ABERTA" | "FECHADA" | "CANCELADA";
 
+export type QualidadeFrutaCompra = "GRAUDA" | "MEDIA" | "MIUDA";
+
 ////////////////////////////////////////////////////////////
 // CLIENTE
 ////////////////////////////////////////////////////////////
@@ -62,7 +64,7 @@ export interface Compra {
   // CLIENTE
   //////////////////////////////////////////////////////////
 
-  clienteId: string;
+  clienteId?: string;
 
   cliente?: CompraCliente;
 
@@ -115,6 +117,22 @@ export interface Compra {
   modeloCaminhao: ModeloCaminhao;
 
   placa: string;
+
+  //////////////////////////////////////////////////////////
+  // CONTROLE INTERNO HMN
+  //////////////////////////////////////////////////////////
+
+  controleInterno?: boolean | null;
+
+  qualidadeFruta?: QualidadeFrutaCompra | null;
+
+  cargueiro?: string | null;
+
+  motoristaNome?: string | null;
+
+  motoristaTelefone?: string | null;
+
+  icmsOutros?: string | number | null;
 
   //////////////////////////////////////////////////////////
   // PESAGEM
@@ -190,7 +208,7 @@ export interface CreateCompraPayload {
   // CLIENTE
   //////////////////////////////////////////////////////////
 
-  clienteId: string;
+  clienteId?: string;
 
   //////////////////////////////////////////////////////////
   // IDENTIFICAÇÃO
@@ -209,6 +227,22 @@ export interface CreateCompraPayload {
   modeloCaminhao: ModeloCaminhao;
 
   placa: string;
+
+  //////////////////////////////////////////////////////////
+  // CONTROLE INTERNO HMN
+  //////////////////////////////////////////////////////////
+
+  controleInterno?: boolean;
+
+  qualidadeFruta?: QualidadeFrutaCompra;
+
+  cargueiro?: string;
+
+  motoristaNome?: string;
+
+  motoristaTelefone?: string;
+
+  icmsOutros?: number;
 
   //////////////////////////////////////////////////////////
   // PESAGEM

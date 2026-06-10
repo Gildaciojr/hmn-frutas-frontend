@@ -2,10 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { api } from "@/core/http/api";
 
-import type {
-  FazendaFornecedor,
-  Fornecedor,
-} from "@/modules/fornecedores/services/fornecedores.service";
+import type { FazendaFornecedor } from "@/modules/fornecedores/services/fornecedores.service";
 
 export type ModeloCaminhao = "TRUCK" | "BITRUCK" | "CARRETA";
 
@@ -15,6 +12,8 @@ export type TipoDescontoCompra =
   | "MANUAL_KG";
 
 export type StatusCompra = "ABERTA" | "FECHADA" | "CANCELADA";
+
+export type QualidadeFrutaCompra = "GRAUDA" | "MEDIA" | "MIUDA";
 
 ////////////////////////////////////////////////////////////
 // LEGADO
@@ -107,6 +106,22 @@ export interface Compra {
   numeroFolha?: string | null;
 
   ////////////////////////////////////////////////////////////
+  // CONTROLE INTERNO HMN
+  ////////////////////////////////////////////////////////////
+
+  controleInterno?: boolean | null;
+
+  qualidadeFruta?: QualidadeFrutaCompra | null;
+
+  cargueiro?: string | null;
+
+  motoristaNome?: string | null;
+
+  motoristaTelefone?: string | null;
+
+  icmsOutros?: string | number | null;
+
+  ////////////////////////////////////////////////////////////
   // PESAGEM
   ////////////////////////////////////////////////////////////
 
@@ -171,6 +186,14 @@ export interface Compra {
 
   observacoes?: string | null;
 
+  transacoes?: {
+    id: string;
+
+    valorPago?: string | number | null;
+
+    valorRestante?: string | number | null;
+  }[];
+
   ////////////////////////////////////////////////////////////
   // TIMESTAMPS
   ////////////////////////////////////////////////////////////
@@ -212,6 +235,22 @@ export interface CreateCompraPayload {
   placa: string;
 
   numeroFolha?: string;
+
+  ////////////////////////////////////////////////////////////
+  // CONTROLE INTERNO HMN
+  ////////////////////////////////////////////////////////////
+
+  controleInterno?: boolean;
+
+  qualidadeFruta?: QualidadeFrutaCompra;
+
+  cargueiro?: string;
+
+  motoristaNome?: string;
+
+  motoristaTelefone?: string;
+
+  icmsOutros?: number;
 
   ////////////////////////////////////////////////////////////
   // PESAGEM
@@ -265,6 +304,12 @@ async function getCompras(): Promise<Compra[]> {
   return response.data.data;
 }
 
+async function getCompra(id: string): Promise<Compra> {
+  const response = await api.get<ApiResponse<Compra>>(`/compras/${id}`);
+
+  return response.data.data;
+}
+
 async function createCompra(payload: CreateCompraPayload): Promise<Compra> {
   const response = await api.post<ApiResponse<Compra>>("/compras", payload);
 
@@ -273,7 +318,7 @@ async function createCompra(payload: CreateCompraPayload): Promise<Compra> {
 
 async function updateCompra(
   id: string,
-  payload: CreateCompraPayload,
+  payload: UpdateCompraPayload,
 ): Promise<Compra> {
   const response = await api.patch<ApiResponse<Compra>>(
     `/compras/${id}`,
@@ -281,6 +326,26 @@ async function updateCompra(
   );
 
   return response.data.data;
+}
+
+////////////////////////////////////////////////////////////
+// UPDATE PAYLOAD
+////////////////////////////////////////////////////////////
+
+export type UpdateCompraPayload = Partial<CreateCompraPayload>;
+
+export function useCompra(id?: string) {
+  return useQuery({
+    queryKey: ["compra", id],
+
+    queryFn: () => getCompra(id!),
+
+    enabled: !!id,
+
+    staleTime: 1000 * 10,
+
+    refetchOnWindowFocus: false,
+  });
 }
 
 export function useCompras() {
@@ -307,6 +372,21 @@ export function useCompras() {
         queryClient.refetchQueries({ queryKey: ["clientes"] }),
         queryClient.refetchQueries({ queryKey: ["clientes-resumo"] }),
         queryClient.refetchQueries({ queryKey: ["estoque-resumo"] }),
+        queryClient.refetchQueries({
+          queryKey: ["fornecedor-historico"],
+        }),
+
+        queryClient.refetchQueries({
+          queryKey: ["fornecedor-resumo"],
+        }),
+
+        queryClient.refetchQueries({
+          queryKey: ["fornecedor-financeiro"],
+        }),
+
+        queryClient.refetchQueries({
+          queryKey: ["compras-relatorio"],
+        }),
       ]);
     },
   });
@@ -317,7 +397,7 @@ export function useCompras() {
       payload,
     }: {
       id: string;
-      payload: CreateCompraPayload;
+      payload: UpdateCompraPayload;
     }) => updateCompra(id, payload),
 
     onSuccess: async () => {
@@ -330,6 +410,21 @@ export function useCompras() {
         queryClient.refetchQueries({ queryKey: ["clientes"] }),
         queryClient.refetchQueries({ queryKey: ["clientes-resumo"] }),
         queryClient.refetchQueries({ queryKey: ["estoque-resumo"] }),
+        queryClient.refetchQueries({
+          queryKey: ["fornecedor-historico"],
+        }),
+
+        queryClient.refetchQueries({
+          queryKey: ["fornecedor-resumo"],
+        }),
+
+        queryClient.refetchQueries({
+          queryKey: ["fornecedor-financeiro"],
+        }),
+
+        queryClient.refetchQueries({
+          queryKey: ["compras-relatorio"],
+        }),
       ]);
     },
   });

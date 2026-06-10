@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { api } from "@/core/http/api";
 
@@ -13,6 +13,36 @@ import { useClienteStore } from "@/modules/clientes/store/useClienteStore";
 import { useVendas } from "../hooks/useVendas";
 
 type ModeloCaminhaoVenda = "TRUCK" | "BITRUCK" | "CARRETA";
+
+type QualidadeCompra = "GRAUDA" | "MEDIA" | "MIUDA";
+
+interface CompraOrigemOption {
+  id: string;
+
+  numeroFolha?: string | null;
+
+  placa: string;
+
+  modeloCaminhao: ModeloCaminhaoVenda;
+
+  motoristaNome?: string | null;
+
+  motoristaTelefone?: string | null;
+
+  kgBruto: number;
+
+  descontoKgCalculado: number;
+
+  quantidadeFrutas: number;
+
+  mediaFruta: number;
+
+  qualidadeFruta?: QualidadeCompra | null;
+
+  status: "ABERTA" | "FECHADA" | "CANCELADA";
+
+  dataCompra: string;
+}
 
 export function NovaVendaCard() {
   ////////////////////////////////////////////////////////////
@@ -65,6 +95,20 @@ export function NovaVendaCard() {
 
   const [placa, setPlaca] = useState("");
 
+  const [compraOrigemId, setCompraOrigemId] = useState<string | null>(null);
+
+  const [compraOrigemNumeroFolha, setCompraOrigemNumeroFolha] = useState<
+    string | null
+  >(null);
+
+  const [comprasOrigemOptions, setComprasOrigemOptions] = useState<
+    CompraOrigemOption[]
+  >([]);
+
+  const [buscandoComprasOrigem, setBuscandoComprasOrigem] = useState(false);
+
+  const [erroBuscaOrigem, setErroBuscaOrigem] = useState<string | null>(null);
+
   const [modeloCaminhao, setModeloCaminhao] = useState<
     ModeloCaminhaoVenda | ""
   >("");
@@ -108,6 +152,8 @@ export function NovaVendaCard() {
   const [error, setError] = useState<string | null>(null);
 
   const [success, setSuccess] = useState(false);
+
+  const buscaOrigemRequestRef = useRef(0);
 
   ////////////////////////////////////////////////////////////
   // HELPERS
@@ -216,6 +262,112 @@ export function NovaVendaCard() {
       },
     );
   }
+  function normalizarPlaca(value: string): string {
+    return value
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, "")
+      .slice(0, 7);
+  }
+
+  function formatDataCompra(value: string): string {
+    const data = new Date(value);
+
+    if (Number.isNaN(data.getTime())) {
+      return "-";
+    }
+
+    return data.toLocaleDateString("pt-BR");
+  }
+
+  function limparCompraOrigem() {
+    setCompraOrigemId(null);
+    setCompraOrigemNumeroFolha(null);
+    setErroBuscaOrigem(null);
+  }
+
+  async function buscarComprasOrigem(placaBusca: string) {
+    const placaNormalizada = normalizarPlaca(placaBusca);
+
+    buscaOrigemRequestRef.current += 1;
+
+    const requestId = buscaOrigemRequestRef.current;
+
+    if (placaNormalizada.length < 3) {
+      setComprasOrigemOptions([]);
+      setBuscandoComprasOrigem(false);
+      setErroBuscaOrigem(null);
+
+      return;
+    }
+
+    setBuscandoComprasOrigem(true);
+    setErroBuscaOrigem(null);
+
+    try {
+      const response = await api.get<CompraOrigemOption[]>("/compras/origem", {
+        params: {
+          placa: placaNormalizada,
+        },
+      });
+
+      if (requestId !== buscaOrigemRequestRef.current) {
+        return;
+      }
+
+      setComprasOrigemOptions(response.data);
+    } catch {
+      if (requestId !== buscaOrigemRequestRef.current) {
+        return;
+      }
+
+      setComprasOrigemOptions([]);
+      setErroBuscaOrigem("Não foi possível buscar compras para esta placa.");
+    } finally {
+      if (requestId === buscaOrigemRequestRef.current) {
+        setBuscandoComprasOrigem(false);
+      }
+    }
+  }
+
+  function selecionarCompraOrigem(compra: CompraOrigemOption) {
+    setCompraOrigemId(compra.id);
+
+    setCompraOrigemNumeroFolha(compra.numeroFolha ?? null);
+
+    setPlaca(normalizarPlaca(compra.placa));
+
+    setModeloCaminhao(compra.modeloCaminhao);
+
+    setMotoristaNome(compra.motoristaNome ?? "");
+
+    setMotoristaTelefone(formatPhone(compra.motoristaTelefone ?? ""));
+
+    setPesoBruto(String(Math.trunc(compra.kgBruto)));
+
+    setPesoDesconto(String(Math.trunc(compra.descontoKgCalculado)));
+
+    setQuantidadeFrutas(String(Math.trunc(compra.quantidadeFrutas)));
+
+    setErroBuscaOrigem(null);
+
+    setComprasOrigemOptions([]);
+  }
+
+  useEffect(() => {
+    const placaNormalizada = normalizarPlaca(placa);
+
+    if (compraOrigemId) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      void buscarComprasOrigem(placaNormalizada);
+    }, 300);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [placa, compraOrigemId]);
 
   ////////////////////////////////////////////////////////////
   // PARSED
@@ -382,6 +534,8 @@ export function NovaVendaCard() {
 
         clienteId: cliente.id,
 
+        compraOrigemId: compraOrigemId ?? undefined,
+
         //////////////////////////////////////////////////////
         // IDENTIFICAÇÃO
         //////////////////////////////////////////////////////
@@ -502,6 +656,16 @@ export function NovaVendaCard() {
       setObservacoes("");
 
       setStatusPagamento("PENDENTE");
+
+      setCompraOrigemId(null);
+
+      setCompraOrigemNumeroFolha(null);
+
+      setComprasOrigemOptions([]);
+
+      setErroBuscaOrigem(null);
+
+      buscaOrigemRequestRef.current += 1;
 
       ////////////////////////////////////////////////////////
       // SUCCESS
@@ -2040,7 +2204,7 @@ export function NovaVendaCard() {
                 className="
                   group
                   relative
-                  overflow-hidden
+                  overflow-visible
 
                   h-[36px]
 
@@ -2098,14 +2262,15 @@ export function NovaVendaCard() {
                 <input
                   type="text"
                   value={placa}
-                  onChange={(e) =>
-                    setPlaca(
-                      e.target.value
-                        .toUpperCase()
-                        .replace(/[^A-Z0-9]/g, "")
-                        .slice(0, 7),
-                    )
-                  }
+                  onChange={(e) => {
+                    const placaNormalizada = normalizarPlaca(e.target.value);
+                    setPlaca(placaNormalizada);
+
+                    limparCompraOrigem();
+                    if (placaNormalizada.length < 3) {
+                      setComprasOrigemOptions([]);
+                    }
+                  }}
                   className="
                     relative
                     z-10
@@ -2131,6 +2296,96 @@ export function NovaVendaCard() {
                     outline-none
                   "
                 />
+                {(buscandoComprasOrigem ||
+                  erroBuscaOrigem ||
+                  compraOrigemNumeroFolha ||
+                  comprasOrigemOptions.length > 0) && (
+                  <div
+                    className="
+                      absolute
+                      left-0
+                      right-0
+
+                      top-[42px]
+
+                      z-[120]
+
+                      overflow-hidden
+
+                      rounded-[14px]
+
+                      border
+                      border-slate-200
+
+                      bg-white
+
+                      shadow-[0_18px_40px_rgba(15,23,42,0.14)]
+                    "
+                  >
+                    {buscandoComprasOrigem && (
+                      <div className="px-3 py-2 text-[11px] text-slate-500">
+                        Buscando compras...
+                      </div>
+                    )}
+
+                    {erroBuscaOrigem && !buscandoComprasOrigem && (
+                      <div className="px-3 py-2 text-[11px] text-red-600">
+                        {erroBuscaOrigem}
+                      </div>
+                    )}
+
+                    {compraOrigemNumeroFolha && (
+                      <div className="px-3 py-2 text-[11px] font-semibold text-emerald-700">
+                        Compra vinculada • Folha {compraOrigemNumeroFolha}
+                      </div>
+                    )}
+
+                    {!buscandoComprasOrigem &&
+                      comprasOrigemOptions.map((compra) => (
+                        <button
+                          key={compra.id}
+                          type="button"
+                          onClick={() => selecionarCompraOrigem(compra)}
+                          className="
+                            w-full
+                            border-t
+                            border-slate-100
+                            px-3
+                            py-2
+                            text-left
+                            hover:bg-emerald-50
+                            transition-colors
+                          "
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-[11px] font-semibold text-slate-800">
+                              Folha {compra.numeroFolha ?? "-"}
+                            </span>
+
+                            <span className="text-[10px] text-emerald-600">
+                              {compra.placa}
+                            </span>
+                          </div>
+
+                          <div className="mt-1 text-[10px] text-slate-500">
+                            {formatDataCompra(compra.dataCompra)}
+                            {" • "}
+                            {formatNumberBR(
+                              String(Math.trunc(compra.kgBruto)),
+                            )}{" "}
+                            kg
+                            {" • "}
+                            {formatNumberBR(
+                              String(Math.trunc(compra.quantidadeFrutas)),
+                            )}{" "}
+                            frutas
+                            {" • "}
+                            {compra.qualidadeFruta ?? "-"}
+                          </div>
+                        </button>
+                      ))}
+                  </div>
+                )}
               </div>
             </div>
 

@@ -82,6 +82,32 @@ export function NovaCompraCard() {
   const numeroFolha = "Gerado automaticamente";
 
   ////////////////////////////////////////////////////////////
+  // CONTROLE INTERNO HMN
+  ////////////////////////////////////////////////////////////
+
+  const [controleInterno, setControleInterno] = useState<boolean>(false);
+
+  const [qualidadeFruta, setQualidadeFruta] = useState<
+    "GRAUDA" | "MEDIA" | "MIUDA" | ""
+  >("");
+
+  ////////////////////////////////////////////////////////////
+  // LOGÍSTICA
+  ////////////////////////////////////////////////////////////
+
+  const [cargueiro, setCargueiro] = useState<string>("");
+
+  const [motoristaNome, setMotoristaNome] = useState<string>("");
+
+  const [motoristaTelefone, setMotoristaTelefone] = useState<string>("");
+
+  ////////////////////////////////////////////////////////////
+  // FINANCEIRO
+  ////////////////////////////////////////////////////////////
+
+  const [icmsOutros, setIcmsOutros] = useState<string>("");
+
+  ////////////////////////////////////////////////////////////
   // CAMINHÃO
   ////////////////////////////////////////////////////////////
 
@@ -208,6 +234,8 @@ export function NovaCompraCard() {
 
       despesas: Number(despesas.replace(/\D/g, "")) / 100,
 
+      icmsOutros: Number(icmsOutros.replace(/\D/g, "")) / 100,
+
       descontoPercentualAplicado: toNumber(descontoPercentualAplicado),
 
       descontoKgManual: toNumber(descontoKgManual),
@@ -219,6 +247,7 @@ export function NovaCompraCard() {
     quantidadeFrutas,
     precoKg,
     despesas,
+    icmsOutros,
     descontoPercentualAplicado,
     descontoKgManual,
     caminhoes,
@@ -363,18 +392,17 @@ export function NovaCompraCard() {
   ////////////////////////////////////////////////////////////
 
   const valorFinalEfetivo = useMemo(() => {
-//////////////////////////////////////////////////////////
-// MANUAL
-//////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////
+    // MANUAL
+    //////////////////////////////////////////////////////////
 
-if (editarValorFinal) {
-  const parsedManual =
-    Number(valorTotalManual.replace(/\D/g, "")) / 100;
+    if (editarValorFinal) {
+      const parsedManual = Number(valorTotalManual.replace(/\D/g, "")) / 100;
 
-  if (!Number.isNaN(parsedManual) && parsedManual > 0) {
-    return parsedManual;
-  }
-}
+      if (!Number.isNaN(parsedManual) && parsedManual > 0) {
+        return parsedManual;
+      }
+    }
 
     //////////////////////////////////////////////////////////
     // AUTOMÁTICO
@@ -443,6 +471,10 @@ if (editarValorFinal) {
 
         dataCompra,
 
+        controleInterno,
+
+        qualidadeFruta: qualidadeFruta || undefined,
+
         // numeroFolha removido.
         // Backend gera automaticamente.
 
@@ -453,6 +485,12 @@ if (editarValorFinal) {
         modeloCaminhao,
 
         placa,
+
+        cargueiro: cargueiro || undefined,
+
+        motoristaNome: motoristaNome || undefined,
+
+        motoristaTelefone: motoristaTelefone || undefined,
 
         //////////////////////////////////////////////////////
         // PESAGEM
@@ -484,6 +522,8 @@ if (editarValorFinal) {
 
         despesas: parsed.despesas,
 
+        icmsOutros: parsed.icmsOutros > 0 ? parsed.icmsOutros : undefined,
+
         valorTotal: editarValorFinal ? valorFinalEfetivo : undefined,
 
         //////////////////////////////////////////////////////
@@ -509,9 +549,19 @@ if (editarValorFinal) {
 
       setSafra("");
 
+      setControleInterno(false);
+
+      setQualidadeFruta("");
+
       setModeloCaminhao("TRUCK");
 
       setPlaca("");
+
+      setCargueiro("");
+
+      setMotoristaNome("");
+
+      setMotoristaTelefone("");
 
       setKgBruto("");
 
@@ -526,6 +576,8 @@ if (editarValorFinal) {
       setPrecoKg("");
 
       setDespesas("");
+
+      setIcmsOutros("");
 
       setEditarValorFinal(false);
 
@@ -572,22 +624,72 @@ if (editarValorFinal) {
       console.log("PAYLOAD ENVIADO:", {
         fornecedorId: fornecedor.id,
         fazendaFornecedorId: fazenda.id,
+
+        //////////////////////////////////////////////////////
+        // IDENTIFICAÇÃO
+        //////////////////////////////////////////////////////
+
         safra: safra || undefined,
         dataCompra,
+
+        controleInterno,
+
+        qualidadeFruta: qualidadeFruta || undefined,
+
+        //////////////////////////////////////////////////////
+        // TRANSPORTE
+        //////////////////////////////////////////////////////
+
         modeloCaminhao,
         placa,
+
+        cargueiro: cargueiro || undefined,
+
+        motoristaNome: motoristaNome || undefined,
+
+        motoristaTelefone: motoristaTelefone || undefined,
+
+        //////////////////////////////////////////////////////
+        // PESAGEM
+        //////////////////////////////////////////////////////
+
         kgBruto: parsed.kgBruto,
         quantidadeFrutas: parsed.quantidadeFrutas,
+
+        //////////////////////////////////////////////////////
+        // DESCONTO
+        //////////////////////////////////////////////////////
+
         tipoDesconto,
+
         descontoPercentualAplicado:
           tipoDesconto === "PERCENTUAL"
             ? parsed.descontoPercentualAplicado
             : undefined,
+
         descontoKgManual:
           tipoDesconto === "MANUAL_KG" ? parsed.descontoKgManual : undefined,
+
+        //////////////////////////////////////////////////////
+        // FINANCEIRO
+        //////////////////////////////////////////////////////
+
         precoKg: parsed.precoKg,
+
         despesas: parsed.despesas,
+
+        icmsOutros: parsed.icmsOutros > 0 ? parsed.icmsOutros : undefined,
+
+        //////////////////////////////////////////////////////
+        // LEGADO
+        //////////////////////////////////////////////////////
+
         caminhoes: parsed.caminhoes,
+
+        //////////////////////////////////////////////////////
+        // OBS
+        //////////////////////////////////////////////////////
+
         observacoes,
       });
     }
@@ -597,14 +699,28 @@ if (editarValorFinal) {
     selecionarFornecedor,
     selecionarFazenda,
     isValid,
+
     safra,
     dataCompra,
+
+    controleInterno,
+    qualidadeFruta,
+
     modeloCaminhao,
     placa,
+
+    cargueiro,
+    motoristaNome,
+    motoristaTelefone,
+
     tipoDesconto,
+    icmsOutros,
+
     observacoes,
+
     parsed,
     valorFinalEfetivo,
+
     createCompra,
     handleClose,
   ]);
@@ -1460,7 +1576,7 @@ if (editarValorFinal) {
 
     grid-cols-1
 
-    md:grid-cols-[150px_220px_190px]
+    md:grid-cols-5
 
     gap-4
   "
@@ -1490,6 +1606,98 @@ if (editarValorFinal) {
                             value="Gerado automaticamente"
                             disabled
                           />
+
+                          <div
+                            className="
+    flex items-center
+
+    rounded-[14px]
+
+    border border-[color:var(--border-soft)]
+
+    bg-white
+
+    px-4
+  "
+                          >
+                            <label
+                              className="
+      flex items-center gap-3
+
+      text-[13px]
+      font-medium
+
+      text-[color:var(--foreground)]
+    "
+                            >
+                              <input
+                                type="checkbox"
+                                checked={controleInterno}
+                                onChange={(e) =>
+                                  setControleInterno(e.target.checked)
+                                }
+                                className="
+        h-4
+        w-4
+      "
+                              />
+                              Controle interno
+                            </label>
+                          </div>
+
+                          <div className="relative">
+                            <label
+                              className="
+        absolute left-3 top-[8px]
+
+        text-[10px]
+        tracking-[0.16em]
+        uppercase
+
+        text-[color:var(--muted-soft)]
+
+        pointer-events-none
+      "
+                            >
+                              Qualidade da fruta
+                            </label>
+
+                            <select
+                              value={qualidadeFruta}
+                              onChange={(e) =>
+                                setQualidadeFruta(
+                                  e.target.value as
+                                    | "GRAUDA"
+                                    | "MEDIA"
+                                    | "MIUDA"
+                                    | "",
+                                )
+                              }
+                              className="
+        w-full
+
+        h-[52px]
+
+        rounded-[14px]
+
+        border border-[color:var(--border-soft)]
+
+        bg-white
+
+        px-3
+        pt-4
+
+        text-[13px]
+
+        outline-none
+      "
+                            >
+                              <option value="">Selecionar</option>
+                              <option value="GRAUDA">Graúda</option>
+                              <option value="MEDIA">Média</option>
+                              <option value="MIUDA">Miúda</option>
+                            </select>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1547,7 +1755,7 @@ if (editarValorFinal) {
 
     grid-cols-1
 
-    md:grid-cols-[240px_180px]
+    md:grid-cols-5
 
     gap-3
   "
@@ -1556,42 +1764,42 @@ if (editarValorFinal) {
                           <div className="relative group">
                             <div
                               className="
-                                relative
+      relative
 
-                                rounded-[14px]
+      rounded-[14px]
 
-                                border border-[color:var(--border-soft)]
+      border border-[color:var(--border-soft)]
 
-                                bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+      bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-                                transition-all duration-200
+      transition-all duration-200
 
-                                hover:border-[color:var(--border-strong)]
+      hover:border-[color:var(--border-strong)]
 
-                                focus-within:border-[color:var(--brand)]
-                                focus-within:shadow-[0_0_0_2px_var(--brand-soft)]
-                              "
+      focus-within:border-[color:var(--brand)]
+      focus-within:shadow-[0_0_0_2px_var(--brand-soft)]
+    "
                             >
                               <div
                                 className="
-                                  absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none
+        absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none
 
-                                  bg-[radial-gradient(circle_at_80%_20%,rgba(0,0,0,0.035),transparent_60%)]
-                                "
+        bg-[radial-gradient(circle_at_80%_20%,rgba(0,0,0,0.035),transparent_60%)]
+      "
                               />
 
                               <label
                                 className="
-                                  absolute left-3 top-[8px]
+        absolute left-3 top-[8px]
 
-                                  text-[10px]
-                                  tracking-[0.16em]
-                                  uppercase
+        text-[10px]
+        tracking-[0.16em]
+        uppercase
 
-                                  text-[color:var(--muted-soft)]
+        text-[color:var(--muted-soft)]
 
-                                  pointer-events-none
-                                "
+        pointer-events-none
+      "
                               >
                                 Modelo do caminhão
                               </label>
@@ -1604,24 +1812,24 @@ if (editarValorFinal) {
                                   )
                                 }
                                 className="
-                                  relative z-10
+        relative z-10
 
-                                  w-full h-[44px]
+        w-full h-[44px]
 
-                                  px-3 pt-4
+        px-3 pt-4
 
-                                  rounded-[14px]
+        rounded-[14px]
 
-                                  bg-transparent
+        bg-transparent
 
-                                  text-[13px]
-                                  font-semibold
-                                  text-[color:var(--foreground)]
+        text-[13px]
+        font-semibold
+        text-[color:var(--foreground)]
 
-                                  outline-none
+        outline-none
 
-                                  appearance-none
-                                "
+        appearance-none
+      "
                               >
                                 <option value="TRUCK">Truck</option>
 
@@ -1632,13 +1840,13 @@ if (editarValorFinal) {
 
                               <div
                                 className="
-                                  absolute right-4 top-1/2 -translate-y-1/2
+        absolute right-4 top-1/2 -translate-y-1/2
 
-                                  text-[10px]
-                                  text-[color:var(--muted)]
+        text-[10px]
+        text-[color:var(--muted)]
 
-                                  pointer-events-none
-                                "
+        pointer-events-none
+      "
                               >
                                 ▾
                               </div>
@@ -1650,6 +1858,27 @@ if (editarValorFinal) {
                             label="Placa"
                             value={placa}
                             onChange={(value) => setPlaca(value.toUpperCase())}
+                          />
+
+                          {/* CARGUEIRO */}
+                          <Input
+                            label="Cargueiro"
+                            value={cargueiro}
+                            onChange={setCargueiro}
+                          />
+
+                          {/* MOTORISTA */}
+                          <Input
+                            label="Motorista"
+                            value={motoristaNome}
+                            onChange={setMotoristaNome}
+                          />
+
+                          {/* TELEFONE */}
+                          <Input
+                            label="Telefone motorista"
+                            value={motoristaTelefone}
+                            onChange={setMotoristaTelefone}
                           />
                         </div>
                       </div>
@@ -1995,6 +2224,12 @@ if (editarValorFinal) {
                             label="Despesas"
                             value={despesas}
                             onChange={setDespesas}
+                          />
+
+                          <Input
+                            label="ICMS / Outros"
+                            value={icmsOutros}
+                            onChange={setIcmsOutros}
                           />
                         </div>
                       </div>
@@ -2771,7 +3006,8 @@ function Input({
     normalizedLabel.includes("valor") ||
     normalizedLabel.includes("r$") ||
     normalizedLabel.includes("preço") ||
-    normalizedLabel.includes("despesa");
+    normalizedLabel.includes("despesa") ||
+    normalizedLabel.includes("icms");
 
   ////////////////////////////////////////////////////////////
   // DECIMAL
