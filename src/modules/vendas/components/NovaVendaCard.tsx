@@ -43,6 +43,10 @@ interface CompraOrigemOption {
 
   dataCompra: string;
 }
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+}
 
 export function NovaVendaCard() {
   ////////////////////////////////////////////////////////////
@@ -304,17 +308,20 @@ export function NovaVendaCard() {
     setErroBuscaOrigem(null);
 
     try {
-      const response = await api.get<CompraOrigemOption[]>("/compras/origem", {
-        params: {
-          placa: placaNormalizada,
+      const response = await api.get<ApiResponse<CompraOrigemOption[]>>(
+        "/compras/origem",
+        {
+          params: {
+            placa: placaNormalizada,
+          },
         },
-      });
+      );
 
       if (requestId !== buscaOrigemRequestRef.current) {
         return;
       }
 
-      setComprasOrigemOptions(response.data);
+      setComprasOrigemOptions(response.data.data);
     } catch {
       if (requestId !== buscaOrigemRequestRef.current) {
         return;
