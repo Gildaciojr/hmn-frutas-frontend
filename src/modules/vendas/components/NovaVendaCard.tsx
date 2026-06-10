@@ -2313,11 +2313,15 @@ export function NovaVendaCard() {
                       left-0
                       right-0
 
-                      top-[42px]
+                      top-full
 
-                      z-[120]
+                      mt-2
 
-                      overflow-hidden
+                      z-[999]
+
+                      max-h-[260px]
+
+                      overflow-y-auto
 
                       rounded-[14px]
 
@@ -2330,13 +2334,13 @@ export function NovaVendaCard() {
                     "
                   >
                     {buscandoComprasOrigem && (
-                      <div className="px-3 py-2 text-[11px] text-slate-500">
+                      <div className="px-3 py-2 text-[12px] text-slate-500">
                         Buscando compras...
                       </div>
                     )}
 
                     {erroBuscaOrigem && !buscandoComprasOrigem && (
-                      <div className="px-3 py-2 text-[11px] text-red-600">
+                      <div className="px-3 py-2 text-[12px] text-red-600">
                         {erroBuscaOrigem}
                       </div>
                     )}
@@ -2365,11 +2369,11 @@ export function NovaVendaCard() {
                           "
                         >
                           <div className="flex items-center justify-between gap-2">
-                            <span className="text-[11px] font-semibold text-slate-800">
+                            <span className="text-[12px] font-semibold text-slate-800">
                               Folha {compra.numeroFolha ?? "-"}
                             </span>
 
-                            <span className="text-[10px] text-emerald-600">
+                            <span className="text-[11px] text-emerald-600">
                               {compra.placa}
                             </span>
                           </div>
