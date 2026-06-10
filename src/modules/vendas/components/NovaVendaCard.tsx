@@ -5301,263 +5301,75 @@ export function NovaVendaCard() {
           {success && (
             <div
               className="
-                    group
-                    relative
-                    overflow-hidden
-
-                    rounded-[18px]
-                    sm:rounded-[24px]
-
-                    border
-                    border-emerald-300/16
-
-                    bg-[linear-gradient(135deg,rgba(16,185,129,0.14),rgba(255,255,255,0.74))]
-
-                    backdrop-blur-sm
-
-                    px-4
-                    py-5
-
-                    sm:px-4
-                    sm:py-4
-
-                    shadow-[0_18px_50px_rgba(16,185,129,0.12)]
-
-                    transition-all
-                    duration-500
-
-                    hover:border-emerald-300/26
-                    hover:shadow-[0_26px_70px_rgba(16,185,129,0.18)]
-                  "
+      flex
+      justify-center
+      xl:justify-center
+    "
             >
-              {/* ================================================= */}
-              {/* FX */}
-              {/* ================================================= */}
-
-              <div className="absolute inset-0 pointer-events-none">
-                {/* GLOW */}
-                <div
-                  className="
-                        absolute
-                        inset-0
-
-                        opacity-40
-
-                        transition-all
-                        duration-700
-
-                        bg-[radial-gradient(circle_at_82%_18%,rgba(16,185,129,0.18),transparent_58%)]
-                      "
-                />
-
-                {/* GRID */}
-                <div
-                  className="
-                        absolute
-                        inset-0
-
-                        opacity-[0.025]
-
-                        bg-[radial-gradient(circle,rgba(16,185,129,0.65)_1px,transparent_1px)]
-                        bg-[size:18px_18px]
-                      "
-                />
-
-                {/* LIGHT */}
-                <div
-                  className="
-                        absolute
-                        inset-0
-
-                        bg-[linear-gradient(180deg,rgba(255,255,255,0.10),transparent_35%)]
-                      "
-                />
-
-                {/* TOP LINE */}
-                <div
-                  className="
-                        absolute
-                        inset-x-0
-                        top-0
-                        h-[1px]
-
-                        bg-gradient-to-r
-                        from-transparent
-                        via-emerald-300/60
-                        to-transparent
-                      "
-                />
-              </div>
-
-              {/* ================================================= */}
-              {/* CONTENT */}
-              {/* ================================================= */}
-
               <div
                 className="
-                      relative
-                      z-10
+        inline-flex
+        items-center
+        gap-2
 
-                      flex
-                      flex-col
+        min-h-[40px]
 
-                      sm:flex-row
-                      items-start
+        px-4
 
-                      gap-3
-                    "
+        rounded-full
+
+        border
+        border-emerald-200/80
+
+        bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.86))]
+
+        backdrop-blur-xl
+
+        shadow-[0_10px_30px_rgba(16,185,129,0.08)]
+
+        animate-in
+        fade-in
+        duration-300
+      "
               >
-                {/* ============================================= */}
-                {/* STATUS ICON */}
-                {/* ============================================= */}
-
                 <div
                   className="
-                        relative
+          flex
+          items-center
+          justify-center
 
-                        flex
-                        items-center
-                        justify-center
+          w-6
+          h-6
 
-                        shrink-0
+          rounded-full
 
-                        w-10
-                        h-10
-
-                        rounded-full
-
-                        border
-                        border-emerald-300/18
-
-                        bg-emerald-500/12
-                      "
+          bg-emerald-500
+        "
                 >
-                  {/* GLOW */}
-                  <div
-                    className="
-                          absolute
-                          inset-0
-
-                          rounded-full
-
-                          bg-emerald-500/18
-
-                          blur-md
-                        "
-                  />
-
-                  {/* DOT */}
-                  <div className="relative z-10">
-                    <div
-                      className="
-                            w-[8px]
-                            h-[8px]
-
-                            rounded-full
-
-                            bg-emerald-500
-                          "
+                  <svg
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="w-3 h-3 text-white"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M16.704 5.29a1 1 0 010 1.42l-7.2 7.2a1 1 0 01-1.414 0L3.296 9.116a1 1 0 111.414-1.414l4.087 4.086 6.493-6.497a1 1 0 011.414 0z"
                     />
-
-                    <div
-                      className="
-                            absolute
-                            inset-0
-
-                            rounded-full
-
-                            bg-emerald-500
-
-                            animate-ping
-
-                            opacity-40
-                          "
-                    />
-                  </div>
+                  </svg>
                 </div>
 
-                {/* ============================================= */}
-                {/* TEXT */}
-                {/* ============================================= */}
+                <span
+                  className="
+          text-[12px]
+          font-medium
+          tracking-[0.01em]
 
-                <div className="min-w-0 flex-1">
-                  {/* TOP */}
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span
-                      className="
-                            text-[9px]
-
-                            uppercase
-
-                            tracking-[0.18em]
-
-                            text-emerald-600/80
-                          "
-                    >
-                      Operação concluída
-                    </span>
-
-                    <div
-                      className="
-                            w-[4px]
-                            h-[4px]
-
-                            rounded-full
-
-                            bg-emerald-500
-                          "
-                    />
-
-                    <span
-                      className="
-                            text-[9px]
-
-                            uppercase
-
-                            tracking-[0.14em]
-
-                            text-emerald-700/70
-                          "
-                    >
-                      sincronizado
-                    </span>
-                  </div>
-
-                  {/* TITLE */}
-                  <p
-                    className="
-                          mt-2
-
-                          text-[14px]
-                          md:text-[16px]
-
-                          leading-snug
-
-                          font-semibold
-
-                          tracking-[-0.02em]
-
-                          text-emerald-700
-                        "
-                  >
-                    Venda operacional registrada com sucesso
-                  </p>
-
-                  {/* DESCRIPTION */}
-                  <p
-                    className="
-                          mt-1.5
-
-                          text-[12px]
-                          leading-relaxed
-
-                          text-emerald-700/80
-                        "
-                  >
-                    Estoque bruto atualizado, financeiro sincronizado e operação
-                    vinculada ao histórico operacional do sistema.
-                  </p>
-                </div>
+          text-emerald-700
+        "
+                >
+                  Venda Finalizada
+                </span>
               </div>
             </div>
           )}
