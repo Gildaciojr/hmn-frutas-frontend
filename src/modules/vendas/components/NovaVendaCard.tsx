@@ -2305,7 +2305,6 @@ export function NovaVendaCard() {
                 />
                 {(buscandoComprasOrigem ||
                   erroBuscaOrigem ||
-                  compraOrigemNumeroFolha ||
                   comprasOrigemOptions.length > 0) && (
                   <div
                     className="
@@ -2342,12 +2341,6 @@ export function NovaVendaCard() {
                     {erroBuscaOrigem && !buscandoComprasOrigem && (
                       <div className="px-3 py-2 text-[12px] text-red-600">
                         {erroBuscaOrigem}
-                      </div>
-                    )}
-
-                    {compraOrigemNumeroFolha && (
-                      <div className="px-3 py-2 text-[11px] font-semibold text-emerald-700">
-                        Compra vinculada • Folha {compraOrigemNumeroFolha}
                       </div>
                     )}
 
@@ -2398,6 +2391,43 @@ export function NovaVendaCard() {
                   </div>
                 )}
               </div>
+              {compraOrigemNumeroFolha && (
+                <div
+                  className="
+      mt-2
+      flex
+
+      items-center
+
+      gap-2
+
+      min-h-[34px]
+
+      rounded-[12px]
+
+      border
+      border-emerald-200/80
+      bg-emerald-50
+
+      bg-linear-to-r
+      from-emerald-50
+      to-white
+
+      px-3
+
+      py-2
+      text-[11px]
+      font-semibold
+      text-emerald-700
+    "
+                >
+                  <span>✓</span>
+
+                  <span>
+                    Compra vinculada • Folha {compraOrigemNumeroFolha}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* MODELO CAMINHÃO */}
