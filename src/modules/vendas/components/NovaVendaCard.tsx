@@ -2312,9 +2312,14 @@ export function NovaVendaCard() {
                       left-0
                       right-0
 
-                      top-full
+                      bottom-full
 
-                      mt-2
+                      mb-2
+
+                      md:top-full
+                      md:bottom-auto
+                      md:mt-2
+                      md:mb-0
 
                       z-[999]
 
@@ -5302,19 +5307,27 @@ export function NovaVendaCard() {
             <div
               className="
       flex
-      justify-center
+      w-full
       xl:justify-center
     "
             >
               <div
                 className="
-        inline-flex
+        flex
+
         items-center
+
+        justify-center
+
         gap-2
 
-        min-h-[40px]
+        w-full
 
-        px-4
+        max-w-[220px]
+
+        min-h-[42px]
+
+        px-5
 
         rounded-full
 
@@ -5349,7 +5362,7 @@ export function NovaVendaCard() {
                   <svg
                     viewBox="0 0 20 20"
                     fill="currentColor"
-                    className="w-3 h-3 text-white"
+                    className="w-3.5 h-3.5 text-white"
                   >
                     <path
                       fillRule="evenodd"
@@ -5361,7 +5374,10 @@ export function NovaVendaCard() {
 
                 <span
                   className="
-          text-[12px]
+          whitespace-nowrap
+
+          text-[11px]
+
           font-medium
           tracking-[0.01em]
 
@@ -5527,10 +5543,6 @@ export function NovaVendaCard() {
                   />
                 </>
               )}
-
-            {/* ================================================= */}
-            {/* GRID FX */}
-            {/* ================================================= */}
 
             {/* ================================================= */}
             {/* CONTEÚDO */}
