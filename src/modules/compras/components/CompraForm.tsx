@@ -632,6 +632,57 @@ export function CompraForm({
         </div>
       </div>
 
+      {/* PESAGEM */}
+
+      <div
+        className="
+          grid
+          gap-4
+
+          md:grid-cols-2
+          xl:grid-cols-4
+        "
+      >
+        <div>
+          <label className="mb-2 block text-sm font-medium">KG Bruto</label>
+
+          <Input
+            label="KG Bruto"
+            value={values.kgBruto}
+            onChange={(value) => onChange("kgBruto", value)}
+          />
+        </div>
+
+        <div>
+          <label className="mb-2 block text-sm font-medium">Qtd. Frutas</label>
+
+          <Input
+            label="Qtd. Frutas"
+            value={values.quantidadeFrutas}
+            onChange={(value) => onChange("quantidadeFrutas", value)}
+          />
+        </div>
+
+        <div>
+          <label className="mb-2 block text-sm font-medium">Média fruta</label>
+
+          <div
+            className="
+              h-11
+              rounded-xl
+              border
+              bg-slate-50
+              px-3
+              flex
+              items-center
+              font-medium
+            "
+          >
+            {calculo.mediaFruta > 0 ? calculo.mediaFruta.toFixed(1) : "-"}
+          </div>
+        </div>
+      </div>
+
       {/* DESCONTO */}
 
       <div

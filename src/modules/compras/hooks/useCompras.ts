@@ -362,7 +362,7 @@ export function useCompras() {
   const mutation = useMutation({
     mutationFn: createCompra,
 
-    onSuccess: async () => {
+    onSuccess: async (_, variables) => {
       await Promise.all([
         queryClient.refetchQueries({ queryKey: ["compras"] }),
         queryClient.refetchQueries({ queryKey: ["compras-dashboard"] }),
@@ -400,7 +400,7 @@ export function useCompras() {
       payload: UpdateCompraPayload;
     }) => updateCompra(id, payload),
 
-    onSuccess: async () => {
+    onSuccess: async (_, variables) => {
       await Promise.all([
         queryClient.refetchQueries({ queryKey: ["compras"] }),
         queryClient.refetchQueries({ queryKey: ["compras-dashboard"] }),
@@ -424,6 +424,10 @@ export function useCompras() {
 
         queryClient.refetchQueries({
           queryKey: ["compras-relatorio"],
+        }),
+
+        queryClient.invalidateQueries({
+          queryKey: ["compra", variables.id],
         }),
       ]);
     },

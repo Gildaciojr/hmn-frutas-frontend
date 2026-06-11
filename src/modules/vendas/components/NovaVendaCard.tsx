@@ -555,9 +555,9 @@ export function NovaVendaCard() {
         // ENTREGA
         //////////////////////////////////////////////////////
 
-        localEntrega,
+        localEntrega: localEntregaPreenchido,
 
-        cidade,
+        cidade: cidadePreenchida,
 
         //////////////////////////////////////////////////////
         // PRODUTO
@@ -579,7 +579,7 @@ export function NovaVendaCard() {
 
         motoristaTelefone,
 
-        telefone,
+        telefone: telefonePreenchido,
 
         //////////////////////////////////////////////////////
         // PESAGEM
@@ -2321,7 +2321,7 @@ export function NovaVendaCard() {
                       md:mt-2
                       md:mb-0
 
-                      z-[999]
+                      z-[9999]
 
                       max-h-[260px]
 
@@ -2443,7 +2443,7 @@ export function NovaVendaCard() {
                 </span>
               </div>
 
-              <div className="group relative overflow-hidden h-[36px] rounded-[14px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.68))] backdrop-blur-xl transition-all duration-300 hover:border-white/20 focus-within:border-[color:var(--brand)]/40 focus-within:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]">
+              <div className="group relative overflow-visible h-[36px] rounded-[12px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.68))] backdrop-blur-xl transition-all duration-300 hover:border-white/20 focus-within:border-[color:var(--brand)]/40 focus-within:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]">
                 <select
                   value={modeloCaminhao}
                   onChange={(e) =>
@@ -2451,7 +2451,7 @@ export function NovaVendaCard() {
                       e.target.value as ModeloCaminhaoVenda | "",
                     )
                   }
-                  className="relative z-10 w-full h-full bg-transparent px-4 text-[12px] font-semibold tracking-tight text-[color:var(--foreground)] outline-none"
+                  className="relative z-[1] w-full h-full bg-transparent px-4 text-[12px] font-semibold tracking-tight text-[color:var(--foreground)] outline-none"
                 >
                   <option value="">Selecione</option>
                   <option value="TRUCK">TRUCK</option>
