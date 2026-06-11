@@ -287,9 +287,9 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                     <button
                       onClick={() => setIsEditMode(true)}
                       className="
-        hidden sm:flex items-center gap-2
-        px-3 py-1.5
-        text-[12px]
+        flex items-center gap-1
+        px-2.5 py-1.5
+        text-[11px]
         rounded-[var(--radius-sm)]
         border border-[color:var(--border-soft)]
         text-[color:var(--muted)]
