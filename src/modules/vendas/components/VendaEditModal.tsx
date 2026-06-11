@@ -26,15 +26,17 @@ export function VendaEditModal({ venda, open, onClose }: Props) {
           className="
             fixed
             inset-0
-            z-[999]
 
-            bg-black/40
+            z-[9999]
+
+            bg-black/50
+            backdrop-blur-[2px]
 
             flex
             items-center
             justify-center
 
-            p-3
+            p-2
             sm:p-4
           "
         >
@@ -42,55 +44,136 @@ export function VendaEditModal({ venda, open, onClose }: Props) {
             initial={{
               opacity: 0,
               scale: 0.98,
+              y: 10,
             }}
             animate={{
               opacity: 1,
               scale: 1,
+              y: 0,
             }}
             exit={{
               opacity: 0,
               scale: 0.98,
+              y: 10,
+            }}
+            transition={{
+              duration: 0.18,
             }}
             onClick={(event) => event.stopPropagation()}
             className="
               w-full
-              max-w-6xl
 
-              max-h-[95vh]
+              max-w-[1400px]
 
-              overflow-y-auto
-
-              rounded-3xl
+              h-[96dvh]
+              sm:h-[95dvh]
 
               bg-white
 
+              rounded-2xl
+              sm:rounded-3xl
+
               shadow-2xl
+
+              overflow-hidden
+
+              flex
+              flex-col
             "
           >
-            <div className="p-4 sm:p-6 border-b">
-              <h2 className="text-xl font-semibold">Editar Venda</h2>
+            {/* HEADER */}
+            <div
+              className="
+                shrink-0
 
-              <p className="text-sm text-gray-500">
+                px-4
+                py-4
+
+                sm:px-6
+                sm:py-5
+
+                border-b
+
+                bg-white
+              "
+            >
+              <h2
+                className="
+                  text-lg
+                  sm:text-xl
+
+                  font-semibold
+                "
+              >
+                Editar Venda
+              </h2>
+
+              <p
+                className="
+                  mt-1
+
+                  text-xs
+                  sm:text-sm
+
+                  text-gray-500
+                "
+              >
                 Pedido: {venda.numeroPedido ?? "-"} • Romaneio:{" "}
                 {venda.numeroRomaneio ?? "-"}
               </p>
             </div>
 
-            <div className="p-3 sm:p-5">
+            {/* BODY */}
+            <div
+              className="
+                flex-1
+
+                overflow-y-auto
+
+                px-2
+                py-2
+
+                sm:px-5
+                sm:py-5
+              "
+            >
               <NovaVendaCard mode="edit" venda={venda} onSuccess={onClose} />
             </div>
 
-            <div className="border-t p-4 flex justify-end">
+            {/* FOOTER */}
+            <div
+              className="
+                shrink-0
+
+                border-t
+
+                bg-white
+
+                p-3
+                sm:p-4
+
+                flex
+                justify-end
+              "
+            >
               <button
                 type="button"
                 onClick={onClose}
                 className="
-                  px-4
-                  py-2
+                  h-11
+
+                  px-5
 
                   rounded-xl
 
                   border
+
+                  text-sm
+                  font-medium
+
+                  hover:bg-gray-50
+
+                  transition
                 "
               >
                 Fechar
