@@ -12,6 +12,8 @@ import { useClienteStore } from "@/modules/clientes/store/useClienteStore";
 
 import { useVendas } from "../hooks/useVendas";
 
+import type { Venda } from "../services/vendas.service";
+
 type ModeloCaminhaoVenda = "TRUCK" | "BITRUCK" | "CARRETA";
 
 type QualidadeCompra = "GRAUDA" | "MEDIA" | "MIUDA";
@@ -48,7 +50,18 @@ interface ApiResponse<T> {
   data: T;
 }
 
-export function NovaVendaCard() {
+interface NovaVendaCardProps {
+  mode?: "create" | "edit";
+  venda?: Venda | null;
+  onSuccess?: () => void;
+}
+
+export function NovaVendaCard({
+  mode = "create",
+  venda = null,
+  onSuccess,
+}: NovaVendaCardProps) {
+  const isEditMode = mode === "edit" && !!venda;
   ////////////////////////////////////////////////////////////
   // CLIENTE
   ////////////////////////////////////////////////////////////
@@ -59,7 +72,9 @@ export function NovaVendaCard() {
   // MUTATION
   ////////////////////////////////////////////////////////////
 
-  const { createVenda, creating } = useVendas();
+  const { createVenda, updateVenda, creating, updating } = useVendas();
+
+  const saving = creating || updating;
 
   ////////////////////////////////////////////////////////////
   // IDENTIFICAÇÃO
@@ -158,6 +173,57 @@ export function NovaVendaCard() {
   const [success, setSuccess] = useState(false);
 
   const buscaOrigemRequestRef = useRef(0);
+
+  useEffect(() => {
+    if (!isEditMode || !venda) {
+      return;
+    }
+
+    setNumeroPedido(venda.numeroPedido ?? "");
+
+    setDataVenda(
+      venda.dataVenda
+        ? new Date(venda.dataVenda).toISOString().split("T")[0]
+        : new Date().toISOString().split("T")[0],
+    );
+
+    setLocalEntrega(venda.localEntrega ?? "");
+    setCidade(venda.cidade ?? "");
+
+    setProduto(venda.produto ?? "MELANCIA");
+    setQualidade(venda.qualidade ?? "MANCHESTER");
+
+    setMotoristaNome(venda.motoristaNome ?? "");
+    setMotoristaTelefone(venda.motoristaTelefone ?? "");
+    setTelefone(venda.telefone ?? "");
+
+    setPlaca(venda.placa ?? "");
+    setModeloCaminhao(venda.modeloCaminhao ?? "");
+
+    setCompraOrigemId(venda.compraOrigemId ?? null);
+    setCompraOrigemNumeroFolha(venda.numeroFolhaOrigemSnapshot ?? null);
+
+    setPesoBruto(String(Math.trunc(Number(venda.pesoBruto ?? 0))));
+    setPesoDesconto(String(Math.trunc(Number(venda.pesoDesconto ?? 0))));
+    setQuantidadeFrutas(
+      String(Math.trunc(Number(venda.quantidadeFrutas ?? 0))),
+    );
+
+    setPrecoMelanciaInput(
+      String(Math.round(Number(venda.precoMelancia ?? 0) * 100)),
+    );
+
+    setFreteTotalInput(String(Math.round(Number(venda.freteTotal ?? 0) * 100)));
+
+    setStatusPagamento(venda.statusPagamento ?? "PENDENTE");
+
+    setObservacoes(venda.observacoes ?? "");
+
+    setComprasOrigemOptions([]);
+    setErroBuscaOrigem(null);
+
+    buscaOrigemRequestRef.current += 1;
+  }, [isEditMode, venda]);
 
   ////////////////////////////////////////////////////////////
   // HELPERS
@@ -534,7 +600,7 @@ export function NovaVendaCard() {
       // CREATE
       ////////////////////////////////////////////////////////
 
-      const vendaCriada = await createVenda({
+      const payload = {
         //////////////////////////////////////////////////////
         // CLIENTE
         //////////////////////////////////////////////////////
@@ -624,7 +690,20 @@ export function NovaVendaCard() {
         //////////////////////////////////////////////////////
 
         observacoes,
-      });
+      };
+
+      const vendaSalva = isEditMode
+        ? await updateVenda({
+            id: venda.id,
+            payload,
+          })
+        : await createVenda(payload);
+
+      if (isEditMode) {
+        setSuccess(true);
+        onSuccess?.();
+        return;
+      }
 
       ////////////////////////////////////////////////////////
       // RESET
@@ -686,7 +765,7 @@ export function NovaVendaCard() {
 
       try {
         const response = await api.get<Blob>(
-          `/romaneios/venda/${vendaCriada.id}/pdf`,
+          `/romaneios/venda/${vendaSalva.id}/pdf`,
           {
             responseType: "blob",
           },
@@ -699,7 +778,7 @@ export function NovaVendaCard() {
         const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
         if (isMobile) {
-          const pdfFile = new File([file], `romaneio-${vendaCriada.id}.pdf`, {
+          const pdfFile = new File([file], `romaneio-${vendaSalva.id}.pdf`, {
             type: "application/pdf",
           });
 
@@ -994,7 +1073,7 @@ export function NovaVendaCard() {
                   text-[color:var(--foreground)]
                 "
               >
-                Nova venda
+                {isEditMode ? "Editar venda" : "Nova venda"}
               </h2>
 
               {/* BADGE */}
@@ -5414,7 +5493,7 @@ export function NovaVendaCard() {
             }}
             onClick={handleSubmit}
             disabled={
-              creating ||
+              saving ||
               !cliente ||
               !pesoBrutoNumber ||
               !precoMelancia ||
@@ -5444,7 +5523,7 @@ export function NovaVendaCard() {
                   duration-500
 
                   ${
-                    creating ||
+                    saving ||
                     !cliente ||
                     !pesoBrutoNumber ||
                     !precoMelancia ||
@@ -5582,7 +5661,7 @@ export function NovaVendaCard() {
 
         shrink-0
 
-        ${creating ? "bg-white" : "bg-emerald-300"}
+        ${saving ? "bg-white" : "bg-emerald-300"}
       `}
                   />
 
@@ -5719,7 +5798,7 @@ export function NovaVendaCard() {
                           tracking-tight
                         "
                   >
-                    {creating ? "Registrando venda..." : "Finalizar venda"}
+                    {saving ? "Registrando venda..." : "Finalizar venda"}
                   </span>
                 </div>
               </div>

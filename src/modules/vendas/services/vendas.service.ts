@@ -387,6 +387,22 @@ export async function createVenda(payload: CreateVendaPayload): Promise<Venda> {
 }
 
 ////////////////////////////////////////////////////////////
+// UPDATE
+////////////////////////////////////////////////////////////
+
+export async function updateVenda(
+  vendaId: string,
+  payload: Partial<CreateVendaPayload>,
+): Promise<Venda> {
+  const response = await api.patch<ApiResponse<Venda>>(
+    `/vendas/${vendaId}`,
+    payload,
+  );
+
+  return response.data.data;
+}
+
+////////////////////////////////////////////////////////////
 // HELPERS
 ////////////////////////////////////////////////////////////
 

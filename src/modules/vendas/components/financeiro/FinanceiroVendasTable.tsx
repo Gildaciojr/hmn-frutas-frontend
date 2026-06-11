@@ -1,8 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useVendas } from "@/modules/vendas/hooks/useVendas";
+import type { Venda } from "@/modules/vendas/services/vendas.service";
+import { VendaEditModal } from "@/modules/vendas/components/VendaEditModal";
 
 function formatCurrency(value: number | string) {
   return `R$ ${Number(value).toLocaleString("pt-BR", {
@@ -49,6 +51,8 @@ function isAtrasado(createdAt: string): boolean {
 
 export function FinanceiroVendasTable() {
   const { vendas, loading } = useVendas();
+
+  const [vendaEditando, setVendaEditando] = useState<Venda | null>(null);
 
   const vendasProcessadas = useMemo(() => {
     return vendas.map((venda) => {
@@ -288,6 +292,8 @@ export function FinanceiroVendasTable() {
                     </button>
 
                     <button
+                      type="button"
+                      onClick={() => setVendaEditando(venda)}
                       className="
     h-6
     px-2
@@ -311,6 +317,11 @@ export function FinanceiroVendasTable() {
                     >
                       Editar
                     </button>
+                    <VendaEditModal
+                      venda={vendaEditando}
+                      open={!!vendaEditando}
+                      onClose={() => setVendaEditando(null)}
+                    />
                   </div>
                 </motion.div>
               );
