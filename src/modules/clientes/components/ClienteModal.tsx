@@ -1161,17 +1161,6 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                               </p>
                                             </div>
 
-                                            {/* DESTINO */}
-                                            <div className="min-w-0">
-                                              <p className="text-[10px] text-[color:var(--muted-soft)]">
-                                                Destino
-                                              </p>
-
-                                              <p className="text-[12px] font-medium break-words leading-tight">
-                                                {t.venda.destino || "—"}
-                                              </p>
-                                            </div>
-
                                             {/* LOCAL ENTREGA */}
                                             <div className="min-w-0">
                                               <p className="text-[10px] text-[color:var(--muted-soft)]">
@@ -1180,17 +1169,6 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
 
                                               <p className="text-[12px] font-medium break-words leading-tight">
                                                 {t.venda.localEntrega || "—"}
-                                              </p>
-                                            </div>
-
-                                            {/* TIPO FRETE */}
-                                            <div className="min-w-0">
-                                              <p className="text-[10px] text-[color:var(--muted-soft)]">
-                                                Tipo frete
-                                              </p>
-
-                                              <p className="text-[12px] font-medium break-words leading-tight">
-                                                {t.venda.tipoFrete || "—"}
                                               </p>
                                             </div>
 
