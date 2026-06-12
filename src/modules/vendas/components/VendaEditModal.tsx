@@ -1,5 +1,7 @@
 "use client";
 
+import { memo, useEffect, useState } from "react";
+
 import { AnimatePresence, motion } from "framer-motion";
 
 import { NovaVendaCard } from "./NovaVendaCard";
@@ -14,7 +16,26 @@ interface Props {
   onClose: () => void;
 }
 
-export function VendaEditModal({ venda, open, onClose }: Props) {
+export const VendaEditModal = memo(function VendaEditModal({
+  venda,
+  open,
+  onClose,
+}: Props) {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (!open) {
+      setReady(false);
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      setReady(true);
+    }, 120);
+
+    return () => window.clearTimeout(timer);
+  }, [open]);
+
   return (
     <AnimatePresence>
       {open && venda && (
@@ -129,6 +150,8 @@ export function VendaEditModal({ venda, open, onClose }: Props) {
                 flex-1
 
                 overflow-y-auto
+                overscroll-contain
+                touch-pan-y
 
                 px-2
                 py-2
@@ -137,7 +160,47 @@ export function VendaEditModal({ venda, open, onClose }: Props) {
                 sm:py-5
               "
             >
-              <NovaVendaCard mode="edit" venda={venda} onSuccess={onClose} />
+              {ready ? (
+                <NovaVendaCard mode="edit" venda={venda} onSuccess={onClose} />
+              ) : (
+                <div
+                  className="
+                    h-full
+
+                    flex
+                    items-center
+                    justify-center
+                  "
+                >
+                  <div
+                    className="
+                      flex
+                      items-center
+                      gap-3
+
+                      text-sm
+
+                      text-slate-500
+                    "
+                  >
+                    <div
+                      className="
+                        h-4
+                        w-4
+
+                        rounded-full
+
+                        border-2
+                        border-slate-300
+                        border-t-slate-600
+
+                        animate-spin
+                      "
+                    />
+                    Carregando venda...
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* FOOTER */}
@@ -184,4 +247,4 @@ export function VendaEditModal({ venda, open, onClose }: Props) {
       )}
     </AnimatePresence>
   );
-}
+});

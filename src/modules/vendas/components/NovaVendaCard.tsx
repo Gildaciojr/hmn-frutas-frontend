@@ -179,6 +179,8 @@ export function NovaVendaCard({
       return;
     }
 
+    buscaOrigemRequestRef.current += 1;
+
     setNumeroPedido(venda.numeroPedido ?? "");
 
     setDataVenda(
@@ -197,7 +199,7 @@ export function NovaVendaCard({
     setMotoristaTelefone(venda.motoristaTelefone ?? "");
     setTelefone(venda.telefone ?? "");
 
-    setPlaca(venda.placa ?? "");
+    setPlaca(venda.placa ? normalizarPlaca(venda.placa) : "");
     setModeloCaminhao(venda.modeloCaminhao ?? "");
 
     setCompraOrigemId(venda.compraOrigemId ?? null);
@@ -220,9 +222,8 @@ export function NovaVendaCard({
     setObservacoes(venda.observacoes ?? "");
 
     setComprasOrigemOptions([]);
+    setBuscandoComprasOrigem(false);
     setErroBuscaOrigem(null);
-
-    buscaOrigemRequestRef.current += 1;
   }, [isEditMode, venda]);
 
   ////////////////////////////////////////////////////////////
@@ -415,11 +416,11 @@ export function NovaVendaCard({
 
     setMotoristaTelefone(formatPhone(compra.motoristaTelefone ?? ""));
 
-    setPesoBruto(String(Math.trunc(compra.kgBruto)));
+    setPesoBruto(String(Math.trunc(compra.kgBruto ?? 0)));
 
-    setPesoDesconto(String(Math.trunc(compra.descontoKgCalculado)));
+    setPesoDesconto(String(Math.trunc(compra.descontoKgCalculado ?? 0)));
 
-    setQuantidadeFrutas(String(Math.trunc(compra.quantidadeFrutas)));
+    setQuantidadeFrutas(String(Math.trunc(compra.quantidadeFrutas ?? 0)));
 
     setErroBuscaOrigem(null);
 
@@ -427,6 +428,10 @@ export function NovaVendaCard({
   }
 
   useEffect(() => {
+    if (isEditMode) {
+      return;
+    }
+
     const placaNormalizada = normalizarPlaca(placa);
 
     if (compraOrigemId) {
@@ -440,21 +445,33 @@ export function NovaVendaCard({
     return () => {
       window.clearTimeout(timeout);
     };
-  }, [placa, compraOrigemId]);
+  }, [placa, compraOrigemId, isEditMode]);
 
   ////////////////////////////////////////////////////////////
   // PARSED
   ////////////////////////////////////////////////////////////
 
-  const pesoBrutoNumber = parseNumber(pesoBruto);
+  const pesoBrutoNumber = useMemo(() => parseNumber(pesoBruto), [pesoBruto]);
 
-  const pesoDescontoNumber = parseNumber(pesoDesconto);
+  const pesoDescontoNumber = useMemo(
+    () => parseNumber(pesoDesconto),
+    [pesoDesconto],
+  );
 
-  const quantidadeFrutasNumber = parseNumber(quantidadeFrutas);
+  const quantidadeFrutasNumber = useMemo(
+    () => parseNumber(quantidadeFrutas),
+    [quantidadeFrutas],
+  );
 
-  const precoMelancia = parseCurrency(precoMelanciaInput);
+  const precoMelancia = useMemo(
+    () => parseCurrency(precoMelanciaInput),
+    [precoMelanciaInput],
+  );
 
-  const freteTotal = parseCurrency(freteTotalInput);
+  const freteTotal = useMemo(
+    () => parseCurrency(freteTotalInput),
+    [freteTotalInput],
+  );
 
   ////////////////////////////////////////////////////////////
   // PESO LÍQUIDO
@@ -512,7 +529,10 @@ export function NovaVendaCard({
   // ESTOQUE
   ////////////////////////////////////////////////////////////
 
-  const quantidadeKg = pesoBrutoNumber;
+  const quantidadeKg = useMemo(
+    () => pesoBrutoNumber,
+    [pesoBrutoNumber],
+  );
 
   ////////////////////////////////////////////////////////////
   // STATUS VISUAL
@@ -524,13 +544,22 @@ export function NovaVendaCard({
   // AUTO PREENCHIMENTO OPERACIONAL
   ////////////////////////////////////////////////////////////
 
-  const cidadePreenchida = cidade || cliente?.cidade || "";
+  const cidadePreenchida = useMemo(
+    () => cidade || cliente?.cidade || "",
+    [cidade, cliente?.cidade],
+  );
 
-  const telefonePreenchido = telefone || cliente?.telefone || "";
+  const telefonePreenchido = useMemo(
+    () => telefone || cliente?.telefone || "",
+    [telefone, cliente?.telefone],
+  );
 
-  const localEntregaPreenchido =
-    localEntrega ||
-    [cliente?.endereco, cliente?.bairro].filter(Boolean).join(" • ");
+  const localEntregaPreenchido = useMemo(
+    () =>
+      localEntrega ||
+      [cliente?.endereco, cliente?.bairro].filter(Boolean).join(" • "),
+    [localEntrega, cliente?.endereco, cliente?.bairro],
+  );
 
   ////////////////////////////////////////////////////////////
   // SUBMIT
@@ -2272,14 +2301,11 @@ export function NovaVendaCard({
               <div className="flex items-center justify-between">
                 <span
                   className="
-                    text-[8px]
-
-                    uppercase
-
-                    tracking-[0.16em]
-
-                    text-[color:var(--muted-soft)]
-                  "
+        text-[8px]
+        uppercase
+        tracking-[0.16em]
+        text-[color:var(--muted-soft)]
+      "
                 >
                   Placa
                 </span>
@@ -2288,60 +2314,60 @@ export function NovaVendaCard({
               {/* INPUT */}
               <div
                 className="
-                  group
-                  relative
-                  overflow-visible
+      group
+      relative
+      overflow-visible
 
-                  h-[36px]
+      h-[36px]
 
-                  rounded-[14px]
+      rounded-[14px]
 
-                  border
-                  border-white/10
+      border
+      border-white/10
 
-                  bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.68))]
+      bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.68))]
 
-                  backdrop-blur-xl
+      backdrop-blur-xl
 
-                  transition-all
-                  duration-300
+      transition-all
+      duration-300
 
-                  hover:border-white/20
+      hover:border-white/20
 
-                  focus-within:border-[color:var(--brand)]/40
+      focus-within:border-[color:var(--brand)]/40
 
-                  focus-within:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]
-                "
+      focus-within:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]
+    "
               >
                 {/* FX */}
                 <div className="absolute inset-0 pointer-events-none">
                   <div
                     className="
-                      absolute
-                      inset-0
+          absolute
+          inset-0
 
-                      opacity-0
-                      group-hover:opacity-100
+          opacity-0
+          group-hover:opacity-100
 
-                      transition-all
-                      duration-500
+          transition-all
+          duration-500
 
-                      bg-[radial-gradient(circle_at_85%_10%,rgba(16,185,129,0.08),transparent_60%)]
-                    "
+          bg-[radial-gradient(circle_at_85%_10%,rgba(16,185,129,0.08),transparent_60%)]
+        "
                   />
 
                   <div
                     className="
-                      absolute
-                      inset-x-0
-                      top-0
-                      h-[1px]
+          absolute
+          inset-x-0
+          top-0
+          h-[1px]
 
-                      bg-gradient-to-r
-                      from-transparent
-                      via-white/30
-                      to-transparent
-                    "
+          bg-gradient-to-r
+          from-transparent
+          via-white/30
+          to-transparent
+        "
                   />
                 </div>
 
@@ -2350,160 +2376,168 @@ export function NovaVendaCard({
                   value={placa}
                   onChange={(e) => {
                     const placaNormalizada = normalizarPlaca(e.target.value);
+
                     setPlaca(placaNormalizada);
 
+                    if (isEditMode) {
+                      return;
+                    }
+
                     limparCompraOrigem();
+
                     if (placaNormalizada.length < 3) {
                       setComprasOrigemOptions([]);
                     }
                   }}
                   className="
-                    relative
-                    z-10
+        relative
+        z-10
 
-                    w-full
-                    h-full
+        w-full
+        h-full
 
-                    bg-transparent
+        bg-transparent
 
-                    px-4
+        px-4
 
-                    text-[14px]
-                    md:text-[12px]
-                    font-semibold
+        text-[14px]
+        md:text-[12px]
+        font-semibold
 
-                    uppercase
-                    tracking-[0.08em]
+        uppercase
+        tracking-[0.08em]
 
-                    text-[color:var(--foreground)]
+        text-[color:var(--foreground)]
 
-                    placeholder:text-[color:var(--muted-soft)]
+        placeholder:text-[color:var(--muted-soft)]
 
-                    outline-none
-                  "
+        outline-none
+      "
                 />
-                {(buscandoComprasOrigem ||
-                  erroBuscaOrigem ||
-                  comprasOrigemOptions.length > 0) && (
-                  <div
-                    className="
-                      absolute
-                      left-0
-                      right-0
 
-                      bottom-full
+                {!isEditMode &&
+                  (buscandoComprasOrigem ||
+                    erroBuscaOrigem ||
+                    comprasOrigemOptions.length > 0) && (
+                    <div
+                      className="
+            absolute
+            left-0
+            right-0
 
-                      mb-2
+            bottom-full
 
-                      md:top-full
-                      md:bottom-auto
-                      md:mt-2
-                      md:mb-0
+            mb-2
 
-                      z-[9999]
+            md:top-full
+            md:bottom-auto
+            md:mt-2
+            md:mb-0
 
-                      max-h-[260px]
+            z-[9999]
 
-                      overflow-y-auto
+            max-h-[260px]
 
-                      rounded-[14px]
+            overflow-y-auto
 
-                      border
-                      border-slate-200
+            rounded-[14px]
 
-                      bg-white
+            border
+            border-slate-200
 
-                      shadow-[0_18px_40px_rgba(15,23,42,0.14)]
-                    "
-                  >
-                    {buscandoComprasOrigem && (
-                      <div className="px-3 py-2 text-[12px] text-slate-500">
-                        Buscando compras...
-                      </div>
-                    )}
+            bg-white
 
-                    {erroBuscaOrigem && !buscandoComprasOrigem && (
-                      <div className="px-3 py-2 text-[12px] text-red-600">
-                        {erroBuscaOrigem}
-                      </div>
-                    )}
+            shadow-[0_18px_40px_rgba(15,23,42,0.14)]
+          "
+                    >
+                      {buscandoComprasOrigem && (
+                        <div className="px-3 py-2 text-[12px] text-slate-500">
+                          Buscando compras...
+                        </div>
+                      )}
 
-                    {!buscandoComprasOrigem &&
-                      comprasOrigemOptions.map((compra) => (
-                        <button
-                          key={compra.id}
-                          type="button"
-                          onClick={() => selecionarCompraOrigem(compra)}
-                          className="
-                            w-full
-                            border-t
-                            border-slate-100
-                            px-3
-                            py-2
-                            text-left
-                            hover:bg-emerald-50
-                            transition-colors
-                          "
-                        >
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="text-[12px] font-semibold text-slate-800">
-                              Folha {compra.numeroFolha ?? "-"}
-                            </span>
+                      {erroBuscaOrigem && !buscandoComprasOrigem && (
+                        <div className="px-3 py-2 text-[12px] text-red-600">
+                          {erroBuscaOrigem}
+                        </div>
+                      )}
 
-                            <span className="text-[11px] text-emerald-600">
-                              {compra.placa}
-                            </span>
-                          </div>
+                      {!buscandoComprasOrigem &&
+                        comprasOrigemOptions.map((compra) => (
+                          <button
+                            key={compra.id}
+                            type="button"
+                            onClick={() => selecionarCompraOrigem(compra)}
+                            className="
+                  w-full
+                  border-t
+                  border-slate-100
+                  px-3
+                  py-2
+                  text-left
+                  hover:bg-emerald-50
+                  transition-colors
+                "
+                          >
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="text-[12px] font-semibold text-slate-800">
+                                Folha {compra.numeroFolha ?? "-"}
+                              </span>
 
-                          <div className="mt-1 text-[10px] text-slate-500">
-                            {formatDataCompra(compra.dataCompra)}
-                            {" • "}
-                            {formatNumberBR(
-                              String(Math.trunc(compra.kgBruto)),
-                            )}{" "}
-                            kg
-                            {" • "}
-                            {formatNumberBR(
-                              String(Math.trunc(compra.quantidadeFrutas)),
-                            )}{" "}
-                            frutas
-                            {" • "}
-                            {compra.qualidadeFruta ?? "-"}
-                          </div>
-                        </button>
-                      ))}
-                  </div>
-                )}
+                              <span className="text-[11px] text-emerald-600">
+                                {compra.placa}
+                              </span>
+                            </div>
+
+                            <div className="mt-1 text-[10px] text-slate-500">
+                              {formatDataCompra(compra.dataCompra)}
+                              {" • "}
+                              {formatNumberBR(
+                                String(Math.trunc(compra.kgBruto ?? 0)),
+                              )}{" "}
+                              kg
+                              {" • "}
+                              {formatNumberBR(
+                                String(
+                                  Math.trunc(compra.quantidadeFrutas ?? 0),
+                                ),
+                              )}{" "}
+                              frutas
+                              {" • "}
+                              {compra.qualidadeFruta ?? "-"}
+                            </div>
+                          </button>
+                        ))}
+                    </div>
+                  )}
               </div>
+
               {compraOrigemNumeroFolha && (
                 <div
                   className="
-      mt-2
-      flex
+        mt-2
+        flex
+        items-center
+        gap-2
+        min-h-[34px]
 
-      items-center
+        rounded-[12px]
 
-      gap-2
+        border
+        border-emerald-200/80
 
-      min-h-[34px]
+        bg-emerald-50
+        bg-linear-to-r
+        from-emerald-50
+        to-white
 
-      rounded-[12px]
+        px-3
+        py-2
 
-      border
-      border-emerald-200/80
-      bg-emerald-50
-
-      bg-linear-to-r
-      from-emerald-50
-      to-white
-
-      px-3
-
-      py-2
-      text-[11px]
-      font-semibold
-      text-emerald-700
-    "
+        text-[11px]
+        font-semibold
+        text-emerald-700
+      "
                 >
                   <span>✓</span>
 
