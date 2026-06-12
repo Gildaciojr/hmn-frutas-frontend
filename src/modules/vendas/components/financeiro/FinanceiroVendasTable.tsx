@@ -67,12 +67,13 @@ export function FinanceiroVendasTable() {
   }, [vendas]);
 
   return (
-    <div className="space-y-3">
-      {/* 🔥 REMOVIDO HEADER DUPLICADO */}
+    <>
+      <div className="space-y-3">
+        {/* 🔥 REMOVIDO HEADER DUPLICADO */}
 
-      {/* TABELA */}
-      <div
-        className="
+        {/* TABELA */}
+        <div
+          className="
           overflow-y-auto
           overflow-x-auto
           overscroll-x-contain
@@ -83,10 +84,10 @@ export function FinanceiroVendasTable() {
           border border-[color:var(--border-soft)]
           bg-[color:var(--surface-100)]
         "
-      >
-        {/* HEAD */}
-        <div
-          className="
+        >
+          {/* HEAD */}
+          <div
+            className="
             grid
             min-w-[920px]
              grid-cols-[minmax(180px,2fr)_90px_110px_130px_130px_110px_100px]
@@ -98,25 +99,25 @@ export function FinanceiroVendasTable() {
             text-[color:var(--muted-soft)]
             border-b border-[color:var(--border-soft)]
           "
-        >
-          <span>Cliente</span>
-          <span>KG</span>
-          <span>R$/KG</span>
-          <span>Total</span>
-          <span>Status</span>
-          <span>Data</span>
-          <span className="text-right">Ações</span>
-        </div>
+          >
+            <span>Cliente</span>
+            <span>KG</span>
+            <span>R$/KG</span>
+            <span>Total</span>
+            <span>Status</span>
+            <span>Data</span>
+            <span className="text-right">Ações</span>
+          </div>
 
-        {/* BODY */}
-        <div className="max-h-[360px] sm:max-h-[460px] overflow-auto overflow-x-auto">
-          {/* LOADING */}
-          {loading && (
-            <div className="divide-y divide-[color:var(--border-soft)]">
-              {[...Array(6)].map((_, i) => (
-                <div
-                  key={i}
-                  className="
+          {/* BODY */}
+          <div className="max-h-[360px] sm:max-h-[460px] overflow-auto overflow-x-auto">
+            {/* LOADING */}
+            {loading && (
+              <div className="divide-y divide-[color:var(--border-soft)]">
+                {[...Array(6)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="
           relative
           overflow-hidden
 
@@ -132,10 +133,10 @@ export function FinanceiroVendasTable() {
 
           gap-4
         "
-                >
-                  {/* SHIMMER */}
-                  <div
-                    className="
+                  >
+                    {/* SHIMMER */}
+                    <div
+                      className="
             absolute
             inset-0
 
@@ -148,53 +149,53 @@ export function FinanceiroVendasTable() {
             via-white/40
             to-transparent
           "
-                  />
+                    />
 
-                  {/* CLIENTE */}
-                  <div className="space-y-2">
-                    <div className="h-3 w-[140px] rounded bg-[color:var(--surface-200)]" />
+                    {/* CLIENTE */}
+                    <div className="space-y-2">
+                      <div className="h-3 w-[140px] rounded bg-[color:var(--surface-200)]" />
 
-                    <div className="h-2 w-[90px] rounded bg-[color:var(--surface-200)]" />
+                      <div className="h-2 w-[90px] rounded bg-[color:var(--surface-200)]" />
+                    </div>
+
+                    {/* KG */}
+                    <div className="h-3 w-[60px] rounded bg-[color:var(--surface-200)]" />
+
+                    {/* R$/KG */}
+                    <div className="h-3 w-[70px] rounded bg-[color:var(--surface-200)]" />
+
+                    {/* TOTAL */}
+                    <div className="h-3 w-[90px] rounded bg-[color:var(--surface-200)]" />
+
+                    {/* STATUS */}
+                    <div className="h-5 w-[72px] rounded-full bg-[color:var(--surface-200)]" />
+
+                    {/* DATA */}
+                    <div className="h-3 w-[80px] rounded bg-[color:var(--surface-200)]" />
+
+                    {/* AÇÕES */}
+                    <div className="flex justify-end gap-2">
+                      <div className="h-8 w-[42px] rounded-lg bg-[color:var(--surface-200)]" />
+
+                      <div className="h-8 w-[52px] rounded-lg bg-[color:var(--surface-200)]" />
+                    </div>
                   </div>
+                ))}
+              </div>
+            )}
 
-                  {/* KG */}
-                  <div className="h-3 w-[60px] rounded bg-[color:var(--surface-200)]" />
+            {/* LISTA */}
+            {!loading &&
+              vendasProcessadas.map((venda, i) => {
+                const statusMeta = getStatusMeta(venda.statusPagamento);
 
-                  {/* R$/KG */}
-                  <div className="h-3 w-[70px] rounded bg-[color:var(--surface-200)]" />
-
-                  {/* TOTAL */}
-                  <div className="h-3 w-[90px] rounded bg-[color:var(--surface-200)]" />
-
-                  {/* STATUS */}
-                  <div className="h-5 w-[72px] rounded-full bg-[color:var(--surface-200)]" />
-
-                  {/* DATA */}
-                  <div className="h-3 w-[80px] rounded bg-[color:var(--surface-200)]" />
-
-                  {/* AÇÕES */}
-                  <div className="flex justify-end gap-2">
-                    <div className="h-8 w-[42px] rounded-lg bg-[color:var(--surface-200)]" />
-
-                    <div className="h-8 w-[52px] rounded-lg bg-[color:var(--surface-200)]" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* LISTA */}
-          {!loading &&
-            vendasProcessadas.map((venda, i) => {
-              const statusMeta = getStatusMeta(venda.statusPagamento);
-
-              return (
-                <motion.div
-                  key={venda.id}
-                  initial={{ opacity: 0, y: 4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.015 }}
-                  className="
+                return (
+                  <motion.div
+                    key={venda.id}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.015 }}
+                    className="
                     grid grid-cols-[minmax(180px,2fr)_90px_110px_130px_130px_110px_100px]
                     px-3 py-2
                     text-[12px]
@@ -207,40 +208,40 @@ export function FinanceiroVendasTable() {
                     transition
                     items-center
                   "
-                >
-                  {/* CLIENTE */}
-                  <div className="flex flex-col leading-tight min-w-[180px]">
-                    <span className="font-medium truncate text-[color:var(--foreground)]">
-                      {venda.cliente?.nome ?? "Sem cliente"}
-                    </span>
-
-                    <span className="text-[11px] sm:text-[10px] text-[color:var(--muted-soft)]">
-                      {venda.cliente?.telefone ?? "—"}
-                    </span>
-
-                    {venda.usuarioResponsavelNome && (
-                      <span className="text-[10px] text-[color:var(--muted-soft)]">
-                        Por: {venda.usuarioResponsavelNome}
+                  >
+                    {/* CLIENTE */}
+                    <div className="flex flex-col leading-tight min-w-[180px]">
+                      <span className="font-medium truncate text-[color:var(--foreground)]">
+                        {venda.cliente?.nome ?? "Sem cliente"}
                       </span>
-                    )}
-                  </div>
 
-                  {/* KG */}
-                  <span>{venda.quantidadeKg}</span>
+                      <span className="text-[11px] sm:text-[10px] text-[color:var(--muted-soft)]">
+                        {venda.cliente?.telefone ?? "—"}
+                      </span>
 
-                  {/* VALOR */}
-                  {/* VALOR */}
-                  <span>{formatCurrency(venda.valorPorKg ?? 0)}</span>
+                      {venda.usuarioResponsavelNome && (
+                        <span className="text-[10px] text-[color:var(--muted-soft)]">
+                          Por: {venda.usuarioResponsavelNome}
+                        </span>
+                      )}
+                    </div>
 
-                  {/* TOTAL */}
-                  <span className="font-medium">
-                    {formatCurrency(venda.valorTotal)}
-                  </span>
+                    {/* KG */}
+                    <span>{venda.quantidadeKg}</span>
 
-                  {/* STATUS */}
-                  <div className="flex items-center gap-1.5">
-                    <span
-                      className={`
+                    {/* VALOR */}
+                    {/* VALOR */}
+                    <span>{formatCurrency(venda.valorPorKg ?? 0)}</span>
+
+                    {/* TOTAL */}
+                    <span className="font-medium">
+                      {formatCurrency(venda.valorTotal)}
+                    </span>
+
+                    {/* STATUS */}
+                    <div className="flex items-center gap-1.5">
+                      <span
+                        className={`
                         px-2.5 py-1
                         font-medium
                         tracking-[0.04em]
@@ -249,112 +250,136 @@ export function FinanceiroVendasTable() {
                         border
                         ${statusMeta.className}
                       `}
-                    >
-                      {statusMeta.label}
+                      >
+                        {statusMeta.label}
+                      </span>
+
+                      {venda.atraso && (
+                        <span className="text-[10px] text-red-500">⚠</span>
+                      )}
+                    </div>
+
+                    {/* DATA */}
+                    <span className="text-[color:var(--muted)] text-[11px]">
+                      {formatDate(venda.createdAt)}
                     </span>
 
-                    {venda.atraso && (
-                      <span className="text-[10px] text-red-500">⚠</span>
-                    )}
-                  </div>
-
-                  {/* DATA */}
-                  <span className="text-[color:var(--muted)] text-[11px]">
-                    {formatDate(venda.createdAt)}
-                  </span>
-
-                  {/* AÇÕES */}
-                  <div className="flex justify-end gap-1.5">
-                    <button
+                    {/* AÇÕES */}
+                    <div
                       className="
-    h-6
-    px-2
+    flex
+    items-center
+    justify-end
 
-    rounded-lg
+    gap-1.5
 
-    border border-[color:var(--border-soft)]
-
-    bg-white
-
-    text-[11px]
-    font-medium
-
-    text-[color:var(--muted)]
-
-    transition-all duration-200
-
-    hover:border-[color:var(--border-strong)]
-    hover:text-[color:var(--foreground)]
-    hover:bg-[color:var(--surface-200)]
+    min-w-[100px]
   "
                     >
-                      Ver
-                    </button>
+                      <button
+                        type="button"
+                        className="
+      h-7
+      sm:h-6
 
-                    <button
-                      type="button"
-                      onClick={() => setVendaEditando(venda)}
-                      className="
-    h-6
-    px-2
+      px-2.5
+      sm:px-2
 
-    rounded-lg
+      rounded-lg
 
-    border-amber-200
+      border border-[color:var(--border-soft)]
 
-    bg-amber-50
+      bg-white
 
-    text-[11px]
-    font-medium
+      text-[11px]
+      font-medium
 
-    text-red-600
+      text-[color:var(--muted)]
 
-    transition-all duration-200
+      transition-all duration-200
 
-    hover:bg-amber-100
-    hover:border-amber-300
-  "
-                    >
-                      Editar
-                    </button>
-                    <VendaEditModal
-                      venda={vendaEditando}
-                      open={!!vendaEditando}
-                      onClose={() => setVendaEditando(null)}
-                    />
-                  </div>
-                </motion.div>
-              );
-            })}
+      hover:border-[color:var(--border-strong)]
+      hover:text-[color:var(--foreground)]
+      hover:bg-[color:var(--surface-200)]
 
-          {/* EMPTY */}
-          {!loading && vendas.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-10 space-y-3">
-              <div
-                className="
+      active:scale-[0.98]
+    "
+                      >
+                        Ver
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setVendaEditando(venda)}
+                        className="
+      h-7
+      sm:h-6
+
+      px-2.5
+      sm:px-2
+
+      rounded-lg
+
+      border
+      border-amber-200
+
+      bg-amber-50
+
+      text-[11px]
+      font-medium
+
+      text-amber-700
+
+      transition-all duration-200
+
+      hover:bg-amber-100
+      hover:border-amber-300
+
+      active:scale-[0.98]
+    "
+                      >
+                        Editar
+                      </button>
+                    </div>
+                  </motion.div>
+                );
+              })}
+
+            {/* EMPTY */}
+            {!loading && vendas.length === 0 && (
+              <div className="flex flex-col items-center justify-center py-10 space-y-3">
+                <div
+                  className="
                   w-12 h-12
                   rounded-xl
                   bg-[color:var(--surface-200)]
                   flex items-center justify-center
                   text-[color:var(--muted-soft)]
                 "
-              >
-                📊
-              </div>
+                >
+                  📊
+                </div>
 
-              <div className="text-center space-y-1">
-                <p className="text-[13px] font-medium">
-                  Nenhuma venda registrada
-                </p>
+                <div className="text-center space-y-1">
+                  <p className="text-[13px] font-medium">
+                    Nenhuma venda registrada
+                  </p>
 
-                <p className="text-[11px] text-[color:var(--muted)]">
-                  Registre uma nova venda para começar
-                </p>
+                  <p className="text-[11px] text-[color:var(--muted)]">
+                    Registre uma nova venda para começar
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
-    </div>
+
+      <VendaEditModal
+        venda={vendaEditando}
+        open={!!vendaEditando}
+        onClose={() => setVendaEditando(null)}
+      />
+    </>
   );
 }

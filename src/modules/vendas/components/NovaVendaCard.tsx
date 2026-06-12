@@ -10,7 +10,7 @@ import { ClienteSelect } from "@/modules/clientes/components/ClienteSelect";
 
 import { useClienteStore } from "@/modules/clientes/store/useClienteStore";
 
-import { useVendas } from "../hooks/useVendas";
+import { useVendaMutations } from "../hooks/useVendas";
 
 import type { Venda } from "../services/vendas.service";
 
@@ -72,7 +72,7 @@ export function NovaVendaCard({
   // MUTATION
   ////////////////////////////////////////////////////////////
 
-  const { createVenda, updateVenda, creating, updating } = useVendas();
+  const { createVenda, updateVenda, creating, updating } = useVendaMutations();
 
   const saving = creating || updating;
 
@@ -172,12 +172,21 @@ export function NovaVendaCard({
 
   const [success, setSuccess] = useState(false);
 
+  const hydratedVendaIdRef = useRef<string | null>(null);
+
   const buscaOrigemRequestRef = useRef(0);
 
   useEffect(() => {
     if (!isEditMode || !venda) {
+      hydratedVendaIdRef.current = null;
       return;
     }
+
+    if (hydratedVendaIdRef.current === venda.id) {
+      return;
+    }
+
+    hydratedVendaIdRef.current = venda.id;
 
     buscaOrigemRequestRef.current += 1;
 
@@ -529,10 +538,7 @@ export function NovaVendaCard({
   // ESTOQUE
   ////////////////////////////////////////////////////////////
 
-  const quantidadeKg = useMemo(
-    () => pesoBrutoNumber,
-    [pesoBrutoNumber],
-  );
+  const quantidadeKg = useMemo(() => pesoBrutoNumber, [pesoBrutoNumber]);
 
   ////////////////////////////////////////////////////////////
   // STATUS VISUAL

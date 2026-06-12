@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import {
   createVenda,
   updateVenda,
@@ -6,85 +7,126 @@ import {
   type CreateVendaPayload,
 } from "../services/vendas.service";
 
-export function useVendas() {
+type UpdateVendaVariables = {
+  id: string;
+  payload: Partial<CreateVendaPayload>;
+};
+
+function useInvalidateVendas() {
   const queryClient = useQueryClient();
 
-  // ================= QUERY =================
+  return async () => {
+    await Promise.all([
+      queryClient.invalidateQueries({
+        queryKey: ["vendas"],
+      }),
+
+      queryClient.invalidateQueries({
+        queryKey: ["financeiro-resumo"],
+      }),
+
+      queryClient.invalidateQueries({
+        queryKey: ["financeiro-fluxo"],
+      }),
+
+      queryClient.invalidateQueries({
+        queryKey: ["admin-dashboard"],
+      }),
+
+      queryClient.invalidateQueries({
+        queryKey: ["estoque-resumo"],
+      }),
+    ]);
+  };
+}
+
+export function useVendas() {
+  const invalidateVendas = useInvalidateVendas();
+
+  ////////////////////////////////////////////////////////////
+  // QUERY
+  ////////////////////////////////////////////////////////////
+
   const query = useQuery({
     queryKey: ["vendas"],
     queryFn: getVendas,
 
-    // 🔥 evita refetch agressivo e melhora UX
     staleTime: 1000 * 30,
   });
 
-  // ================= MUTATION =================
+  ////////////////////////////////////////////////////////////
+  // CREATE
+  ////////////////////////////////////////////////////////////
+
   const createMutation = useMutation({
     mutationFn: (payload: CreateVendaPayload) => createVenda(payload),
 
-    onSuccess: async () => {
-      // 🔥 REFETCH CONSISTENTE EM CASCATA (CRÍTICO)
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["vendas"] }),
-        queryClient.invalidateQueries({ queryKey: ["financeiro-resumo"] }),
-        queryClient.invalidateQueries({ queryKey: ["financeiro-fluxo"] }),
-        queryClient.invalidateQueries({ queryKey: ["admin-dashboard"] }),
-        queryClient.invalidateQueries({ queryKey: ["estoque-resumo"] }), // 🔥 ESSENCIAL
-      ]);
-    },
+    onSuccess: invalidateVendas,
   });
-  // ================= UPDATE =================
+
+  ////////////////////////////////////////////////////////////
+  // UPDATE
+  ////////////////////////////////////////////////////////////
+
   const updateMutation = useMutation({
-    mutationFn: ({
-      id,
-      payload,
-    }: {
-      id: string;
-      payload: Partial<CreateVendaPayload>;
-    }) => updateVenda(id, payload),
+    mutationFn: ({ id, payload }: UpdateVendaVariables) =>
+      updateVenda(id, payload),
 
-    onSuccess: async () => {
-      await Promise.all([
-        queryClient.invalidateQueries({
-          queryKey: ["vendas"],
-        }),
-
-        queryClient.invalidateQueries({
-          queryKey: ["financeiro-resumo"],
-        }),
-
-        queryClient.invalidateQueries({
-          queryKey: ["financeiro-fluxo"],
-        }),
-
-        queryClient.invalidateQueries({
-          queryKey: ["admin-dashboard"],
-        }),
-
-        queryClient.invalidateQueries({
-          queryKey: ["estoque-resumo"],
-        }),
-      ]);
-    },
+    onSuccess: invalidateVendas,
   });
 
-  // ================= RETURN =================
+  ////////////////////////////////////////////////////////////
+  // RETURN
+  ////////////////////////////////////////////////////////////
+
   return {
-    // 🔥 DADOS
     vendas: query.data ?? [],
 
-    // 🔥 ESTADOS
     loading: query.isLoading,
     error: query.error,
 
-    // 🔥 CONTROLE
     refetch: query.refetch,
 
-    // 🔥 MUTATION
     createVenda: createMutation.mutateAsync,
     creating: createMutation.isPending,
 
-    // 🔥 UPDATE
+    updateVenda: updateMutation.mutateAsync,
+    updating: updateMutation.isPending,
+  };
+}
+
+export function useVendaMutations() {
+  const invalidateVendas = useInvalidateVendas();
+
+  ////////////////////////////////////////////////////////////
+  // CREATE
+  ////////////////////////////////////////////////////////////
+
+  const createMutation = useMutation({
+    mutationFn: (payload: CreateVendaPayload) => createVenda(payload),
+
+    onSuccess: invalidateVendas,
+  });
+
+  ////////////////////////////////////////////////////////////
+  // UPDATE
+  ////////////////////////////////////////////////////////////
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, payload }: UpdateVendaVariables) =>
+      updateVenda(id, payload),
+
+    onSuccess: invalidateVendas,
+  });
+
+  ////////////////////////////////////////////////////////////
+  // RETURN
+  ////////////////////////////////////////////////////////////
+
+  return {
+    createVenda: createMutation.mutateAsync,
+    creating: createMutation.isPending,
+
     updateVenda: updateMutation.mutateAsync,
     updating: updateMutation.isPending,
   };
