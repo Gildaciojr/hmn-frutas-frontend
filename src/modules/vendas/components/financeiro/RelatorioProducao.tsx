@@ -20,6 +20,7 @@ type LinhaRelatorio = {
   usuarioNome: string;
   documento: string;
   parceiro: string;
+  modeloCaminhao: string;
   kg: number;
   valor: number;
 };
@@ -203,6 +204,7 @@ export function RelatorioProducao() {
         compra.cliente?.nome ??
         compra.clienteNomeSnapshot ??
         "Sem fornecedor",
+      modeloCaminhao: compra.modeloCaminhao ?? "-",
       kg: toSafeNumber(compra.kgLiquido),
       valor: toSafeNumber(compra.valorTotal),
     }));
@@ -214,6 +216,7 @@ export function RelatorioProducao() {
       usuarioNome: venda.usuarioResponsavelNome ?? "Sem usuário",
       documento: venda.numeroPedido ?? venda.numeroRomaneio ?? "-",
       parceiro: venda.cliente?.nome ?? "Sem cliente",
+      modeloCaminhao: venda.modeloCaminhao ?? "-",
       kg: toSafeNumber(venda.quantidadeKg),
       valor: toSafeNumber(venda.valorTotal),
     }));
@@ -484,11 +487,11 @@ export function RelatorioProducao() {
         </div>
 
         <div className="overflow-x-auto">
-          <div className="min-w-[900px]">
+          <div className="min-w-[1020px]">
             <div
               className="
                 grid
-                grid-cols-[100px_110px_150px_130px_1fr_120px_140px]
+                grid-cols-[100px_110px_150px_130px_1fr_120px_120px_140px]
                 px-4 py-2
                 text-[10px]
                 uppercase tracking-[0.14em]
@@ -502,6 +505,7 @@ export function RelatorioProducao() {
               <span>Usuário</span>
               <span>Documento</span>
               <span>Parceiro</span>
+              <span>Caminhão</span>
               <span>KG</span>
               <span>Valor</span>
             </div>
@@ -532,7 +536,7 @@ export function RelatorioProducao() {
                     transition={{ delay: index * 0.01 }}
                     className="
                       grid
-                      grid-cols-[100px_110px_150px_130px_1fr_120px_140px]
+                      grid-cols-[100px_110px_150px_130px_1fr_120px_120px_140px]
                       items-center
                       px-4 py-3
                       text-[12px]
@@ -577,6 +581,10 @@ export function RelatorioProducao() {
 
                     <span className="truncate text-[color:var(--foreground)]">
                       {linha.parceiro}
+                    </span>
+
+                    <span className="font-medium text-[color:var(--foreground)]">
+                      {linha.modeloCaminhao}
                     </span>
 
                     <span className="text-[color:var(--muted)]">

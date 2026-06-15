@@ -396,11 +396,11 @@ export default function Dashboard() {
       items-center
       justify-center
 
-      w-[280px]
-      h-[160px]
+      lg:w-[220px]
+      lg:h-[125px]
 
-      xl:w-[320px]
-      xl:h-[180px]
+      xl:w-[250px]
+      xl:h-[140px]
 
       rounded-[40px]
 
@@ -463,7 +463,8 @@ export default function Dashboard() {
                     className="
         relative z-10
 
-        w-[170px]
+        lg:w-[130px]
+        xl:w-[150px]
         h-auto
 
         object-contain
