@@ -82,7 +82,7 @@ export function ClientesTable() {
         nome.includes(normalized) ||
         proprietarioNome.includes(normalized) ||
         nomeFantasia.includes(normalized) ||
-        telefone.includes(searchPhone)
+        (searchPhone.length > 0 && telefone.includes(searchPhone))
       );
     });
   }, [clientes, search]);

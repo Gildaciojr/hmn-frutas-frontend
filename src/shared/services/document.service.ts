@@ -68,8 +68,106 @@ export async function download(options?: OpenDocumentOptions): Promise<void> {
   URL.revokeObjectURL(url);
 }
 
-export function print(_options?: OpenDocumentOptions): Promise<void> {
-  return Promise.reject(new Error("Document print not implemented"));
+export async function print(options?: OpenDocumentOptions): Promise<void> {
+  let file: Blob;
+
+  if (options?.blob) {
+    file = options.blob;
+  } else if (options?.url) {
+    const response = await api.get<Blob>(options.url, {
+      responseType: "blob",
+    });
+
+    file = response.data;
+  } else {
+    throw new Error("Document print requires blob or url");
+  }
+
+  const documentUrl = URL.createObjectURL(file);
+
+  if (isMobileDevice() || typeof window.print !== "function") {
+    openDocumentUrl(documentUrl, true);
+
+    setTimeout(() => {
+      URL.revokeObjectURL(documentUrl);
+    }, 5000);
+
+    return;
+  }
+
+  const printWindow = window.open(documentUrl, "_blank");
+
+  if (!printWindow) {
+    URL.revokeObjectURL(documentUrl);
+
+    throw new Error("Document print window blocked");
+  }
+
+  const openedPrintWindow = printWindow;
+
+  await new Promise<void>((resolve, reject) => {
+    let printStarted = false;
+    let objectUrlRevoked = false;
+
+    function revokeObjectUrl() {
+      if (objectUrlRevoked) {
+        return;
+      }
+
+      objectUrlRevoked = true;
+      URL.revokeObjectURL(documentUrl);
+    }
+
+    function closePrintWindow() {
+      if (!openedPrintWindow.closed) {
+        openedPrintWindow.close();
+      }
+    }
+
+    function startPrint() {
+      if (printStarted) {
+        return;
+      }
+
+      printStarted = true;
+
+      try {
+        openedPrintWindow.focus();
+        openedPrintWindow.print();
+        resolve();
+      } catch (error) {
+        revokeObjectUrl();
+        reject(error);
+      }
+    }
+
+    openedPrintWindow.addEventListener(
+      "load",
+      () => {
+        window.setTimeout(startPrint, 250);
+      },
+      {
+        once: true,
+      },
+    );
+
+    openedPrintWindow.addEventListener(
+      "afterprint",
+      () => {
+        revokeObjectUrl();
+        closePrintWindow();
+      },
+      {
+        once: true,
+      },
+    );
+
+    window.setTimeout(startPrint, 1500);
+
+    window.setTimeout(() => {
+      revokeObjectUrl();
+    }, 30000);
+  });
 }
 
 export async function share(options?: OpenDocumentOptions): Promise<void> {

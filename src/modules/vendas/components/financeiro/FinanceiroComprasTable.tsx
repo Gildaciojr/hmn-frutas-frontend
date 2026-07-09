@@ -1,9 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 import { useCompras } from "@/modules/compras/hooks/useCompras";
+import { CompraViewModal } from "@/modules/compras/components/CompraViewModal";
+import { useDocumentActions } from "@/shared/hooks/useDocumentActions";
 
 function formatCurrency(value: number | string) {
   return `R$ ${Number(value).toLocaleString("pt-BR", {
@@ -13,6 +15,13 @@ function formatCurrency(value: number | string) {
 
 function formatDate(date: string) {
   return new Date(date).toLocaleDateString("pt-BR");
+}
+
+function getCompraDocumentFilename(compra: {
+  id: string;
+  numeroFolha?: string | null;
+}) {
+  return `compra-${compra.numeroFolha ?? compra.id}.pdf`;
 }
 
 // =========================================================
@@ -68,6 +77,47 @@ function getCompraMeta(desconto: number, custoPorKg: number) {
 
 export function FinanceiroComprasTable() {
   const { compras, loading } = useCompras();
+  const { view, print } = useDocumentActions();
+  const [compraSelecionada, setCompraSelecionada] = useState<string | null>(
+    null,
+  );
+  const [modalAberto, setModalAberto] = useState(false);
+
+  function handleView(compraId: string) {
+    setCompraSelecionada(compraId);
+    setModalAberto(true);
+  }
+
+  function handleCloseView() {
+    setModalAberto(false);
+    setCompraSelecionada(null);
+  }
+
+  async function handlePdf(compra: { id: string; numeroFolha?: string | null }) {
+    try {
+      await view({
+        url: `/romaneios/compra/${compra.id}/pdf`,
+        filename: getCompraDocumentFilename(compra),
+        newTab: true,
+      });
+    } catch (error) {
+      console.error("Erro ao abrir PDF da compra:", error);
+    }
+  }
+
+  async function handlePrint(compra: {
+    id: string;
+    numeroFolha?: string | null;
+  }) {
+    try {
+      await print({
+        url: `/romaneios/compra/${compra.id}/pdf`,
+        filename: getCompraDocumentFilename(compra),
+      });
+    } catch (error) {
+      console.error("Erro ao imprimir PDF da compra:", error);
+    }
+  }
 
   // =========================================================
   // PROCESSAMENTO
@@ -101,7 +151,8 @@ export function FinanceiroComprasTable() {
   }, [compras]);
 
   return (
-    <div className="space-y-4">
+    <>
+      <div className="space-y-4">
       {/* ===================================================== */}
       {/* CONTAINER */}
       {/* ===================================================== */}
@@ -200,7 +251,7 @@ export function FinanceiroComprasTable() {
 
               grid
 
-              grid-cols-[2.2fr_0.9fr_0.8fr_1.1fr_1fr_1.2fr_1.1fr]
+              grid-cols-[2.2fr_0.9fr_0.8fr_1.1fr_1fr_1.2fr_1.1fr_1.8fr]
 
               items-center
               gap-4
@@ -341,6 +392,24 @@ export function FinanceiroComprasTable() {
                 Status
               </span>
             </div>
+
+            {/* ============================================= */}
+            {/* AÇÕES */}
+            {/* ============================================= */}
+            <div className="flex items-center justify-end">
+              <span
+                className="
+                  text-[10px]
+                  font-semibold
+                  uppercase
+                  tracking-[0.20em]
+
+                  text-[color:var(--muted-soft)]
+                "
+              >
+                Ações
+              </span>
+            </div>
           </div>
         </div>
 
@@ -416,7 +485,7 @@ export function FinanceiroComprasTable() {
 
                     grid-cols-1
 
-                    lg:grid-cols-[1.8fr_0.7fr_0.7fr_1fr_1fr_1fr_1fr]
+                    lg:grid-cols-[1.8fr_0.7fr_0.7fr_1fr_1fr_1fr_1fr_1.8fr]
 
                     items-start
 
@@ -543,6 +612,128 @@ export function FinanceiroComprasTable() {
                       {meta.label}
                     </span>
                   </div>
+
+                  {/* ===================================== */}
+                  {/* AÇÕES */}
+                  {/* ===================================== */}
+                  <div
+                    className="
+                      relative
+                      z-10
+
+                      flex
+                      items-center
+                      justify-start
+                      lg:justify-end
+
+                      gap-1.5
+
+                      min-w-[150px]
+                    "
+                  >
+                    <button
+                      type="button"
+                      onClick={() => handleView(compra.id)}
+                      className="
+                        h-7
+                        sm:h-6
+
+                        px-2.5
+                        sm:px-2
+
+                        rounded-lg
+
+                        border border-[color:var(--border-soft)]
+
+                        bg-white
+
+                        text-[11px]
+                        font-medium
+
+                        text-[color:var(--muted)]
+
+                        transition-all duration-200
+
+                        hover:border-[color:var(--border-strong)]
+                        hover:text-[color:var(--foreground)]
+                        hover:bg-[color:var(--surface-200)]
+
+                        active:scale-[0.98]
+                      "
+                    >
+                      👁 Ver
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void handlePdf(compra);
+                      }}
+                      className="
+                        h-7
+                        sm:h-6
+
+                        px-2.5
+                        sm:px-2
+
+                        rounded-lg
+
+                        border border-[color:var(--border-soft)]
+
+                        bg-white
+
+                        text-[11px]
+                        font-medium
+
+                        text-[color:var(--muted)]
+
+                        transition-all duration-200
+
+                        hover:border-[color:var(--border-strong)]
+                        hover:text-[color:var(--foreground)]
+                        hover:bg-[color:var(--surface-200)]
+
+                        active:scale-[0.98]
+                      "
+                    >
+                      📄 PDF
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        void handlePrint(compra);
+                      }}
+                      className="
+                        h-7
+                        sm:h-6
+
+                        px-2.5
+                        sm:px-2
+
+                        rounded-lg
+
+                        border border-[color:var(--border-soft)]
+
+                        bg-white
+
+                        text-[11px]
+                        font-medium
+
+                        text-[color:var(--muted)]
+
+                        transition-all duration-200
+
+                        hover:border-[color:var(--border-strong)]
+                        hover:text-[color:var(--foreground)]
+                        hover:bg-[color:var(--surface-200)]
+
+                        active:scale-[0.98]
+                      "
+                    >
+                      🖨 Imprimir
+                    </button>
+                  </div>
                 </motion.div>
               );
             })}
@@ -592,6 +783,13 @@ export function FinanceiroComprasTable() {
           )}
         </div>
       </div>
-    </div>
+      </div>
+
+      <CompraViewModal
+        compraId={compraSelecionada}
+        open={modalAberto}
+        onClose={handleCloseView}
+      />
+    </>
   );
 }
