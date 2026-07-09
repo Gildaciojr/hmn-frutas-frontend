@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { api } from "@/core/http/api";
 
+import { useDocumentActions } from "@/shared/hooks/useDocumentActions";
+
 import { motion } from "framer-motion";
 
 import { ClienteSelect } from "@/modules/clientes/components/ClienteSelect";
@@ -12,7 +14,7 @@ import { useClienteStore } from "@/modules/clientes/store/useClienteStore";
 
 import { useVendaMutations } from "../hooks/useVendas";
 
-import type { Venda } from "../services/vendas.service";
+import type { CreateVendaPayload, Venda } from "../services/vendas.service";
 
 type ModeloCaminhaoVenda = "TRUCK" | "BITRUCK" | "CARRETA";
 
@@ -74,6 +76,8 @@ export function NovaVendaCard({
 
   const { createVenda, updateVenda, creating, updating } = useVendaMutations();
 
+  const { share } = useDocumentActions();
+
   const saving = creating || updating;
 
   ////////////////////////////////////////////////////////////
@@ -81,6 +85,10 @@ export function NovaVendaCard({
   ////////////////////////////////////////////////////////////
 
   const [numeroPedido, setNumeroPedido] = useState("");
+
+  const [numeroRomaneio, setNumeroRomaneio] = useState("");
+
+  const [numeroVendaManual, setNumeroVendaManual] = useState(false);
 
   const [dataVenda, setDataVenda] = useState(
     () => new Date().toISOString().split("T")[0],
@@ -192,6 +200,10 @@ export function NovaVendaCard({
 
     setNumeroPedido(venda.numeroPedido ?? "");
 
+    setNumeroRomaneio(venda.numeroRomaneio ?? "");
+
+    setNumeroVendaManual(!venda.compraOrigemId);
+
     setDataVenda(
       venda.dataVenda
         ? new Date(venda.dataVenda).toISOString().split("T")[0]
@@ -212,7 +224,9 @@ export function NovaVendaCard({
     setModeloCaminhao(venda.modeloCaminhao ?? "");
 
     setCompraOrigemId(venda.compraOrigemId ?? null);
-    setCompraOrigemNumeroFolha(venda.numeroFolhaOrigemSnapshot ?? null);
+    setCompraOrigemNumeroFolha(
+      venda.compraOrigemNumeroFolha ?? venda.numeroFolhaOrigemSnapshot ?? null,
+    );
 
     setPesoBruto(String(Math.trunc(Number(venda.pesoBruto ?? 0))));
     setPesoDesconto(String(Math.trunc(Number(venda.pesoDesconto ?? 0))));
@@ -365,6 +379,14 @@ export function NovaVendaCard({
     setErroBuscaOrigem(null);
   }
 
+  function handleNumeroPedidoChange(value: string) {
+    setNumeroPedido(value.replace(/\D/g, ""));
+  }
+
+  function handleNumeroRomaneioChange(value: string) {
+    setNumeroRomaneio(value.replace(/\D/g, ""));
+  }
+
   async function buscarComprasOrigem(placaBusca: string) {
     const placaNormalizada = normalizarPlaca(placaBusca);
 
@@ -414,6 +436,8 @@ export function NovaVendaCard({
 
   function selecionarCompraOrigem(compra: CompraOrigemOption) {
     setCompraOrigemId(compra.id);
+
+    setNumeroVendaManual(false);
 
     setCompraOrigemNumeroFolha(compra.numeroFolha ?? null);
 
@@ -546,6 +570,14 @@ export function NovaVendaCard({
 
   const hasValue = valorTotal > 0;
 
+  const vendaVinculada = Boolean(compraOrigemId);
+
+  const numeroOperacionalManual = numeroVendaManual && !vendaVinculada;
+
+  const numerosOperacionaisValidos =
+    !numeroOperacionalManual ||
+    (numeroPedido.length > 0 && numeroRomaneio.length > 0);
+
   ////////////////////////////////////////////////////////////
   // AUTO PREENCHIMENTO OPERACIONAL
   ////////////////////////////////////////////////////////////
@@ -630,12 +662,32 @@ export function NovaVendaCard({
       return;
     }
 
+    if (numeroOperacionalManual && !numeroPedido) {
+      setError("Informe o número do pedido");
+
+      return;
+    }
+
+    if (numeroOperacionalManual && !numeroRomaneio) {
+      setError("Informe o número do romaneio");
+
+      return;
+    }
+
     try {
       ////////////////////////////////////////////////////////
       // CREATE
       ////////////////////////////////////////////////////////
 
-      const payload = {
+      const numeroPedidoPayload = numeroOperacionalManual
+        ? numeroPedido
+        : undefined;
+
+      const numeroRomaneioPayload = numeroOperacionalManual
+        ? numeroRomaneio
+        : undefined;
+
+      const payload: CreateVendaPayload = {
         //////////////////////////////////////////////////////
         // CLIENTE
         //////////////////////////////////////////////////////
@@ -648,7 +700,9 @@ export function NovaVendaCard({
         // IDENTIFICAÇÃO
         //////////////////////////////////////////////////////
 
-        numeroPedido,
+        numeroPedido: numeroPedidoPayload,
+
+        numeroRomaneio: numeroRomaneioPayload,
 
         dataVenda,
 
@@ -746,6 +800,10 @@ export function NovaVendaCard({
 
       setNumeroPedido("");
 
+      setNumeroRomaneio("");
+
+      setNumeroVendaManual(false);
+
       setLocalEntrega("");
 
       setCidade("");
@@ -799,45 +857,14 @@ export function NovaVendaCard({
       ////////////////////////////////////////////////////////
 
       try {
-        const response = await api.get<Blob>(
-          `/romaneios/venda/${vendaSalva.id}/pdf`,
-          {
-            responseType: "blob",
-          },
-        );
-
-        const file = response.data;
-
-        const url = window.URL.createObjectURL(file);
-
-        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-        if (isMobile) {
-          const pdfFile = new File([file], `romaneio-${vendaSalva.id}.pdf`, {
-            type: "application/pdf",
-          });
-
-          if (
-            navigator.share &&
-            navigator.canShare?.({
-              files: [pdfFile],
-            })
-          ) {
-            await navigator.share({
-              title: "Romaneio",
-              text: "Romaneio gerado pelo sistema HMN Frutas",
-              files: [pdfFile],
-            });
-          } else {
-            window.location.href = url;
-          }
-        } else {
-          window.open(url, "_blank", "noopener,noreferrer");
-        }
-
-        setTimeout(() => {
-          URL.revokeObjectURL(url);
-        }, 5000);
+        await share({
+          url: `/romaneios/venda/${vendaSalva.id}/pdf`,
+          filename: `romaneio-${vendaSalva.id}.pdf`,
+          title: "Romaneio",
+          text: "Romaneio gerado pelo sistema HMN Frutas",
+          shareFallback: "view",
+          newTab: true,
+        });
       } catch (pdfError) {
         console.error("Erro ao gerar PDF:", pdfError);
       }
@@ -2058,8 +2085,8 @@ export function NovaVendaCard({
               </div>
             </div>
 
-            {/* N PEDIDO */}
-            <div className="col-span-1 xl:col-span-2 space-y-1">
+            {/* NÚMEROS */}
+            <div className="col-span-1 xl:col-span-2 space-y-3">
               {/* LABEL */}
               <div className="flex items-center justify-between">
                 <span
@@ -2073,101 +2100,315 @@ export function NovaVendaCard({
                     text-[color:var(--muted-soft)]
                   "
                 >
-                  Nº pedido
+                  Pedido / Romaneio
                 </span>
               </div>
 
-              {/* INPUT */}
-              <div
-                className="
-                  group
-                  relative
-                  overflow-hidden
-
-                  h-[42px]
-                  md:h-[36px]
-
-                  rounded-[14px]
-
-                  border
-                  border-white/10
-
-                  bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.68))]
-
-                  backdrop-blur-xl
-
-                  transition-all
-                  duration-300
-
-                  hover:border-white/20
-
-                  focus-within:border-[color:var(--brand)]/40
-
-                  focus-within:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]
-                "
-              >
-                {/* FX */}
-                <div className="absolute inset-0 pointer-events-none">
-                  <div
-                    className="
-                      absolute
-                      inset-0
-
-                      opacity-0
-                      group-hover:opacity-100
-
-                      transition-all
-                      duration-500
-
-                      bg-[radial-gradient(circle_at_85%_10%,rgba(16,185,129,0.08),transparent_60%)]
-                    "
-                  />
-
-                  <div
-                    className="
-                      absolute
-                      inset-x-0
-                      top-0
-                      h-[1px]
-
-                      bg-gradient-to-r
-                      from-transparent
-                      via-white/30
-                      to-transparent
-                    "
-                  />
-                </div>
-
-                <input
-                  type="text"
-                  value={numeroPedido}
-                  onChange={(e) => setNumeroPedido(e.target.value)}
-                  placeholder="Automático"
+              {vendaVinculada ? (
+                <div
                   className="
+                    group
                     relative
-                    z-10
+                    overflow-hidden
 
-                    w-full
-                    h-full
+                    min-h-[42px]
+                    md:min-h-[36px]
 
-                    bg-transparent
+                    rounded-[14px]
+
+                    border
+                    border-white/10
+
+                    bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.68))]
+
+                    backdrop-blur-xl
 
                     px-4
-
-                    text-[14px]
-                    md:text-[12px]
-                    font-medium
-
-                    tracking-tight
-
-                    text-[color:var(--foreground)]
-
-                    placeholder:text-[color:var(--muted-soft)]
-
-                    outline-none
+                    py-2
                   "
-                />
-              </div>
+                >
+                  <div className="absolute inset-0 pointer-events-none">
+                    <div
+                      className="
+                        absolute
+                        inset-0
+
+                        opacity-0
+                        group-hover:opacity-100
+
+                        transition-all
+                        duration-500
+
+                        bg-[radial-gradient(circle_at_85%_10%,rgba(16,185,129,0.08),transparent_60%)]
+                      "
+                    />
+
+                    <div
+                      className="
+                        absolute
+                        inset-x-0
+                        top-0
+                        h-[1px]
+
+                        bg-gradient-to-r
+                        from-transparent
+                        via-white/30
+                        to-transparent
+                      "
+                    />
+                  </div>
+
+                  <div className="relative z-10 flex h-full flex-col justify-center gap-1">
+                    <span
+                      className="
+                        text-[11px]
+                        md:text-[10px]
+                        font-medium
+
+                        text-[color:var(--foreground)]
+                      "
+                    >
+                      Pedido e romaneio serão iguais à folha da compra
+                    </span>
+
+                    <span
+                      className="
+                        text-[13px]
+                        md:text-[12px]
+                        font-semibold
+
+                        text-emerald-700
+                      "
+                    >
+                      {compraOrigemNumeroFolha ?? "-"}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div
+                    className="
+                      flex
+                      items-center
+
+                      rounded-[14px]
+
+                      border
+                      border-white/10
+
+                      bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.68))]
+
+                      px-4
+                    "
+                  >
+                    <div className="flex flex-col gap-2 py-3">
+                      <label
+                        className="
+                          flex
+                          items-center
+                          gap-3
+
+                          text-[13px]
+                          md:text-[12px]
+                          font-medium
+
+                          text-[color:var(--foreground)]
+                        "
+                      >
+                        <input
+                          type="radio"
+                          checked={!numeroVendaManual}
+                          onChange={() => setNumeroVendaManual(false)}
+                          className="
+                            h-4
+                            w-4
+                          "
+                        />
+                        Gerar automaticamente
+                      </label>
+
+                      <label
+                        className="
+                          flex
+                          items-center
+                          gap-3
+
+                          text-[13px]
+                          md:text-[12px]
+                          font-medium
+
+                          text-[color:var(--foreground)]
+                        "
+                      >
+                        <input
+                          type="radio"
+                          checked={numeroVendaManual}
+                          onChange={() => setNumeroVendaManual(true)}
+                          className="
+                            h-4
+                            w-4
+                          "
+                        />
+                        Informar manualmente
+                      </label>
+                    </div>
+                  </div>
+
+                  {numeroVendaManual && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <span
+                          className="
+                            text-[8px]
+
+                            uppercase
+
+                            tracking-[0.16em]
+
+                            text-[color:var(--muted-soft)]
+                          "
+                        >
+                          Número do Pedido
+                        </span>
+
+                        <div
+                          className="
+                            group
+                            relative
+                            overflow-hidden
+
+                            h-[42px]
+                            md:h-[36px]
+
+                            rounded-[14px]
+
+                            border
+                            border-white/10
+
+                            bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.68))]
+
+                            backdrop-blur-xl
+
+                            transition-all
+                            duration-300
+
+                            hover:border-white/20
+
+                            focus-within:border-[color:var(--brand)]/40
+
+                            focus-within:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]
+                          "
+                        >
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            value={numeroPedido}
+                            onChange={(e) =>
+                              handleNumeroPedidoChange(e.target.value)
+                            }
+                            className="
+                              relative
+                              z-10
+
+                              w-full
+                              h-full
+
+                              bg-transparent
+
+                              px-4
+
+                              text-[14px]
+                              md:text-[12px]
+                              font-medium
+
+                              tracking-tight
+
+                              text-[color:var(--foreground)]
+
+                              outline-none
+                            "
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1">
+                        <span
+                          className="
+                            text-[8px]
+
+                            uppercase
+
+                            tracking-[0.16em]
+
+                            text-[color:var(--muted-soft)]
+                          "
+                        >
+                          Número do Romaneio
+                        </span>
+
+                        <div
+                          className="
+                            group
+                            relative
+                            overflow-hidden
+
+                            h-[42px]
+                            md:h-[36px]
+
+                            rounded-[14px]
+
+                            border
+                            border-white/10
+
+                            bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.68))]
+
+                            backdrop-blur-xl
+
+                            transition-all
+                            duration-300
+
+                            hover:border-white/20
+
+                            focus-within:border-[color:var(--brand)]/40
+
+                            focus-within:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]
+                          "
+                        >
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            value={numeroRomaneio}
+                            onChange={(e) =>
+                              handleNumeroRomaneioChange(e.target.value)
+                            }
+                            className="
+                              relative
+                              z-10
+
+                              w-full
+                              h-full
+
+                              bg-transparent
+
+                              px-4
+
+                              text-[14px]
+                              md:text-[12px]
+                              font-medium
+
+                              tracking-tight
+
+                              text-[color:var(--foreground)]
+
+                              outline-none
+                            "
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
 
             {/* MOTORISTA */}
@@ -5538,7 +5779,8 @@ export function NovaVendaCard({
               !pesoBrutoNumber ||
               !precoMelancia ||
               !quantidadeFrutasNumber ||
-              !valorTotal
+              !valorTotal ||
+              !numerosOperacionaisValidos
             }
             className={`
                   group
@@ -5568,7 +5810,8 @@ export function NovaVendaCard({
                     !pesoBrutoNumber ||
                     !precoMelancia ||
                     !quantidadeFrutasNumber ||
-                    !valorTotal
+                    !valorTotal ||
+                    !numerosOperacionaisValidos
                       ? `
   border-white/10
 
@@ -5608,7 +5851,8 @@ export function NovaVendaCard({
                 !pesoBrutoNumber ||
                 !precoMelancia ||
                 !quantidadeFrutasNumber ||
-                !valorTotal
+                !valorTotal ||
+                !numerosOperacionaisValidos
               ) && (
                 <>
                   {/* SHINE */}

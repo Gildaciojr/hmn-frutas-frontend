@@ -5,8 +5,11 @@ import { useMemo, useState } from "react";
 
 import { useCompras } from "@/modules/compras/hooks/useCompras";
 import { useVendas } from "@/modules/vendas/hooks/useVendas";
+import { useDocumentActions } from "@/shared/hooks/useDocumentActions";
 
 type TipoRelatorio = "todos" | "compras" | "vendas";
+
+type TipoRelatorioPdf = "AMBOS" | "COMPRAS" | "VENDAS";
 
 type UsuarioOption = {
   id: string;
@@ -89,6 +92,18 @@ function isDateInRange(value: string, inicio: string, fim: string): boolean {
   return date >= start && date <= end;
 }
 
+function getTipoRelatorioPdf(tipo: TipoRelatorio): TipoRelatorioPdf {
+  if (tipo === "compras") {
+    return "COMPRAS";
+  }
+
+  if (tipo === "vendas") {
+    return "VENDAS";
+  }
+
+  return "AMBOS";
+}
+
 export function RelatorioProducao() {
   const defaultRange = useMemo(() => getMonthRange(), []);
 
@@ -103,6 +118,8 @@ export function RelatorioProducao() {
   const { compras, loading: loadingCompras } = useCompras();
 
   const { vendas, loading: loadingVendas } = useVendas();
+
+  const { download } = useDocumentActions();
 
   const loading = loadingCompras || loadingVendas;
 
@@ -285,6 +302,23 @@ export function RelatorioProducao() {
     };
   }, [comprasFiltradas, vendasFiltradas, tipoRelatorio]);
 
+  async function handleExportarPdf() {
+    const params = new URLSearchParams({
+      dataInicial: dataInicio,
+      dataFinal: dataFim,
+      tipo: getTipoRelatorioPdf(tipoRelatorio),
+    });
+
+    if (usuarioSelecionado !== "todos") {
+      params.set("usuarioId", usuarioSelecionado);
+    }
+
+    await download({
+      filename: "relatorio-producao.pdf",
+      url: `/financeiro/producao/pdf?${params.toString()}`,
+    });
+  }
+
   return (
     <div className="space-y-4">
       <div
@@ -319,16 +353,7 @@ export function RelatorioProducao() {
 
           <button
             type="button"
-            onClick={() => {
-              console.log("Exportar PDF", {
-                dataInicio,
-                dataFim,
-                usuarioSelecionado,
-                tipoRelatorio,
-                linhas,
-                kpis,
-              });
-            }}
+            onClick={handleExportarPdf}
             className="
               h-[40px]
               px-4

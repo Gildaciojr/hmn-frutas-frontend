@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { ClienteForm } from "./ClienteForm";
 import { ClienteFinanceiroModal } from "./ClienteFinanceiroModal";
-
+import { useDocumentActions } from "@/shared/hooks/useDocumentActions";
 import {
   getClienteHistorico,
   ClienteHistoricoResponse,
@@ -42,6 +42,7 @@ function formatCurrency(value: number | string | null | undefined): string {
 export function ClienteModal({ open, onClose, cliente }: Props) {
   const isViewMode = !!cliente;
 
+  const { view } = useDocumentActions();
   const [isEditMode, setIsEditMode] = useState(false);
 
   ////////////////////////////////////////////////////////////
@@ -1317,10 +1318,10 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                           <div className="pt-3 mt-2 border-t border-emerald-100">
                                             <button
                                               onClick={() => {
-                                                window.open(
-                                                  `${process.env.NEXT_PUBLIC_API_URL}/romaneios/venda/${t.venda?.id}/pdf`,
-                                                  "_blank",
-                                                );
+                                                void view({
+                                                  newTab: true,
+                                                  url: `${process.env.NEXT_PUBLIC_API_URL}/romaneios/venda/${t.venda?.id}/pdf`,
+                                                });
                                               }}
                                               className="
       group/pdf

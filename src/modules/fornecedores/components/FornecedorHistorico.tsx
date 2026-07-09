@@ -5,7 +5,7 @@ import { AlertTriangle, CreditCard, TrendingUp, Wallet } from "lucide-react";
 
 import { useFornecedorHistorico } from "../hooks/useFornecedores";
 import { CompraEditModal } from "@/modules/compras/components/CompraEditModal";
-
+import { useDocumentActions } from "@/shared/hooks/useDocumentActions";
 import { Fragment, useState } from "react";
 
 ////////////////////////////////////////////////////////////
@@ -46,9 +46,9 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
 
   const { data, isLoading, error } = useFornecedorHistorico(fornecedorId);
 
-  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
+  const { share, view } = useDocumentActions();
 
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
 
   const [compraSelecionadaId, setCompraSelecionadaId] = useState<string | null>(
     null,
@@ -210,20 +210,13 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
 
                   const file = response.data;
 
-                  const url = window.URL.createObjectURL(file);
-
                   setPdfBlob(file);
 
-                  setPdfUrl(url);
-
-                  const isMobile = /Android|iPhone|iPad|iPod/i.test(
-                    navigator.userAgent,
-                  );
-                  if (isMobile) {
-                    window.location.href = url;
-                  } else {
-                    window.open(url, "_blank", "noopener,noreferrer");
-                  }
+                  await view({
+                    blob: file,
+                    filename: "relatorio-fornecedor.pdf",
+                    newTab: true,
+                  });
                 } catch (error) {
                   console.error("Erro ao gerar PDF:", error);
                 }
@@ -268,45 +261,17 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
               📄 Gerar PDF
             </button>
 
-            {pdfBlob && pdfUrl && (
+            {pdfBlob && (
               <button
                 type="button"
                 onClick={async () => {
                   try {
-                    const file = new File(
-                      [pdfBlob],
-                      "relatorio-fornecedor.pdf",
-                      {
-                        type: "application/pdf",
-                      },
-                    );
-
-                    if (
-                      navigator.share &&
-                      navigator.canShare?.({
-                        files: [file],
-                      })
-                    ) {
-                      await navigator.share({
-                        title: "Relatório de Fornecedor",
-                        text: "Relatório gerado pelo sistema HMN Frutas",
-                        files: [file],
-                      });
-
-                      return;
-                    }
-
-                    const link = document.createElement("a");
-
-                    link.href = pdfUrl;
-
-                    link.download = "relatorio-fornecedor.pdf";
-
-                    document.body.appendChild(link);
-
-                    link.click();
-
-                    document.body.removeChild(link);
+                    await share({
+                      blob: pdfBlob,
+                      filename: "relatorio-fornecedor.pdf",
+                      text: "Relatório gerado pelo sistema HMN Frutas",
+                      title: "Relatório de Fornecedor",
+                    });
                   } catch (error) {
                     console.error("Erro ao exportar PDF:", error);
                   }

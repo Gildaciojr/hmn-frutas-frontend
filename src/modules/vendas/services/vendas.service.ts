@@ -68,6 +68,8 @@ export interface Venda {
 
   compraOrigemId?: string | null;
 
+  compraOrigemNumeroFolha?: string | null;
+
   numeroFolhaOrigemSnapshot?: string | null;
 
   //////////////////////////////////////////////////
@@ -232,6 +234,8 @@ export interface CreateVendaPayload {
   //////////////////////////////////////////////////
 
   numeroPedido?: string;
+
+  numeroRomaneio?: string;
 
   dataVenda?: string;
 

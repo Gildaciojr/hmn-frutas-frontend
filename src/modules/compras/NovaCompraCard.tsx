@@ -79,7 +79,9 @@ export function NovaCompraCard() {
     new Date().toISOString().split("T")[0] ?? "",
   );
 
-  const numeroFolha = "Gerado automaticamente";
+  const [numeroFolhaManual, setNumeroFolhaManual] = useState<boolean>(false);
+
+  const [numeroFolha, setNumeroFolha] = useState<string>("");
 
   ////////////////////////////////////////////////////////////
   // CONTROLE INTERNO HMN
@@ -422,7 +424,8 @@ export function NovaCompraCard() {
     !!placa &&
     !!dataCompra &&
     !!fornecedor &&
-    !!fazenda;
+    !!fazenda &&
+    (!numeroFolhaManual || numeroFolha.length > 0);
 
   ////////////////////////////////////////////////////////////
   // SUBMIT
@@ -475,8 +478,7 @@ export function NovaCompraCard() {
 
         qualidadeFruta: qualidadeFruta || undefined,
 
-        // numeroFolha removido.
-        // Backend gera automaticamente.
+        numeroFolha: numeroFolhaManual ? numeroFolha : undefined,
 
         //////////////////////////////////////////////////////
         // CAMINHÃO
@@ -548,6 +550,10 @@ export function NovaCompraCard() {
       ////////////////////////////////////////////////////////
 
       setSafra("");
+
+      setNumeroFolhaManual(false);
+
+      setNumeroFolha("");
 
       setControleInterno(false);
 
@@ -636,6 +642,8 @@ export function NovaCompraCard() {
 
         qualidadeFruta: qualidadeFruta || undefined,
 
+        numeroFolha: numeroFolhaManual ? numeroFolha : undefined,
+
         //////////////////////////////////////////////////////
         // TRANSPORTE
         //////////////////////////////////////////////////////
@@ -702,6 +710,8 @@ export function NovaCompraCard() {
 
     safra,
     dataCompra,
+    numeroFolhaManual,
+    numeroFolha,
 
     controleInterno,
     qualidadeFruta,
@@ -1601,11 +1611,76 @@ export function NovaCompraCard() {
                             type="date"
                           />
 
-                          <Input
-                            label="Número da folha"
-                            value="Gerado automaticamente"
-                            disabled
-                          />
+                          <div className="space-y-3">
+                            <div
+                              className="
+                                flex items-center
+
+                                rounded-[14px]
+
+                                border border-[color:var(--border-soft)]
+
+                                bg-white
+
+                                px-4
+                              "
+                            >
+                              <div className="flex flex-col gap-2 py-3">
+                                <label
+                                  className="
+                                    flex items-center gap-3
+
+                                    text-[13px]
+                                    font-medium
+
+                                    text-[color:var(--foreground)]
+                                  "
+                                >
+                                  <input
+                                    type="radio"
+                                    checked={!numeroFolhaManual}
+                                    onChange={() => setNumeroFolhaManual(false)}
+                                    className="
+                                      h-4
+                                      w-4
+                                    "
+                                  />
+                                  Gerar automaticamente
+                                </label>
+
+                                <label
+                                  className="
+                                    flex items-center gap-3
+
+                                    text-[13px]
+                                    font-medium
+
+                                    text-[color:var(--foreground)]
+                                  "
+                                >
+                                  <input
+                                    type="radio"
+                                    checked={numeroFolhaManual}
+                                    onChange={() => setNumeroFolhaManual(true)}
+                                    className="
+                                      h-4
+                                      w-4
+                                    "
+                                  />
+                                  Informar manualmente
+                                </label>
+                              </div>
+                            </div>
+
+                            {numeroFolhaManual && (
+                              <Input
+                                label="Número da folha"
+                                value={numeroFolha}
+                                onChange={setNumeroFolha}
+                                numericOnly
+                              />
+                            )}
+                          </div>
 
                           <div
                             className="
@@ -2977,6 +3052,7 @@ function Input({
   placeholder,
   disabled,
   type = "text",
+  numericOnly = false,
 }: {
   label: string;
 
@@ -2989,6 +3065,8 @@ function Input({
   disabled?: boolean;
 
   type?: "text" | "date";
+
+  numericOnly?: boolean;
 }) {
   ////////////////////////////////////////////////////////////
   // STATES
@@ -3029,6 +3107,8 @@ function Input({
       normalizedLabel.includes("folha") ||
       normalizedLabel.includes("caminhões"));
 
+  const shouldPreserveRawNumericValue = numericOnly;
+
   ////////////////////////////////////////////////////////////
   // NUMERIC
   ////////////////////////////////////////////////////////////
@@ -3044,7 +3124,7 @@ function Input({
       ? value
       : isMoneyField
         ? formatCurrencyInput(value)
-        : isIntegerField
+        : isIntegerField && !shouldPreserveRawNumericValue
           ? formatIntegerBR(value)
           : value;
 
@@ -3073,7 +3153,7 @@ function Input({
     // INTEGER
     ////////////////////////////////////////////////////////////
 
-    if (isIntegerField) {
+    if (numericOnly || isIntegerField) {
       raw = raw.replace(/\D/g, "");
 
       onChange(raw);

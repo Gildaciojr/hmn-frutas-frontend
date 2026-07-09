@@ -288,7 +288,7 @@ export function CompraForm({
 
       motoristaTelefone: values.motoristaTelefone.trim() || undefined,
 
-      numeroFolha: values.numeroFolha,
+      numeroFolha: values.numeroFolha?.trim() || undefined,
 
       kgBruto: parsed.kgBruto,
 
@@ -439,9 +439,9 @@ export function CompraForm({
 
           <input
             value={values.numeroFolha ?? ""}
-            disabled={mode === "edit"}
-            readOnly={mode === "edit"}
-            onChange={(e) => onChange("numeroFolha", e.target.value)}
+            onChange={(e) =>
+              onChange("numeroFolha", e.target.value.replace(/\D/g, ""))
+            }
             className="
         w-full
         h-11
