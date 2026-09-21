@@ -248,11 +248,11 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
       transition-all
       duration-200
 
-      hover:border-[color:var(--brand)]
+      sm:hover:border-[color:var(--brand)]
 
-      hover:text-[color:var(--brand)]
+      sm:hover:text-[color:var(--brand)]
 
-      hover:shadow-md
+      sm:hover:shadow-md
 
       w-full
       sm:w-auto
@@ -305,11 +305,11 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
         transition-all
         duration-200
 
-        hover:bg-emerald-100
+        sm:hover:bg-emerald-100
 
-        hover:border-emerald-300
+        sm:hover:border-emerald-300
 
-        hover:shadow-md
+        sm:hover:shadow-md
 
         w-full
         sm:w-auto
@@ -326,8 +326,139 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
         )}
 
         {historico.length > 0 && (
+          <div className="space-y-3 lg:hidden">
+            {historico.map((item) => (
+              <article
+                key={item.compraId}
+                className="rounded-[18px] border border-[color:var(--border-soft)] bg-white p-3 space-y-4"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[color:var(--border-soft)] pb-3">
+                  <div>
+                    <div className="text-sm font-semibold">
+                      {formatDate(item.dataCompra)}
+                    </div>
+                    <div className="mt-1 text-xs text-[color:var(--muted)]">
+                      Folha: {item.numeroFolha ?? "-"}
+                    </div>
+                  </div>
+                  <div className="text-right text-xs text-[color:var(--muted)]">
+                    <div>Fazenda: {item.fazenda ?? "-"}</div>
+                    <div className="mt-1">Placa: {item.placa ?? "-"}</div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[color:var(--muted-soft)]">
+                    Transporte e carga
+                  </h4>
+                  <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
+                    <div><span className="text-[color:var(--muted)]">Modelo</span><div className="font-medium">{item.modeloCaminhao ?? "-"}</div></div>
+                    <div><span className="text-[color:var(--muted)]">Peso Bruto</span><div className="font-medium">{item.kgBruto.toFixed(0)} kg</div></div>
+                    <div><span className="text-[color:var(--muted)]">Frutas</span><div className="font-medium">{item.quantidadeFrutas}</div></div>
+                    <div><span className="text-[color:var(--muted)]">Média</span><div className="font-medium">{item.mediaFruta.toFixed(2)}</div></div>
+                    <div><span className="text-[color:var(--muted)]">Desconto</span><div className="font-medium">{item.descontoKgCalculado.toFixed(0)} kg</div></div>
+                    <div><span className="text-[color:var(--muted)]">Peso Líquido</span><div className="font-medium">{item.kgLiquido.toFixed(0)} kg</div></div>
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[color:var(--muted-soft)]">
+                    Financeiro
+                  </h4>
+                  <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
+                    <div><span className="text-[color:var(--muted)]">Preço Kg</span><div className="font-medium">{formatCurrency(item.precoKg)}</div></div>
+                    <div><span className="text-[color:var(--muted)]">Total Bruto</span><div className="font-medium">{formatCurrency(item.totalBruto)}</div></div>
+                    <div><span className="text-[color:var(--muted)]">Despesas</span><div className="font-medium">{formatCurrency(item.despesas)}</div></div>
+                    <div><span className="text-[color:var(--muted)]">Valor Final</span><div className="font-semibold text-[color:var(--brand)]">{formatCurrency(item.valorTotal)}</div></div>
+                    <div><span className="text-[color:var(--muted)]">Pago</span><div className="font-medium text-emerald-600">{formatCurrency(item.valorPago)}</div></div>
+                    <div><span className="text-[color:var(--muted)]">Restante</span><div className="font-semibold text-red-600">{formatCurrency(item.valorRestante)}</div></div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[color:var(--border-soft)] pt-3">
+                  <div className="flex flex-wrap gap-2">
+                    <span
+                      className={`inline-flex rounded-full px-2 py-1 text-[11px] font-medium ${
+                        item.statusCompra === "FECHADA"
+                          ? "bg-emerald-100 text-emerald-700"
+                          : item.statusCompra === "ABERTA"
+                            ? "bg-blue-100 text-blue-700"
+                            : item.statusCompra === "CANCELADA"
+                              ? "bg-red-100 text-red-700"
+                              : "bg-slate-100 text-slate-700"
+                      }`}
+                    >
+                      {item.statusCompra ?? "-"}
+                    </span>
+                    <span
+                      className={`inline-flex rounded-full px-2 py-1 text-[11px] font-medium ${
+                        item.statusFinanceiro === "PAGO"
+                          ? "bg-emerald-100 text-emerald-700"
+                          : item.statusFinanceiro === "PARCIAL"
+                            ? "bg-amber-100 text-amber-700"
+                            : item.statusFinanceiro === "VENCIDO"
+                              ? "bg-red-100 text-red-700"
+                              : "bg-blue-100 text-blue-700"
+                      }`}
+                    >
+                      {item.statusFinanceiro}
+                    </span>
+                  </div>
+
+                  {Number(item.valorPago ?? 0) === 0 &&
+                  item.pagamentos.length === 0 &&
+                  item.statusCompra === "FECHADA" ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCompraSelecionadaId(item.compraId);
+                        setEditarCompraOpen(true);
+                      }}
+                      className="inline-flex h-11 items-center justify-center rounded-xl border border-blue-200 bg-blue-50 px-3 text-xs font-semibold text-blue-700 sm:hover:bg-blue-100"
+                    >
+                      Editar
+                    </button>
+                  ) : (
+                    <span className="text-[11px] text-slate-400">Bloqueado</span>
+                  )}
+                </div>
+
+                {item.pagamentos.length > 0 && (
+                  <div className="space-y-2 border-t border-[color:var(--border-soft)] pt-3">
+                    <div className="text-xs font-semibold uppercase tracking-wide text-[color:var(--brand)]">
+                      Pagamentos
+                    </div>
+                    {item.pagamentos.map((pagamento) => (
+                      <div
+                        key={pagamento.id}
+                        className="flex items-center justify-between gap-3 rounded-xl border border-[color:var(--border-soft)] bg-slate-50/40 px-3 py-2"
+                      >
+                        <div>
+                          <div className="inline-flex rounded-full bg-slate-100 px-2 py-1 text-xs font-semibold">
+                            {pagamento.formaPagamento}
+                          </div>
+                          <div className="mt-1 text-xs text-[color:var(--muted)]">
+                            {formatDate(pagamento.pagoEm)}
+                          </div>
+                        </div>
+                        <div className="font-semibold text-emerald-600">
+                          {formatCurrency(pagamento.valor)}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        )}
+
+        {historico.length > 0 && (
           <div
             className="
+        hidden
+        lg:block
+
         overflow-x-auto
 
         rounded-[24px]
@@ -709,24 +840,28 @@ function ResumoCard({
     w-full  
     sm:w-[200px]
 
-    rounded-[18px]
+    rounded-[16px]
+    sm:rounded-[18px]
 
     border
     border-[color:var(--border-soft)]
 
     bg-white
 
-    px-2
-    py-1.5
+    px-3
+    py-2
+    sm:px-2
+    sm:py-1.5
 
-    shadow-sm
+    shadow-none
+    sm:shadow-sm
 
     transition-all
     duration-200
 
-    hover:border-[color:var(--brand)]
+    sm:hover:border-[color:var(--brand)]
 
-    hover:shadow-md
+    sm:hover:shadow-md
   "
     >
       <div

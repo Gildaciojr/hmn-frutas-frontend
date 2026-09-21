@@ -93,22 +93,22 @@ export function EstoqueCard() {
   transition-[transform,box-shadow,border-color]
   duration-300
 
-  hover:-translate-y-[1px]
+  sm:hover:-translate-y-[1px]
 
-  hover:border-[color:var(--brand)]
+  sm:hover:border-[color:var(--brand)]
 
-  hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)]
+  sm:hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)]
 
-  will-change-transform
+  sm:will-change-transform
 "
       >
         {/* CAMADA VISUAL */}
         <div className="absolute inset-0 pointer-events-none">
           {/* textura leve */}
-          <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle,rgba(0,0,0,0.35)_1px,transparent_1px)] bg-[size:22px_22px]" />
+          <div className="absolute inset-0 hidden opacity-[0.03] bg-[radial-gradient(circle,rgba(0,0,0,0.35)_1px,transparent_1px)] bg-[size:22px_22px] sm:block" />
 
           {/* glow contextual */}
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
+          <div className="absolute inset-0 hidden opacity-0 transition duration-500 sm:block sm:group-hover:opacity-100">
             <div
               className={`
           absolute inset-0
@@ -191,7 +191,7 @@ export function EstoqueCard() {
               <span
                 className={`
             w-[5px] h-[5px] rounded-full
-            ${totalKg > 0 ? "bg-emerald-500 animate-pulse" : "bg-gray-400"}
+            ${totalKg > 0 ? "bg-emerald-500 sm:animate-pulse" : "bg-gray-400"}
           `}
               />
 
@@ -231,7 +231,7 @@ export function EstoqueCard() {
 
         flex items-center justify-center
 
-        p-4
+        p-2 sm:p-4
       "
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -254,6 +254,7 @@ export function EstoqueCard() {
           max-h-[92dvh]
 
           overflow-y-auto
+          overscroll-contain
 
           rounded-[20px]
 
@@ -266,9 +267,10 @@ export function EstoqueCard() {
           sm:p-6
           space-y-6
 
-          shadow-[0_50px_140px_rgba(0,0,0,0.30)]
+          shadow-[0_20px_56px_rgba(0,0,0,0.20)]
+          sm:shadow-[0_50px_140px_rgba(0,0,0,0.30)]
 
-          will-change-transform
+          sm:will-change-transform
         "
               initial={{
                 y: 24,
@@ -290,10 +292,10 @@ export function EstoqueCard() {
               {/* CAMADA VISUAL */}
               <div className="absolute inset-0 pointer-events-none">
                 {/* textura */}
-                <div className="absolute inset-0 opacity-[0.025] bg-[radial-gradient(circle,rgba(0,0,0,0.4)_1px,transparent_1px)] bg-[size:24px_24px]" />
+                <div className="absolute inset-0 hidden opacity-[0.025] bg-[radial-gradient(circle,rgba(0,0,0,0.4)_1px,transparent_1px)] bg-[size:24px_24px] sm:block" />
 
                 {/* glow */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500">
+                <div className="absolute inset-0 hidden opacity-0 transition duration-500 sm:block sm:group-hover:opacity-100">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(16,185,129,0.10),transparent_60%)]" />
                 </div>
 
@@ -522,7 +524,8 @@ export function EstoqueCard() {
 
     relative
 
-    w-9 h-9
+    w-11 h-11
+    sm:w-9 sm:h-9
 
     rounded-2xl
 
@@ -610,7 +613,7 @@ export function EstoqueCard() {
               </div>
 
               {/* ================= TIMELINE ================= */}
-              <div className="space-y-4 max-h-[50dvh] sm:max-h-[400px] overflow-auto pr-1">
+              <div className="space-y-4 max-h-[50dvh] sm:max-h-[400px] overflow-auto overscroll-contain pr-1">
                 {/* EMPTY STATE */}
                 {!resumo?.timeline || resumo.timeline.length === 0 ? (
                   <div

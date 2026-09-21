@@ -42,19 +42,21 @@ export function NovoClienteQuickCard({ onClick }: Props) {
 
         text-left
 
-        shadow-[0_10px_35px_rgba(0,0,0,0.05)]
+        shadow-[0_6px_20px_rgba(0,0,0,0.04)]
+        sm:shadow-[0_10px_35px_rgba(0,0,0,0.05)]
 
         transition-all
         duration-300
 
-        hover:border-emerald-300/40
-        hover:shadow-[0_18px_50px_rgba(16,185,129,0.12)]
+        sm:hover:border-emerald-300/40
+        sm:hover:shadow-[0_18px_50px_rgba(16,185,129,0.12)]
       "
     >
       {/* FX */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="
+            hidden sm:block
             absolute
             inset-0
 
@@ -108,6 +110,7 @@ export function NovoClienteQuickCard({ onClick }: Props) {
           >
             <div
               className="
+                hidden sm:block
                 absolute
                 inset-0
 
@@ -188,8 +191,8 @@ export function NovoClienteQuickCard({ onClick }: Props) {
             transition-all
             duration-300
 
-            group-hover:text-emerald-600
-            group-hover:border-emerald-200
+            sm:group-hover:text-emerald-600
+            sm:group-hover:border-emerald-200
           "
         >
           →

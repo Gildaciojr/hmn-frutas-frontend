@@ -160,7 +160,7 @@ export function FornecedorForm({
       className="
         w-full
 
-        space-y-5
+        space-y-4
 
         sm:space-y-4
       "
@@ -381,17 +381,20 @@ export function FornecedorForm({
 
       <div
         className="
-    rounded-[18px]
+    rounded-none
+    sm:rounded-[18px]
 
-    border
-    border-[color:var(--border-soft)]
+    border-0
+    sm:border
+    sm:border-[color:var(--border-soft)]
 
-    bg-[color:var(--surface-100)]
+    bg-transparent
+    sm:bg-[color:var(--surface-100)]
 
-    p-4
+    p-0
     sm:p-5
 
-    space-y-5
+    space-y-4
     sm:space-y-4
   "
       >
@@ -627,6 +630,9 @@ export function FornecedorForm({
 
             bg-[color:var(--surface-100)]
 
+            text-[16px]
+            md:text-[14px]
+
             resize-none
 
             outline-none
@@ -674,14 +680,15 @@ export function FornecedorForm({
       text-[14px]
       font-medium
 
-      shadow-[0_10px_24px_rgba(99,102,241,0.18)]
+      shadow-[0_6px_18px_rgba(99,102,241,0.14)]
+      sm:shadow-[0_10px_24px_rgba(99,102,241,0.18)]
 
       transition-all
       duration-300
 
-      hover:translate-y-[-1px]
+      sm:hover:translate-y-[-1px]
 
-      hover:shadow-[0_14px_30px_rgba(99,102,241,0.24)]
+      sm:hover:shadow-[0_14px_30px_rgba(99,102,241,0.24)]
 
       disabled:opacity-50
     "

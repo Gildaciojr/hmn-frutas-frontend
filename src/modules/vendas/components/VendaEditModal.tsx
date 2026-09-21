@@ -1,10 +1,16 @@
 "use client";
 
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 
 import { NovaVendaCard } from "./NovaVendaCard";
+
+import { useClientes } from "@/modules/clientes/hooks/useClientes";
+
+import { useClienteStore } from "@/modules/clientes/store/useClienteStore";
+
+import type { Cliente } from "@/modules/clientes/services/clientes.service";
 
 import type { Venda } from "../services/vendas.service";
 
@@ -23,6 +29,18 @@ export const VendaEditModal = memo(function VendaEditModal({
 }: Props) {
   const [ready, setReady] = useState(false);
 
+  const [clientePreparado, setClientePreparado] = useState(false);
+
+  const previousClienteRef = useRef<Cliente | null>(null);
+
+  const previousClienteCapturedRef = useRef(false);
+
+  const { clientes, loading } = useClientes();
+
+  const selecionarCliente = useClienteStore(
+    (state) => state.selecionarCliente,
+  );
+
   useEffect(() => {
     if (!open) {
       setReady(false);
@@ -36,6 +54,65 @@ export const VendaEditModal = memo(function VendaEditModal({
     return () => window.clearTimeout(timer);
   }, [open]);
 
+  useEffect(() => {
+    if (!open || !venda) {
+      setClientePreparado(false);
+      return;
+    }
+
+    if (!previousClienteCapturedRef.current) {
+      previousClienteRef.current =
+        useClienteStore.getState().clienteSelecionado;
+
+      previousClienteCapturedRef.current = true;
+    }
+
+    if (clientePreparado) {
+      return;
+    }
+
+    if (loading) {
+      setClientePreparado(false);
+      return;
+    }
+
+    const clienteDaVenda = clientes.find(
+      (cliente) => cliente.id === venda.clienteId,
+    );
+
+    if (!clienteDaVenda) {
+      setClientePreparado(false);
+      return;
+    }
+
+    selecionarCliente(clienteDaVenda);
+
+    setClientePreparado(true);
+  }, [
+    clientePreparado,
+    clientes,
+    loading,
+    open,
+    selecionarCliente,
+    venda,
+  ]);
+
+  function handleClose() {
+    if (previousClienteCapturedRef.current) {
+      selecionarCliente(previousClienteRef.current);
+    }
+
+    previousClienteRef.current = null;
+
+    previousClienteCapturedRef.current = false;
+
+    setClientePreparado(false);
+
+    setReady(false);
+
+    onClose();
+  }
+
   return (
     <AnimatePresence>
       {open && venda && (
@@ -43,7 +120,7 @@ export const VendaEditModal = memo(function VendaEditModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={onClose}
+          onClick={handleClose}
           className="
             fixed
             inset-0
@@ -160,8 +237,12 @@ export const VendaEditModal = memo(function VendaEditModal({
                 sm:py-5
               "
             >
-              {ready ? (
-                <NovaVendaCard mode="edit" venda={venda} onSuccess={onClose} />
+              {ready && clientePreparado ? (
+                <NovaVendaCard
+                  mode="edit"
+                  venda={venda}
+                  onSuccess={handleClose}
+                />
               ) : (
                 <div
                   className="
@@ -221,7 +302,7 @@ export const VendaEditModal = memo(function VendaEditModal({
             >
               <button
                 type="button"
-                onClick={onClose}
+                onClick={handleClose}
                 className="
                   h-11
 

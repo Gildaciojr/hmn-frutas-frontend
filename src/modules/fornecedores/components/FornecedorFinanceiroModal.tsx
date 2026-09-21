@@ -133,7 +133,8 @@ export function FornecedorFinanceiroModal({
 
         justify-center
 
-        overflow-y-auto
+        overflow-hidden
+        overscroll-none
 
         p-2
         sm:p-4
@@ -145,11 +146,16 @@ export function FornecedorFinanceiroModal({
 
           max-w-6xl
 
-          max-h-[95vh]
+          flex
+          flex-col
+
+          max-h-[calc(100dvh-1rem)]
+          sm:max-h-[calc(100dvh-2rem)]
 
           overflow-hidden
 
-          rounded-3xl
+          rounded-[22px]
+          sm:rounded-3xl
 
           bg-white
 
@@ -162,18 +168,19 @@ export function FornecedorFinanceiroModal({
 
         <div
           className="
-            px-4
+            shrink-0
+
+            px-3
             sm:px-6
 
-            py-4
+            py-3
             sm:py-5
 
             flex
 
-            flex-col
+            flex-row
 
-            sm:flex-row
-
+            items-start
             sm:items-center
             justify-between
 
@@ -206,8 +213,10 @@ export function FornecedorFinanceiroModal({
           <button
             onClick={onClose}
             className="
-              w-10
-              h-10
+              w-11
+              h-11
+              sm:w-10
+              sm:h-10
 
               rounded-xl
 
@@ -224,17 +233,19 @@ export function FornecedorFinanceiroModal({
 
         <div
           className="
+    flex-1
+    min-h-0
     overflow-y-auto
+    overscroll-contain
 
-    max-h-[calc(90vh-92px)]
-
-    px-4
+    px-3
     sm:px-6
 
-    py-4
+    py-3
     sm:py-5
 
-    space-y-5
+    space-y-4
+    sm:space-y-5
   "
         >
           {/* RESUMO */}
@@ -242,6 +253,7 @@ export function FornecedorFinanceiroModal({
           {!financeiroLoading && financeiro && (
             <div
               className="
+                  grid
                   grid-cols-1
 
                   sm:grid-cols-2
@@ -278,6 +290,7 @@ export function FornecedorFinanceiroModal({
 
           <div
             className="
+    grid
     grid-cols-1
 
     xl:grid-cols-[340px_1fr]
@@ -294,19 +307,23 @@ export function FornecedorFinanceiroModal({
     relative
     overflow-hidden
 
-    rounded-[24px]
+    rounded-[18px]
+    sm:rounded-[24px]
 
     border
     border-[color:var(--border-soft)]
 
     bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(248,250,252,0.88))]
 
-    px-5
-    py-4
+    px-3
+    py-3
+    sm:px-5
+    sm:py-4
 
     space-y-4
 
-    shadow-[0_10px_30px_rgba(15,23,42,0.05)]
+    shadow-none
+    sm:shadow-[0_10px_30px_rgba(15,23,42,0.05)]
 
     transition-all
     duration-300
@@ -332,7 +349,8 @@ export function FornecedorFinanceiroModal({
                 className="
   w-full
 
-  h-[46px]
+  h-12
+  sm:h-[46px]
 
   px-4
 
@@ -463,9 +481,9 @@ export function FornecedorFinanceiroModal({
   transition-all
   duration-300
 
-  hover:translate-y-[-1px]
+  sm:hover:translate-y-[-1px]
 
-  hover:shadow-[0_20px_44px_rgba(16,185,129,0.34)]
+  sm:hover:shadow-[0_20px_44px_rgba(16,185,129,0.34)]
 
   disabled:opacity-60
 "
@@ -494,9 +512,13 @@ export function FornecedorFinanceiroModal({
                     className="
                     border
 
-                    rounded-2xl
+                    rounded-[18px]
+                    sm:rounded-2xl
 
-                    p-4
+                    p-3
+                    sm:p-4
+
+                    shadow-none
                   "
                   >
                     <div className="font-medium">{transacao.descricao}</div>
@@ -550,24 +572,28 @@ export function FornecedorFinanceiroModal({
                     relative
                     overflow-hidden
 
-                    rounded-[20px]
+                    rounded-[18px]
+                    sm:rounded-[20px]
 
                     border
                     border-[color:var(--border-soft)]
 
                     bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.84))]
 
-                    px-4
-                    py-3.5
+                    px-3
+                    py-3
+                    sm:px-4
+                    sm:py-3.5
 
-                    shadow-[0_8px_24px_rgba(15,23,42,0.04)]
+                    shadow-none
+                    sm:shadow-[0_8px_24px_rgba(15,23,42,0.04)]
 
                     transition-all
                     duration-300
 
-                    hover:translate-y-[-2px]
+                    sm:hover:translate-y-[-2px]
 
-                    hover:shadow-[0_16px_34px_rgba(15,23,42,0.08)]
+                    sm:hover:shadow-[0_16px_34px_rgba(15,23,42,0.08)]
                   "
                     >
                       <div
@@ -654,7 +680,8 @@ function CardResumo({
         relative
         overflow-hidden
 
-        rounded-[20px]
+        rounded-[18px]
+        sm:rounded-[20px]
 
         border
         border-[color:var(--border-soft)]
@@ -664,14 +691,15 @@ function CardResumo({
         px-4
         py-3.5
 
-        shadow-[0_8px_24px_rgba(15,23,42,0.04)]
+        shadow-none
+        sm:shadow-[0_8px_24px_rgba(15,23,42,0.04)]
 
         transition-all
         duration-300
 
-        hover:translate-y-[-2px]
+        sm:hover:translate-y-[-2px]
 
-        hover:shadow-[0_16px_40px_rgba(15,23,42,0.08)]
+        sm:hover:shadow-[0_16px_40px_rgba(15,23,42,0.08)]
       "
     >
       {/* FX */}
@@ -682,6 +710,9 @@ function CardResumo({
             absolute
             top-0
             right-0
+
+            hidden
+            sm:block
 
             w-[90px]
             h-[90px]

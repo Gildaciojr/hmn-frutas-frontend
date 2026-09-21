@@ -1,10 +1,17 @@
 import "./globals.css";
+import type { Metadata } from "next";
 import { ReactQueryProvider } from "@/core/providers/react-query";
 import { ClientProviders } from "@/core/providers/client-providers";
 
-export const metadata = {
-  title: "Melancias System",
-  description: "Controle de compras e vendas de melancias",
+export const metadata: Metadata = {
+  title: "HMN Frutas",
+  applicationName: "HMN Frutas",
+  description: "Sistema de gestão de compras e vendas da HMN Frutas",
+  appleWebApp: {
+    capable: true,
+    title: "HMN Frutas",
+    statusBarStyle: "default",
+  },
 };
 
 export default function RootLayout({

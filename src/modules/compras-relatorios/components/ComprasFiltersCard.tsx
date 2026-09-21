@@ -91,12 +91,14 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
         sm:rounded-[24px]
 
-        px-4
+        px-3
         sm:px-5
 
-        py-4
+        py-3
+        sm:py-4
 
-        space-y-3
+        space-y-2
+        sm:space-y-3
       "
     >
       <div
@@ -116,7 +118,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             Central de relatórios
           </h2>
 
-          <p className="text-[11px] sm:text-[12px] text-[color:var(--muted)]">
+          <p className="hidden text-[11px] text-[color:var(--muted)] sm:block sm:text-[12px]">
             Gere relatórios gerenciais por fornecedor, fazenda e período.
           </p>
         </div>
@@ -127,7 +129,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             items-center
             gap-2
 
-            text-[11px]
+            text-[10px]
             sm:text-[10px]
             text-[color:var(--muted-soft)]
           "
@@ -206,7 +208,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           <label className="label-base">Data inicial</label>
 
           <input
-            className="input-base w-full min-w-0 block overflow-hidden appearance-none [-webkit-appearance:none]"
+            className="input-base w-full min-w-0 block overflow-hidden appearance-none [-webkit-appearance:none] text-[16px] md:text-[13px]"
             style={{
               width: "100%",
               minWidth: 0,
@@ -222,7 +224,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           <label className="label-base">Data final</label>
 
           <input
-            className="input-base w-full min-w-0 block overflow-hidden appearance-none [-webkit-appearance:none]"
+            className="input-base w-full min-w-0 block overflow-hidden appearance-none [-webkit-appearance:none] text-[16px] md:text-[13px]"
             style={{
               width: "100%",
               minWidth: 0,
@@ -258,6 +260,8 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           className="
             h-[46px]
             sm:h-[42px]
+            w-full
+            md:w-auto
             px-4
 
             rounded-[var(--radius-md)]
@@ -275,8 +279,8 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
             transition-all
 
-            hover:border-[color:var(--brand)]
-            hover:text-[color:var(--foreground)]
+            sm:hover:border-[color:var(--brand)]
+            sm:hover:text-[color:var(--foreground)]
           "
         >
           {showAdvancedFilters
@@ -288,8 +292,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           className="
     flex
 
-    flex-col
-    sm:flex-row
+    flex-row
 
     w-full
 
@@ -304,7 +307,8 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             className="
               h-[46px]
               sm:h-[42px]
-              px-5
+              shrink-0
+              px-4
 
               rounded-[var(--radius-md)]
 
@@ -321,8 +325,8 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
               transition-all
 
-              hover:border-[color:var(--border-strong)]
-              hover:text-[color:var(--foreground)]
+              sm:hover:border-[color:var(--border-strong)]
+              sm:hover:text-[color:var(--foreground)]
             "
           >
             Limpar
@@ -377,7 +381,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             <label className="label-base">Placa</label>
 
             <input
-              className="input-base"
+              className="input-base w-full min-w-0 text-[16px] md:text-[13px]"
               value={placa}
               onChange={(event) =>
                 setPlaca(
@@ -395,7 +399,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             <label className="label-base">Número da folha</label>
 
             <input
-              className="input-base"
+              className="input-base w-full min-w-0 text-[16px] md:text-[13px]"
               value={numeroFolha}
               onChange={(event) => setNumeroFolha(event.target.value)}
               placeholder="Romaneio / folha"
@@ -406,7 +410,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             <label className="label-base">Status</label>
 
             <select
-              className="input-base"
+              className="input-base w-full min-w-0 text-[16px] md:text-[13px]"
               value={status}
               onChange={(event) => setStatus(event.target.value)}
             >

@@ -25,19 +25,21 @@ export function NovaDespesaCard() {
 
           bg-[color:var(--surface-100)]
 
-          shadow-[0_10px_35px_rgba(0,0,0,0.05)]
+          shadow-[0_6px_20px_rgba(0,0,0,0.04)]
+          sm:shadow-[0_10px_35px_rgba(0,0,0,0.05)]
 
           px-4 py-3
 
           transition-all
           duration-300
 
-          hover:-translate-y-1
-          hover:shadow-[0_18px_45px_rgba(0,0,0,0.08)]
+          sm:hover:-translate-y-1
+          sm:hover:shadow-[0_18px_45px_rgba(0,0,0,0.08)]
         "
       >
         <div
           className="
+            hidden sm:block
             absolute
 
             right-[-20px]
@@ -156,9 +158,9 @@ export function NovaDespesaCard() {
 
               transition-all
 
-              hover:bg-amber-600
-              hover:shadow-[0_14px_35px_rgba(245,158,11,0.28)]
-              hover:-translate-y-[1px]
+              sm:hover:bg-amber-600
+              sm:hover:shadow-[0_14px_35px_rgba(245,158,11,0.28)]
+              sm:hover:-translate-y-[1px]
 
             "
           >

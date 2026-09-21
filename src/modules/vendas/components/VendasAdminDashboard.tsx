@@ -72,7 +72,8 @@ export function VendasAdminDashboard() {
     grid
     grid-cols-1
     xl:grid-cols-[1fr_320px]
-    gap-4
+            gap-3
+            sm:gap-4
   "
           >
             <motion.div
@@ -128,12 +129,13 @@ export function VendasAdminDashboard() {
 
             bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))]
 
-            shadow-[0_25px_80px_rgba(0,0,0,0.06)]
+            shadow-[0_12px_36px_rgba(0,0,0,0.05)]
+            sm:shadow-[0_25px_80px_rgba(0,0,0,0.06)]
 
-            backdrop-blur-xl
+            backdrop-blur-none
+            sm:backdrop-blur-xl
 
             p-3
-
             sm:p-6
 
             xl:p-7
@@ -161,6 +163,7 @@ export function VendasAdminDashboard() {
 
                 bg-emerald-500/10
 
+                hidden sm:block
                 blur-[90px]
               "
             />
@@ -183,6 +186,7 @@ export function VendasAdminDashboard() {
 
                 bg-black/5
 
+                hidden sm:block
                 blur-[100px]
               "
             />
@@ -190,6 +194,7 @@ export function VendasAdminDashboard() {
             {/* GRID */}
             <div
               className="
+                hidden sm:block
                 absolute inset-0
 
                 opacity-[0.025]
@@ -299,7 +304,8 @@ export function VendasAdminDashboard() {
 
                 sm:self-auto
 
-                min-w-[1400px]
+                w-full
+                sm:w-auto
 
                 rounded-2xl
 

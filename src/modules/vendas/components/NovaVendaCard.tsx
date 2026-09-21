@@ -925,18 +925,21 @@ export function NovaVendaCard({
 
         bg-[linear-gradient(180deg,rgba(255,255,255,0.76),rgba(248,250,252,0.60))]
 
-        backdrop-blur-xl
+        backdrop-blur-none
+        sm:backdrop-blur-xl
 
-        shadow-[0_24px_80px_rgba(15,23,42,0.08)]
+        shadow-[0_12px_36px_rgba(15,23,42,0.06)]
+        sm:shadow-[0_24px_80px_rgba(15,23,42,0.08)]
 
-        hover:border-white/20
+        sm:hover:border-white/20
 
-        hover:shadow-[0_34px_100px_rgba(15,23,42,0.12)]
+        sm:hover:shadow-[0_34px_100px_rgba(15,23,42,0.12)]
 
         transition-all
         duration-300
 
-        p-4
+        p-3
+        sm:p-4
         xl:p-4
 
         space-y-4
@@ -953,6 +956,7 @@ export function NovaVendaCard({
 
         <div
           className={`
+            hidden sm:block
             absolute inset-0
 
             opacity-40
@@ -978,6 +982,7 @@ export function NovaVendaCard({
 
         <div
           className="
+            hidden sm:block
             absolute
             inset-0
 
@@ -1011,6 +1016,7 @@ export function NovaVendaCard({
 
         <div
           className="
+            hidden sm:block
             absolute
             inset-0
 
@@ -1067,6 +1073,7 @@ export function NovaVendaCard({
 
                   bg-emerald-500/60
 
+                  hidden sm:block
                   blur-[6px]
                 "
               />
@@ -1156,7 +1163,8 @@ export function NovaVendaCard({
 
                   bg-emerald-500/10
 
-                  backdrop-blur-xl
+                  backdrop-blur-none
+                  sm:backdrop-blur-xl
                 "
               >
                 <div
@@ -1187,7 +1195,7 @@ export function NovaVendaCard({
 
                       bg-emerald-500
 
-                      animate-ping
+                      sm:animate-ping
 
                       opacity-40
                     "
@@ -1240,7 +1248,8 @@ export function NovaVendaCard({
 
               border
 
-              backdrop-blur-xl
+              backdrop-blur-none
+              sm:backdrop-blur-xl
 
               transition-all
               duration-300
@@ -1252,14 +1261,16 @@ export function NovaVendaCard({
 
                     bg-[linear-gradient(180deg,rgba(16,185,129,0.12),rgba(16,185,129,0.06))]
 
-                    shadow-[0_10px_30px_rgba(16,185,129,0.12)]
+                    shadow-[0_6px_18px_rgba(16,185,129,0.08)]
+                    sm:shadow-[0_10px_30px_rgba(16,185,129,0.12)]
                   `
                   : `
                     border-white/10
 
                     bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(248,250,252,0.55))]
 
-                    shadow-[0_10px_30px_rgba(15,23,42,0.05)]
+                    shadow-[0_6px_18px_rgba(15,23,42,0.04)]
+                    sm:shadow-[0_10px_30px_rgba(15,23,42,0.05)]
                   `
               }
             `}
@@ -1273,8 +1284,10 @@ export function NovaVendaCard({
                 absolute
                 inset-0
 
+                hidden
+                sm:block
                 opacity-0
-                group-hover:opacity-100
+                sm:group-hover:opacity-100
 
                 transition-all
                 duration-500
@@ -1326,7 +1339,7 @@ export function NovaVendaCard({
 
                     bg-emerald-500
 
-                    animate-ping
+                    sm:animate-ping
 
                     opacity-40
                   "
@@ -1445,6 +1458,7 @@ export function NovaVendaCard({
 
                   bg-[color:var(--brand)]
 
+                  hidden sm:block
                   blur-[4px]
                   opacity-50
                 "
@@ -1492,14 +1506,17 @@ export function NovaVendaCard({
 
                 bg-[linear-gradient(180deg,rgba(16,185,129,0.12),rgba(16,185,129,0.06))]
 
-                backdrop-blur-xl
+                backdrop-blur-none
+                sm:backdrop-blur-xl
 
-                shadow-[0_8px_20px_rgba(16,185,129,0.10)]
+                shadow-[0_4px_12px_rgba(16,185,129,0.08)]
+                sm:shadow-[0_8px_20px_rgba(16,185,129,0.10)]
               "
             >
               {/* GLOW */}
               <div
                 className="
+                  hidden sm:block
                   absolute
                   inset-0
 
@@ -1529,7 +1546,7 @@ export function NovaVendaCard({
 
                     bg-emerald-500
 
-                    animate-ping
+                    sm:animate-ping
 
                     opacity-40
                   "
@@ -1595,9 +1612,9 @@ export function NovaVendaCard({
         `
     }
 
-    hover:border-slate-300
+    sm:hover:border-slate-300
 
-    hover:shadow-[0_12px_28px_rgba(15,23,42,0.06)]
+    sm:hover:shadow-[0_12px_28px_rgba(15,23,42,0.06)]
 
     focus-within:border-[color:var(--brand)]/40
 
@@ -1619,6 +1636,7 @@ export function NovaVendaCard({
             {/* GLOW */}
             <div
               className="
+                hidden sm:block
                 absolute
                 inset-0
 
@@ -1710,7 +1728,8 @@ export function NovaVendaCard({
 
         <div
           className="
-            col-span-12
+            col-span-1
+            md:col-span-2
             xl:col-span-8
 
             relative
@@ -1726,19 +1745,21 @@ export function NovaVendaCard({
 
             bg-[linear-gradient(180deg,rgba(255,255,255,0.74),rgba(248,250,252,0.56))]
 
-            backdrop-blur-xl
+            backdrop-blur-none
+            sm:backdrop-blur-xl
 
             p-2
             xl:p-3
 
-            shadow-[0_6px_20px_rgba(15,23,42,0.05)]
+            shadow-[0_3px_10px_rgba(15,23,42,0.04)]
+            sm:shadow-[0_6px_20px_rgba(15,23,42,0.05)]
 
             transition-all
             duration-300
 
-            hover:border-white/20
+            sm:hover:border-white/20
 
-            hover:shadow-[0_16px_40px_rgba(15,23,42,0.08)]
+            sm:hover:shadow-[0_16px_40px_rgba(15,23,42,0.08)]
           "
         >
           {/* ================================================= */}
@@ -1751,6 +1772,9 @@ export function NovaVendaCard({
               className="
                 absolute
                 inset-0
+
+                hidden
+                sm:block
 
                 opacity-40
                 
@@ -1766,6 +1790,9 @@ export function NovaVendaCard({
               className="
                 absolute
                 inset-0
+
+                hidden
+                sm:block
 
                 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent_35%)]
               "
@@ -1830,6 +1857,9 @@ export function NovaVendaCard({
                     className="
                       absolute
                       inset-0
+
+                      hidden
+                      sm:block
 
                       rounded-full
 
@@ -1898,9 +1928,11 @@ export function NovaVendaCard({
 
                 bg-[linear-gradient(180deg,rgba(16,185,129,0.12),rgba(16,185,129,0.06))]
 
-                backdrop-blur-xl
+                backdrop-blur-none
+                sm:backdrop-blur-xl
 
-                shadow-[0_10px_30px_rgba(16,185,129,0.08)]
+                shadow-[0_4px_12px_rgba(16,185,129,0.05)]
+                sm:shadow-[0_10px_30px_rgba(16,185,129,0.08)]
               "
             >
               {/* FX */}
@@ -1908,6 +1940,9 @@ export function NovaVendaCard({
                 className="
                   absolute
                   inset-0
+
+                  hidden
+                  sm:block
 
                   bg-[radial-gradient(circle_at_85%_12%,rgba(16,185,129,0.12),transparent_58%)]
                 "
@@ -1935,7 +1970,7 @@ export function NovaVendaCard({
 
                     bg-emerald-500
 
-                    animate-ping
+                    sm:animate-ping
 
                     opacity-40
                   "
@@ -2002,7 +2037,7 @@ export function NovaVendaCard({
                   relative
                   overflow-hidden
 
-                  h-[42px]
+                  h-[46px]
                   md:h-[36px]
 
                   rounded-[16px]
@@ -2012,12 +2047,13 @@ export function NovaVendaCard({
 
                   bg-[linear-gradient(180deg,rgba(255,255,255,0.82),rgba(248,250,252,0.68))]
 
-                  backdrop-blur-xl
+                  backdrop-blur-none
+                  sm:backdrop-blur-xl
 
                   transition-all
                   duration-300
 
-                  hover:border-white/20
+                  sm:hover:border-white/20
 
                   focus-within:border-[color:var(--brand)]/40
 
@@ -2031,8 +2067,11 @@ export function NovaVendaCard({
                       absolute
                       inset-0
 
+                      hidden
+                      sm:block
+
                       opacity-0
-                      group-hover:opacity-100
+                      sm:group-hover:opacity-100
 
                       transition-all
                       duration-500
@@ -2066,12 +2105,17 @@ export function NovaVendaCard({
 
                     w-full
                     h-full
+                    min-w-0
+                    max-w-full
+
+                    appearance-none
+                    [-webkit-appearance:none]
 
                     bg-transparent
 
                     px-3
 
-                    text-[14px]
+                    text-[16px]
                     md:text-[12px]
                     font-medium
 

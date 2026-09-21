@@ -809,7 +809,7 @@ export function NovaCompraCard() {
               </div>
 
               <span className="relative flex items-center gap-1.5">
-                <span className="w-[5px] h-[5px] rounded-full bg-[color:var(--brand)] animate-pulse" />
+                <span className="w-[5px] h-[5px] rounded-full bg-[color:var(--brand)] sm:animate-pulse" />
                 ação rápida
               </span>
             </div>
@@ -829,18 +829,19 @@ export function NovaCompraCard() {
 
     bg-[linear-gradient(135deg,#ffffff,#f8fafc)]
 
-    shadow-[0_22px_60px_rgba(0,0,0,0.10)]
+    shadow-[0_10px_28px_rgba(0,0,0,0.08)]
+    sm:shadow-[0_22px_60px_rgba(0,0,0,0.10)]
 
     p-3
 
     transition-all duration-300
 
     hover:border-[color:var(--brand)]
-    hover:shadow-[0_35px_90px_rgba(0,0,0,0.16)]
+    sm:hover:shadow-[0_35px_90px_rgba(0,0,0,0.16)]
   "
         >
           {/* CAMADA VISUAL */}
-          <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 pointer-events-none hidden sm:block">
             {/* GLOW PRINCIPAL */}
             <div
               className="
@@ -876,7 +877,7 @@ export function NovaCompraCard() {
             />
           </div>
 
-          <div className="relative z-10 flex items-center justify-between">
+          <div className="relative z-10 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
             {/* ESQUERDA */}
             <div className="flex items-center gap-4">
               {/* ICON REFINADO */}
@@ -930,7 +931,9 @@ export function NovaCompraCard() {
               className="
         group relative overflow-visible
 
+        w-full h-[48px]
         px-5 py-2.5
+        sm:w-auto sm:h-auto
 
         rounded-[12px]
 
@@ -990,7 +993,8 @@ export function NovaCompraCard() {
               fixed inset-0 z-50
 
               bg-black/45
-              backdrop-blur-[12px]
+                backdrop-blur-[4px]
+                sm:backdrop-blur-[12px]
 
               flex items-end md:items-center justify-center
 
@@ -999,7 +1003,8 @@ export function NovaCompraCard() {
               sm:p-3
               md:p-4
 
-              overflow-y-auto
+              overflow-hidden
+              overscroll-none
             "
           >
             <motion.div
@@ -1018,8 +1023,9 @@ export function NovaCompraCard() {
                 w-full
                 max-w-[1120px]
 
-                max-h-[96dvh]
+                max-h-[calc(100dvh-1rem)]
 
+                sm:max-h-[calc(100dvh-1.5rem)]
                 md:max-h-[92dvh]
 
                 rounded-[22px]
@@ -1028,7 +1034,8 @@ export function NovaCompraCard() {
 
                 border border-[rgba(0,0,0,0.08)]
 
-                shadow-[0_50px_140px_rgba(0,0,0,0.28)]
+                shadow-[0_24px_60px_rgba(0,0,0,0.24)]
+                sm:shadow-[0_50px_140px_rgba(0,0,0,0.28)]
 
                 flex flex-col
 
@@ -1054,6 +1061,7 @@ export function NovaCompraCard() {
 
                 <div
                   className="
+                    hidden sm:block
                     absolute -top-24 right-[-80px]
                     w-[360px] h-[360px]
                     rounded-full
@@ -1063,6 +1071,7 @@ export function NovaCompraCard() {
 
                 <div
                   className="
+                    hidden sm:block
                     absolute -bottom-28 left-[-80px]
                     w-[320px] h-[320px]
                     rounded-full
@@ -1075,13 +1084,14 @@ export function NovaCompraCard() {
               <div
                 className="
                   relative z-10
+                  shrink-0
 
-                  px-4
+                  px-3
                   
                   sm:px-6
                   md:px-8
 
-                  py-4
+                  py-3
 
                   sm:py-5
 
@@ -1130,14 +1140,15 @@ export function NovaCompraCard() {
                           text-emerald-700
                         "
                       >
-                        <span className="w-[5px] h-[5px] rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="w-[5px] h-[5px] rounded-full bg-emerald-500 sm:animate-pulse" />
                         operação ativa
                       </span>
                     </div>
 
                     <h2
                       className="
-                        text-[22px]
+                        text-[20px]
+                        sm:text-[22px]
                         font-semibold
                         tracking-[-0.02em]
                         text-[color:var(--foreground)]
@@ -1148,6 +1159,7 @@ export function NovaCompraCard() {
 
                     <p
                       className="
+                        hidden sm:block
                         text-[13px]
                         text-[color:var(--muted)]
                         leading-relaxed
@@ -1218,18 +1230,20 @@ export function NovaCompraCard() {
                 className="
                   relative z-10
 
-                  px-4
+                  px-3
 
                   sm:px-6
 
                   md:px-8
 
-                  py-4
+                  py-3
 
                   sm:py-6
 
+                  flex-1
+                  min-h-0
                   overflow-y-auto
-                  max-h-[calc(100vh-210px)]
+                  overscroll-contain
                 "
               >
                 <div className="space-y-3">
@@ -1238,18 +1252,23 @@ export function NovaCompraCard() {
                     className="
     relative overflow-visible
 
-    rounded-[16px]
+    rounded-none
+    sm:rounded-[16px]
 
-    border border-[rgba(0,0,0,0.07)]
+    border-0
+    sm:border sm:border-[rgba(0,0,0,0.07)]
 
-    bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+    bg-transparent
+    sm:bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-    p-3
+    p-0
+    sm:p-3
 
-    shadow-[0_12px_34px_rgba(0,0,0,0.045)]
+    shadow-none
+    sm:shadow-[0_12px_34px_rgba(0,0,0,0.045)]
   "
                   >
-                    <div className="absolute inset-0 pointer-events-none">
+                    <div className="absolute inset-0 pointer-events-none hidden sm:block">
                       <div
                         className="
         absolute inset-0 opacity-0 group-hover:opacity-100 transition
@@ -1494,19 +1513,24 @@ export function NovaCompraCard() {
                       className="
                         relative overflow-visible
 
-                        rounded-[16px]
+                        rounded-none
+                        sm:rounded-[16px]
 
-                        border border-[rgba(0,0,0,0.07)]
+                        border-0
+                        sm:border sm:border-[rgba(0,0,0,0.07)]
 
-                        bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+                        bg-transparent
+                        sm:bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-                        p-3
+                        p-0
+                        sm:p-3
 
-                        shadow-[0_12px_34px_rgba(0,0,0,0.045)]
+                        shadow-none
+                        sm:shadow-[0_12px_34px_rgba(0,0,0,0.045)]
                       "
                     >
                       {/* CAMADA VISUAL */}
-                      <div className="absolute inset-0 pointer-events-none">
+                      <div className="absolute inset-0 pointer-events-none hidden sm:block">
                         <div
                           className="
                             absolute inset-0 opacity-0 transition-opacity duration-300
@@ -1574,7 +1598,7 @@ export function NovaCompraCard() {
                               text-emerald-600
                             "
                           >
-                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 sm:animate-pulse" />
 
                             <span>operação ativa</span>
                           </div>
@@ -1785,19 +1809,24 @@ export function NovaCompraCard() {
                       className="
                         relative overflow-hidden
 
-                        rounded-[16px]
+                        rounded-none
+                        sm:rounded-[16px]
 
-                        border border-[rgba(0,0,0,0.07)]
+                        border-0
+                        sm:border sm:border-[rgba(0,0,0,0.07)]
 
-                        bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+                        bg-transparent
+                        sm:bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-                        p-3
+                        p-0
+                        sm:p-3
 
-                        shadow-[0_12px_34px_rgba(0,0,0,0.045)]
+                        shadow-none
+                        sm:shadow-[0_12px_34px_rgba(0,0,0,0.045)]
                       "
                     >
                       {/* CAMADA VISUAL */}
-                      <div className="absolute inset-0 pointer-events-none">
+                      <div className="absolute inset-0 pointer-events-none hidden sm:block">
                         <div
                           className="
                             absolute inset-0 opacity-0 transition-opacity duration-300
@@ -1967,15 +1996,20 @@ export function NovaCompraCard() {
                       className="
                         relative overflow-hidden
 
-                        rounded-[16px]
+                        rounded-none
+                        sm:rounded-[16px]
 
-                        border border-[rgba(0,0,0,0.07)]
+                        border-0
+                        sm:border sm:border-[rgba(0,0,0,0.07)]
 
-                        bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+                        bg-transparent
+                        sm:bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-                        p-3
+                        p-0
+                        sm:p-3
 
-                        shadow-[0_12px_34px_rgba(0,0,0,0.045)]
+                        shadow-none
+                        sm:shadow-[0_12px_34px_rgba(0,0,0,0.045)]
                       "
                     >
                       <div className="relative z-10 space-y-3">
@@ -2027,15 +2061,20 @@ export function NovaCompraCard() {
                       className="
                         relative overflow-hidden
 
-                        rounded-[16px]
+                        rounded-none
+                        sm:rounded-[16px]
 
-                        border border-[rgba(0,0,0,0.07)]
+                        border-0
+                        sm:border sm:border-[rgba(0,0,0,0.07)]
 
-                        bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+                        bg-transparent
+                        sm:bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-                        p-3
+                        p-0
+                        sm:p-3
 
-                        shadow-[0_12px_34px_rgba(0,0,0,0.045)]
+                        shadow-none
+                        sm:shadow-[0_12px_34px_rgba(0,0,0,0.045)]
                       "
                     >
                       <div className="relative z-10 space-y-3">
@@ -2254,15 +2293,20 @@ export function NovaCompraCard() {
                       className="
                         relative overflow-hidden
 
-                        rounded-[16px]
+                        rounded-none
+                        sm:rounded-[16px]
 
-                        border border-[rgba(0,0,0,0.07)]
+                        border-0
+                        sm:border sm:border-[rgba(0,0,0,0.07)]
 
-                        bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+                        bg-transparent
+                        sm:bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-                        p-3
+                        p-0
+                        sm:p-3
 
-                        shadow-[0_12px_34px_rgba(0,0,0,0.045)]
+                        shadow-none
+                        sm:shadow-[0_12px_34px_rgba(0,0,0,0.045)]
                       "
                     >
                       <div className="relative z-10 space-y-3">
@@ -2318,15 +2362,20 @@ export function NovaCompraCard() {
                       className="
                         relative overflow-hidden
 
-                        rounded-[16px]
+                        rounded-none
+                        sm:rounded-[16px]
 
-                        border border-[rgba(0,0,0,0.07)]
+                        border-0
+                        sm:border sm:border-[rgba(0,0,0,0.07)]
 
-                        bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+                        bg-transparent
+                        sm:bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-                        p-3
+                        p-0
+                        sm:p-3
 
-                        shadow-[0_12px_34px_rgba(0,0,0,0.045)]
+                        shadow-none
+                        sm:shadow-[0_12px_34px_rgba(0,0,0,0.045)]
                       "
                     >
                       <div className="relative z-10 space-y-3">
@@ -2411,7 +2460,7 @@ export function NovaCompraCard() {
                           text-emerald-700
                         "
                       >
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 sm:animate-pulse" />
 
                         <span>cálculo em tempo real</span>
                       </div>
@@ -2430,9 +2479,11 @@ export function NovaCompraCard() {
     grid-cols-1
     sm:grid-cols-3
 
-    gap-5
+    gap-3
+    sm:gap-5
 
-    px-2
+    px-0
+    sm:px-2
   "
                         >
                           <Result
@@ -2461,7 +2512,8 @@ export function NovaCompraCard() {
                           className={`
                             group relative overflow-hidden
 
-                            min-h-[220px]
+                            min-h-[176px]
+                            sm:min-h-[220px]
 
                             md:min-h-[160px]
 
@@ -2471,7 +2523,8 @@ export function NovaCompraCard() {
 
                             border
 
-                            p-3
+                            p-2.5
+                            sm:p-3
 
                             transition-all duration-500
 
@@ -2481,25 +2534,27 @@ export function NovaCompraCard() {
                                   bg-[linear-gradient(145deg,#064e3b,#059669,#10b981)]
                                   border-emerald-600
 
-                                  shadow-[0_30px_90px_rgba(16,185,129,0.28)]
+                                  shadow-[0_18px_44px_rgba(16,185,129,0.22)]
+                                  sm:shadow-[0_30px_90px_rgba(16,185,129,0.28)]
                                 `
                                 : `
                                   bg-[linear-gradient(180deg,#ffffff,#f7f7f7)]
                                   border-[color:var(--border-soft)]
 
-                                  shadow-[0_18px_50px_rgba(0,0,0,0.05)]
+                                  shadow-[0_10px_28px_rgba(0,0,0,0.04)]
+                                  sm:shadow-[0_18px_50px_rgba(0,0,0,0.05)]
                                 `
                             }
 
                             hover:-translate-y-[2px]
-                            hover:shadow-[0_38px_100px_rgba(0,0,0,0.12)]
+                            sm:hover:shadow-[0_38px_100px_rgba(0,0,0,0.12)]
                           `}
                         >
                           {/* =========================================== */}
                           {/* GLOW */}
                           {/* =========================================== */}
 
-                          <div className="absolute inset-0 pointer-events-none">
+                          <div className="absolute inset-0 pointer-events-none hidden sm:block">
                             <div
                               className="
                                 absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500
@@ -2847,7 +2902,11 @@ export function NovaCompraCard() {
                     className="
                       sticky bottom-0 z-20
 
-                      pt-4
+                      pt-3
+                      sm:pt-4
+
+                      pb-[env(safe-area-inset-bottom)]
+                      sm:pb-0
 
                       bg-[linear-gradient(180deg,rgba(255,255,255,0),#ffffff_34%)]
 
@@ -2858,15 +2917,20 @@ export function NovaCompraCard() {
                       className="
                         relative overflow-hidden
 
-                        rounded-[16px]
+                        rounded-none
+                        sm:rounded-[16px]
 
-                        border border-[rgba(0,0,0,0.07)]
+                        border-0
+                        sm:border sm:border-[rgba(0,0,0,0.07)]
 
-                        bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+                        bg-white
+                        sm:bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-                        p-4
+                        p-3
+                        sm:p-4
 
-                        shadow-[0_-10px_34px_rgba(0,0,0,0.05)]
+                        shadow-none
+                        sm:shadow-[0_-10px_34px_rgba(0,0,0,0.05)]
                       "
                     >
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -3214,19 +3278,22 @@ function Input({
 
                   bg-[linear-gradient(180deg,#f0fdf4,#ecfdf5)]
 
-                  shadow-[0_12px_34px_rgba(16,185,129,0.10)]
+                  shadow-none
+                  sm:shadow-[0_12px_34px_rgba(16,185,129,0.10)]
                 `
                 : `
                   border-[color:var(--border-soft)]
 
                   bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-                  shadow-[0_8px_26px_rgba(0,0,0,0.04)]
+                  shadow-none
+                  sm:shadow-[0_8px_26px_rgba(0,0,0,0.04)]
                 `
           }
 
           hover:border-[color:var(--border-strong)]
-          hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)]
+          hover:shadow-none
+          sm:hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)]
 
           focus-within:border-[color:var(--brand)]
           focus-within:shadow-[0_0_0_2px_var(--brand-soft)]
@@ -3252,7 +3319,7 @@ function Input({
 
         <div
           className="
-            absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none
+            hidden sm:block absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none
 
             bg-[radial-gradient(circle_at_80%_20%,rgba(99,102,241,0.07),transparent_60%)]
           "
@@ -3475,10 +3542,11 @@ function Result({
       className={`
         group relative overflow-hidden
 
-        min-h-[88px]
+        min-h-[72px]
         sm:min-h-[80px]
 
-        p-4
+        p-3
+        sm:p-4
 
         rounded-[14px]
 
@@ -3494,14 +3562,16 @@ function Result({
 
                 bg-[linear-gradient(135deg,#fef2f2,#fff5f5)]
 
-                shadow-[0_16px_40px_rgba(239,68,68,0.10)]
+                shadow-none
+                sm:shadow-[0_16px_40px_rgba(239,68,68,0.10)]
               `
               : `
                 border-emerald-200
 
                 bg-[linear-gradient(135deg,#ecfdf5,#f0fdf4)]
 
-                shadow-[0_16px_40px_rgba(16,185,129,0.10)]
+                shadow-none
+                sm:shadow-[0_16px_40px_rgba(16,185,129,0.10)]
               `
             : `
               border-[color:var(--border-soft)]
@@ -3514,7 +3584,8 @@ function Result({
 
         hover:translate-y-[-2px]
 
-        hover:shadow-[0_22px_60px_rgba(0,0,0,0.08)]
+        hover:shadow-none
+        sm:hover:shadow-[0_22px_60px_rgba(0,0,0,0.08)]
       `}
     >
       {/* ================================================= */}
@@ -3543,7 +3614,7 @@ function Result({
 
       <div
         className={`
-          absolute inset-0
+          hidden sm:block absolute inset-0
 
           opacity-0 group-hover:opacity-100
 
@@ -3622,7 +3693,7 @@ function Result({
 
                     rounded-full
 
-                    animate-pulse
+                    sm:animate-pulse
 
                     ${isDanger ? "bg-red-500" : "bg-emerald-500"}
                   `}

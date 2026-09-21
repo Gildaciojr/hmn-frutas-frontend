@@ -16,25 +16,30 @@ export function FornecedoresList() {
           relative
           overflow-visible
 
-          rounded-[20px]
+          rounded-none
+          sm:rounded-[20px]
 
-          border
-          border-[color:var(--border-soft)]
+          border-0
+          sm:border
+          sm:border-[color:var(--border-soft)]
 
-          bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.88))]
+          bg-transparent
+          sm:bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(248,250,252,0.88))]
 
-          px-4
+          px-0
           sm:px-5
 
-          py-4
+          py-2
+          sm:py-4
 
-          shadow-[0_12px_40px_rgba(15,23,42,0.05)]
+          shadow-none
+          sm:shadow-[0_12px_40px_rgba(15,23,42,0.05)]
         "
       >
         <div className="space-y-1.5">
           <h1
             className="
-              text-[24px]
+              text-[20px]
               sm:text-[22px]
 
               xl:text-[24px]
@@ -49,6 +54,9 @@ export function FornecedoresList() {
 
           <p
             className="
+              hidden
+              sm:block
+
               text-[14px]
               sm:text-[13px]
 

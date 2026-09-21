@@ -15,6 +15,10 @@ export function ClienteSelect() {
 
   const limparSelecionado = useClienteStore((state) => state.limparSelecionado);
 
+  const openCreateModal = useClienteStore(
+    (state) => state.openCreateModal,
+  );
+
   const clienteSelecionado = useClienteStore(
     (state) => state.clienteSelecionado,
   );
@@ -164,6 +168,8 @@ export function ClienteSelect() {
         border border-[color:var(--border-soft)]
         bg-[color:var(--surface-100)]
 
+        min-h-[46px] md:min-h-0
+
         px-3 py-2
 
         transition-all
@@ -190,11 +196,14 @@ export function ClienteSelect() {
                   setOpen(true);
                 }}
                 className="
+                w-11 h-11
+                md:w-auto md:h-auto
+                md:px-2 md:py-[2px]
+                flex items-center justify-center
                 text-[11px]
-                px-2 py-[2px]
                 rounded
                 border border-[color:var(--border-soft)]
-                hover:bg-[color:var(--surface-200)]
+                sm:hover:bg-[color:var(--surface-200)]
                 transition
               "
               >
@@ -259,7 +268,7 @@ export function ClienteSelect() {
           }
           className={`
           w-full bg-transparent outline-none min-w-0
-          text-[13px]
+          text-[16px] md:text-[13px]
           placeholder:text-[color:var(--muted-soft)]
 
           ${clienteSelecionado && !open ? "cursor-default" : ""}
@@ -314,8 +323,8 @@ export function ClienteSelect() {
     relative z-30
 
     flex
-    md:flex
-    items-center
+    flex-col
+    items-stretch
 
     max-h-[65dvh]
 
@@ -358,6 +367,8 @@ export function ClienteSelect() {
 
     mb-1
 
+    min-h-[56px]
+
     px-3 py-2.5
 
     rounded-[12px]
@@ -380,19 +391,20 @@ export function ClienteSelect() {
 
           text-white
 
-          shadow-[0_8px_18px_rgba(99,102,241,0.18)]
+          shadow-[0_4px_10px_rgba(99,102,241,0.12)]
+          sm:shadow-[0_8px_18px_rgba(99,102,241,0.18)]
         `
         : `
           text-[color:var(--foreground)]
 
-          hover:bg-[color:var(--surface-200)]
+          sm:hover:bg-[color:var(--surface-200)]
         `
     }
   `}
                   >
                     {/* BG FX */}
                     {active && (
-                      <div className="absolute inset-0 opacity-40 pointer-events-none">
+                      <div className="absolute inset-0 opacity-40 pointer-events-none hidden sm:block">
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.25),transparent_60%)]" />
                       </div>
                     )}
@@ -701,8 +713,10 @@ export function ClienteSelect() {
 
                       {/* DIREITA */}
                       <button
+                        type="button"
                         onClick={() => {
                           setOpen(false);
+                          openCreateModal();
                         }}
                         className="
                           w-full

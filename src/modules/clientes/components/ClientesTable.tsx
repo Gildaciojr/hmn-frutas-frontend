@@ -132,7 +132,7 @@ export function ClientesTable() {
     relative
     z-20
 
-    px-4
+    px-3
     md:px-6
 
     py-4
@@ -168,7 +168,7 @@ export function ClientesTable() {
         </div>
 
         {/* DIREITA — CONTROLES */}
-        <div className="flex items-center gap-3">
+        <div className="flex w-full min-w-0 flex-col gap-3 md:w-auto md:flex-row md:items-center">
           {/* 🔍 BUSCA (PREPARAÇÃO PARA ESCALA) */}
           <div
             className="
@@ -224,7 +224,8 @@ export function ClientesTable() {
 
       bg-transparent
 
-      text-[13px]
+      text-[16px]
+      md:text-[13px]
       text-[color:var(--foreground)]
 
       outline-none
@@ -242,7 +243,7 @@ export function ClientesTable() {
             }}
             className="
         flex items-center gap-2
-        px-4 py-2.5
+        h-[46px] px-4 md:h-auto md:py-2.5
         rounded-[var(--radius-md)]
         text-[13px] font-medium
         bg-black text-white
@@ -846,7 +847,8 @@ export function ClientesTable() {
 
                         relative
 
-                        h-9
+                        h-11
+                        lg:h-9
 
                         flex-1
                         lg:flex-none
@@ -940,7 +942,7 @@ export function ClientesTable() {
               }}
               className="
         flex items-center gap-2
-        px-5 py-2.5
+        h-11 px-5
         rounded-[var(--radius-md)]
         text-[13px] font-medium
         bg-black text-white

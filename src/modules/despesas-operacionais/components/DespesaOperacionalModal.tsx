@@ -152,10 +152,12 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
         pb-4
 
         bg-[rgba(15,23,42,0.52)]
-          backdrop-blur-[6px]
+          backdrop-blur-[3px]
+          sm:backdrop-blur-[6px]
 
 
-        px-4
+        px-2.5
+        sm:px-4
       "
     >
       <div
@@ -174,9 +176,11 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
 
     bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(255,251,235,0.94))]
 
-    shadow-[0_30px_90px_rgba(251,191,36,0.10)]
+    shadow-[0_14px_42px_rgba(251,191,36,0.08)]
+    sm:shadow-[0_30px_90px_rgba(251,191,36,0.10)]
 
-    backdrop-blur-xl
+    backdrop-blur-none
+    sm:backdrop-blur-xl
 
     overflow-y-auto
     overflow-x-hidden
@@ -188,6 +192,7 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
 
         <div
           className="
+    hidden sm:block
     absolute
 
     top-[-60px]
@@ -206,6 +211,7 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
 
         <div
           className="
+    hidden sm:block
     absolute inset-0
 
     opacity-[0.03]
@@ -222,11 +228,11 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
           className="
     relative
 
-    px-4
+    px-3
 
     sm:px-6
 
-    py-4
+    py-3
 
     sm:py-5
 
@@ -234,12 +240,13 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
     border-amber-100/60
   "
         >
-          <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+          <div className="flex flex-row items-start gap-3 sm:gap-4">
             {/* ICON */}
 
             <div className="relative">
               <div
                 className="
+          hidden sm:block
           absolute inset-0
 
           rounded-[22px]
@@ -258,10 +265,13 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
           items-center
           justify-center
 
-          w-14
-          h-14
+          w-12
+          h-12
+          sm:w-14
+          sm:h-14
 
-          rounded-[22px]
+          rounded-[18px]
+          sm:rounded-[22px]
 
           border
           border-amber-200/50
@@ -291,8 +301,10 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
 
           bg-amber-400/10
 
-          px-3
-          py-1
+          px-2.5
+          py-0.5
+          sm:px-3
+          sm:py-1
 
           text-[11px]
 
@@ -313,7 +325,7 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
                 className="
           mt-3
 
-          text-[24px]
+          text-[20px]
           sm:text-[28px]
 
           font-semibold
@@ -328,6 +340,7 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
 
               <p
                 className="
+          hidden sm:block
           mt-1
 
           text-[14px]
@@ -353,11 +366,12 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
 
             relative z-10
 
-            p-4
+            p-3
 
             sm:p-5
 
-            space-y-4
+            space-y-3
+            sm:space-y-4
           "
         >
           <div
@@ -393,7 +407,8 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
                 className="
         w-full
 
-rounded-[16px]
+rounded-[14px]
+sm:rounded-[16px]
 
 border
 border-[color:var(--border-soft)]
@@ -406,7 +421,8 @@ py-3
 text-[16px]
 md:text-[14px]
 
-shadow-[0_4px_14px_rgba(15,23,42,0.03)]
+shadow-none
+sm:shadow-[0_4px_14px_rgba(15,23,42,0.03)]
 
 outline-none
 
@@ -478,7 +494,8 @@ focus:ring-amber-500/10
                 placeholder="0,00"
                 className="
     w-full
-rounded-[16px]
+rounded-[14px]
+sm:rounded-[16px]
 
 border
 border-[color:var(--border-soft)]
@@ -491,7 +508,8 @@ py-3
 text-[16px]
 md:text-[14px]
 
-shadow-[0_4px_14px_rgba(15,23,42,0.03)]
+shadow-none
+sm:shadow-[0_4px_14px_rgba(15,23,42,0.03)]
 
 outline-none
 
@@ -528,7 +546,8 @@ focus:ring-amber-500/10
                 className="
         w-full
 
-rounded-[16px]
+rounded-[14px]
+sm:rounded-[16px]
 
 border
 border-[color:var(--border-soft)]
@@ -541,7 +560,8 @@ py-3
 text-[16px]
 md:text-[14px]
 
-shadow-[0_4px_14px_rgba(15,23,42,0.03)]
+shadow-none
+sm:shadow-[0_4px_14px_rgba(15,23,42,0.03)]
 
 outline-none
 
@@ -577,7 +597,8 @@ focus:ring-amber-500/10
               className="
   w-full
 
-  rounded-[16px]
+  rounded-[14px]
+  sm:rounded-[16px]
 
   border
   border-[color:var(--border-soft)]
@@ -592,7 +613,8 @@ focus:ring-amber-500/10
 
   resize-none
 
-  shadow-[0_4px_14px_rgba(15,23,42,0.03)]
+  shadow-none
+  sm:shadow-[0_4px_14px_rgba(15,23,42,0.03)]
 
   outline-none
 
@@ -633,22 +655,24 @@ focus:ring-amber-500/10
             className="
     flex
 
-    flex-col-reverse
+    flex-row
 
     sm:flex-row
 
     justify-end
 
-    gap-3
+    gap-2
+    sm:gap-3
 
-    pt-5
+    pt-4
+    sm:pt-5
   "
           >
             <button
               type="button"
               onClick={onClose}
               className="
-      w-full
+      w-[38%]
       
       sm:w-auto
       h-[48px]
@@ -687,9 +711,9 @@ focus:ring-amber-500/10
 
       overflow-hidden
 
-      w-full
+      flex-1
 
-      sm:w-auto
+      sm:flex-none sm:w-auto
 
       h-[48px]
 
@@ -708,17 +732,18 @@ focus:ring-amber-500/10
 
       text-white
 
-      shadow-[0_14px_35px_rgba(249,115,22,0.24)]
+      shadow-[0_8px_20px_rgba(249,115,22,0.18)]
+      sm:shadow-[0_14px_35px_rgba(249,115,22,0.24)]
 
       transition-all
       duration-300
 
-      hover:shadow-[0_18px_45px_rgba(249,115,22,0.34)]
+      sm:hover:shadow-[0_18px_45px_rgba(249,115,22,0.34)]
     "
             >
               <div
                 className="
-        absolute inset-0
+        hidden sm:block absolute inset-0
 
         opacity-0
 

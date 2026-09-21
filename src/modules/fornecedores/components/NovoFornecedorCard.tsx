@@ -84,9 +84,11 @@ export function NovoFornecedorCard() {
 
           py-3
 
-          shadow-[0_14px_45px_rgba(16,185,129,0.08)]
+          shadow-[0_8px_24px_rgba(16,185,129,0.06)]
+          sm:shadow-[0_14px_45px_rgba(16,185,129,0.08)]
 
-          backdrop-blur-xl
+          backdrop-blur-none
+          sm:backdrop-blur-xl
         "
       >
         {/* ================================================ */}
@@ -95,6 +97,7 @@ export function NovoFornecedorCard() {
 
         <div
           className="
+            hidden sm:block
             absolute
 
             top-[-40px]
@@ -122,6 +125,7 @@ export function NovoFornecedorCard() {
 
         <div
           className="
+            hidden sm:block
             absolute inset-0
 
             opacity-[0.03]
@@ -139,6 +143,7 @@ export function NovoFornecedorCard() {
 
         <div
           className="
+            hidden sm:block
             absolute inset-0
 
             rounded-[32px]
@@ -198,6 +203,7 @@ export function NovoFornecedorCard() {
 
               <div
                 className="
+                  hidden sm:block
                   absolute inset-0
 
                   rounded-[22px]
@@ -284,26 +290,29 @@ export function NovoFornecedorCard() {
 
               bg-[linear-gradient(135deg,#10b981,#059669)]
 
+              h-[48px]
               py-3
+              sm:h-auto
 
               text-[14px]
               font-semibold
 
               text-white
 
-              shadow-[0_14px_35px_rgba(16,185,129,0.22)]
+              shadow-[0_8px_20px_rgba(16,185,129,0.18)]
+              sm:shadow-[0_14px_35px_rgba(16,185,129,0.22)]
 
               transition-all
               duration-300
 
-              hover:shadow-[0_18px_45px_rgba(16,185,129,0.32)]
+              sm:hover:shadow-[0_18px_45px_rgba(16,185,129,0.32)]
             "
           >
             {/* LIGHT FX */}
 
             <div
               className="
-                absolute inset-0
+                hidden sm:block absolute inset-0
 
                 opacity-0
 
@@ -339,7 +348,7 @@ export function NovoFornecedorCard() {
                   transition-transform
                   duration-300
 
-                  group-hover/button:translate-x-1
+                  sm:group-hover/button:translate-x-1
                 "
               />
             </div>
@@ -361,16 +370,18 @@ export function NovoFornecedorCard() {
 
             bg-[rgba(15,23,42,0.52)]
 
-            backdrop-blur-[6px]
+            backdrop-blur-[3px]
+            sm:backdrop-blur-[6px]
 
             flex
 
-            items-center
+            items-end
             md:items-center
 
             justify-center
 
-            overflow-y-auto
+            overflow-hidden
+            overscroll-none
 
             p-2
             sm:p-3
@@ -387,22 +398,28 @@ export function NovoFornecedorCard() {
 
               max-w-[680px]
 
-              max-h-[95vh]
+              max-h-[calc(100dvh-1rem)]
+              sm:max-h-[calc(100dvh-1.5rem)]
 
-              rounded-[32px]
+              rounded-[24px]
+              sm:rounded-[32px]
 
               border
               border-emerald-200/40
 
               bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(236,253,245,0.94))]
 
-              p-4
+              p-3
 
               sm:p-6
 
-              shadow-[0_30px_90px_rgba(16,185,129,0.12)]
+              shadow-[0_16px_44px_rgba(16,185,129,0.10)]
+              sm:shadow-[0_30px_90px_rgba(16,185,129,0.12)]
 
-              backdrop-blur-xl
+              backdrop-blur-none
+              sm:backdrop-blur-xl
+
+              overscroll-contain
             "
           >
             {/* ============================================== */}
@@ -411,6 +428,7 @@ export function NovoFornecedorCard() {
 
             <div
               className="
+                hidden sm:block
                 absolute
 
                 top-[-80px]
@@ -432,6 +450,7 @@ export function NovoFornecedorCard() {
 
             <div
               className="
+                hidden sm:block
                 absolute inset-0
 
                 opacity-[0.03]
@@ -447,7 +466,7 @@ export function NovoFornecedorCard() {
             {/* HEADER */}
             {/* ============================================== */}
 
-            <div className="relative z-10 mb-5">
+            <div className="relative z-10 mb-3 sm:mb-5">
               <div
                 className="
                   inline-flex
@@ -463,8 +482,10 @@ export function NovoFornecedorCard() {
 
                   bg-emerald-400/10
 
-                  px-3
-                  py-1.5
+                  px-2.5
+                  py-1
+                  sm:px-3
+                  sm:py-1.5
 
                   text-[10px]
                   font-semibold
@@ -483,7 +504,7 @@ export function NovoFornecedorCard() {
                 className="
                   mt-3
 
-                  text-[22px]
+                  text-[20px]
 
                   sm:text-[28px]
 
@@ -499,6 +520,7 @@ export function NovoFornecedorCard() {
 
               <p
                 className="
+                  hidden sm:block
                   mt-2
 
                   text-[14px]
@@ -539,7 +561,7 @@ export function NovoFornecedorCard() {
     transition-all
     duration-200
 
-    hover:bg-white
+    sm:hover:bg-white
   "
               >
                 ✕

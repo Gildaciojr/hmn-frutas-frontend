@@ -133,7 +133,7 @@ async function handleUpdateFornecedor(data: {
   }
 }
 
-async function handleCreateFazenda(_data: {
+async function handleCreateFazenda(data: {
   nome: string;
 
   cidade?: string;
@@ -142,11 +142,14 @@ async function handleCreateFazenda(_data: {
 
   observacoes?: string;
 }) {
-  /**
-   * Será ligado
-   * ao createFazenda
-   * no próximo passo.
-   */
+  if (!fornecedorId) {
+    return;
+  }
+
+  await fazendasQuery.createFazenda({
+    fornecedorId,
+    payload: data,
+  });
 
   setCreatingFazenda(false);
 
@@ -176,7 +179,8 @@ async function handleCreateFazenda(_data: {
 
         justify-center
 
-        overflow-y-auto
+        overflow-hidden
+        overscroll-none
 
         p-2
         sm:p-4
@@ -188,11 +192,16 @@ async function handleCreateFazenda(_data: {
 
           max-w-[1200px]
 
-          max-h-[95dvh]
+          flex
+          flex-col
 
-          overflow-y-auto
+          max-h-[calc(100dvh-1rem)]
+          sm:max-h-[calc(100dvh-2rem)]
 
-          rounded-[28px]
+          overflow-hidden
+
+          rounded-[22px]
+          sm:rounded-[28px]
 
           border
 
@@ -200,18 +209,22 @@ async function handleCreateFazenda(_data: {
 
           bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.94))]
 
-          shadow-[0_40px_120px_rgba(15,23,42,0.18)]
-          backdrop-blur-xl
+          shadow-[0_18px_48px_rgba(15,23,42,0.12)]
+          sm:shadow-[0_40px_120px_rgba(15,23,42,0.18)]
+          backdrop-blur-none
+          sm:backdrop-blur-xl
         "
       >
         {/* HEADER */}
 
         <div
           className="
-            px-4
+            shrink-0
+
+            px-3
             sm:px-7
 
-            py-4
+            py-3
             sm:py-5
 
             border-b
@@ -221,7 +234,7 @@ async function handleCreateFazenda(_data: {
 
             flex
 
-            flex-col
+            flex-row
             sm:items-center
 
             justify-between
@@ -243,6 +256,9 @@ async function handleCreateFazenda(_data: {
 
             <p
               className="
+                hidden
+                sm:block
+
                 text-[13px]
 
                 text-[color:var(--muted-soft)]
@@ -257,8 +273,10 @@ async function handleCreateFazenda(_data: {
             className="
   group
 
-  w-[42px]
-  h-[42px]
+  w-11
+  h-11
+  sm:w-[42px]
+  sm:h-[42px]
 
   rounded-[14px]
 
@@ -274,9 +292,9 @@ async function handleCreateFazenda(_data: {
   transition-all
   duration-300
 
-  hover:border-red-200
-  hover:bg-red-50
-  hover:text-red-500
+  sm:hover:border-red-200
+  sm:hover:bg-red-50
+  sm:hover:text-red-500
 "
           >
             <X size={18} />
@@ -288,25 +306,30 @@ async function handleCreateFazenda(_data: {
         <div
           className="
             grid
+            flex-1
+            min-h-0
+
+            overflow-y-auto
+            lg:overflow-hidden
 
             grid-cols-1
 
             lg:grid-cols-[240px_1fr]
 
-            h-auto
-
-            lg:h-[calc(90vh-88px)]
+            lg:h-full
           "
         >
           {/* SIDEBAR */}
 
           <div
             className="
-              border-r
+              border-b
+              lg:border-b-0
+              lg:border-r
 
               border-[color:var(--border-soft)]
 
-              p-4
+              p-3
               sm:p-5
 
               grid
@@ -357,7 +380,7 @@ async function handleCreateFazenda(_data: {
 
               lg:overflow-y-auto
 
-              p-4
+              p-3
               sm:p-7
               bg-[linear-gradient(180deg,rgba(255,255,255,0.65),rgba(248,250,252,0.58))]
             "
@@ -373,7 +396,10 @@ async function handleCreateFazenda(_data: {
                         items-center
                         gap-2
 
-                        h-[42px]
+                        h-11
+
+                        w-full
+                        sm:w-auto
 
                         px-4
 
@@ -386,8 +412,8 @@ bg-white
 
 shadow-[0_6px_20px_rgba(15,23,42,0.04)]
 
-hover:border-indigo-200
-hover:bg-indigo-50/60
+sm:hover:border-indigo-200
+sm:hover:bg-indigo-50/60
 
 transition-all
 duration-300
@@ -446,7 +472,10 @@ duration-300
                     onClick={() => setCreatingFazenda(!creatingFazenda)}
                     className="
                       h-[46px]
-                      md:h-10
+                      sm:h-10
+
+                      w-full
+                      sm:w-auto
 
                       px-4
 
@@ -473,9 +502,11 @@ duration-300
                     <div
                       key={fazenda.id}
                       className="
-                          p-4
+                          p-3
+                          sm:p-4
 
-                          rounded-2xl
+                          rounded-xl
+                          sm:rounded-2xl
 
                           border
                         "
@@ -503,7 +534,8 @@ duration-300
         md:grid-cols-2
         xl:grid-cols-4
 
-        gap-4
+        gap-3
+        sm:gap-4
       "
                 >
                   <ResumoCard
@@ -531,16 +563,19 @@ duration-300
 
                 <div
                   className="
-        rounded-[24px]
+        rounded-[18px]
+        sm:rounded-[24px]
 
         border
         border-[color:var(--border-soft)]
 
         bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(248,250,252,0.88))]
 
-        p-5
+        p-3
+        sm:p-5
 
-        shadow-[0_10px_30px_rgba(15,23,42,0.05)]
+        shadow-none
+        sm:shadow-[0_10px_30px_rgba(15,23,42,0.05)]
       "
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -604,14 +639,16 @@ duration-300
 
                 <div
                   className="
-        rounded-[24px]
+        rounded-[18px]
+        sm:rounded-[24px]
 
         border
         border-[color:var(--border-soft)]
 
         bg-white/80
 
-        p-5
+        p-3
+        sm:p-5
       "
                 >
                   <p
@@ -690,9 +727,11 @@ function TabButton({
 
   w-full
 
-  h-[46px]
+  h-11
+  sm:h-[46px]
 
-  px-4
+  px-3
+  sm:px-4
 
   rounded-[14px]
 
@@ -714,7 +753,8 @@ function TabButton({
 
         text-white
 
-        shadow-[0_10px_24px_rgba(99,102,241,0.24)]
+        shadow-none
+        sm:shadow-[0_10px_24px_rgba(99,102,241,0.24)]
       `
       : `
         border-[color:var(--border-soft)]
@@ -723,8 +763,8 @@ function TabButton({
 
         text-[color:var(--foreground)]
 
-        hover:border-indigo-200
-        hover:bg-indigo-50/60
+        sm:hover:border-indigo-200
+        sm:hover:bg-indigo-50/60
       `
   }
 `}
@@ -749,17 +789,21 @@ function ResumoCard({
         relative
         overflow-hidden
 
-        rounded-[22px]
+        rounded-[18px]
+        sm:rounded-[22px]
 
         border
         border-[color:var(--border-soft)]
 
         bg-[linear-gradient(180deg,rgba(255,255,255,0.94),rgba(248,250,252,0.88))]
 
-        px-5
-        py-4
+        px-3
+        py-3
+        sm:px-5
+        sm:py-4
 
-        shadow-[0_8px_24px_rgba(15,23,42,0.04)]
+        shadow-none
+        sm:shadow-[0_8px_24px_rgba(15,23,42,0.04)]
       "
     >
       <div
@@ -813,17 +857,23 @@ function Info({
         group
         relative
 
-        rounded-[16px]
+        rounded-none
+        sm:rounded-[16px]
 
-        border
-        border-[color:var(--border-soft)]
+        border-0
+        sm:border
+        sm:border-[color:var(--border-soft)]
 
-        bg-white/80
+        bg-transparent
+        sm:bg-white/80
 
-        px-4
-        py-3
+        px-0
+        py-2
+        sm:px-4
+        sm:py-3
 
-        shadow-[0_6px_20px_rgba(15,23,42,0.03)]
+        shadow-none
+        sm:shadow-[0_6px_20px_rgba(15,23,42,0.03)]
       "
     >
       <div

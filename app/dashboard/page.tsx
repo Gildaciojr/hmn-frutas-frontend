@@ -69,7 +69,7 @@ export default function Dashboard() {
     <AppLayout>
       <div
         className="
-    space-y-5
+    space-y-4
 
     sm:space-y-6
 
@@ -109,14 +109,15 @@ export default function Dashboard() {
 
         border border-[rgba(0,0,0,0.06)]
 
-        shadow-[0_14px_34px_rgba(0,0,0,0.06)]
+        shadow-[0_8px_22px_rgba(0,0,0,0.04)]
+        sm:shadow-[0_14px_34px_rgba(0,0,0,0.06)]
 
         transition-[box-shadow,border-color,transform]
         duration-300
 
-        hover:shadow-[0_18px_44px_rgba(0,0,0,0.10)]
+        sm:hover:shadow-[0_18px_44px_rgba(0,0,0,0.10)]
 
-        will-change-transform
+        sm:will-change-transform
       "
             >
               {/* ================= CAMADAS VISUAIS ================= */}
@@ -127,6 +128,9 @@ export default function Dashboard() {
                 {/* TEXTURA MAIS FINA */}
                 <div
                   className="
+    hidden
+    sm:block
+
     absolute inset-0
 
     opacity-[0.012]
@@ -143,6 +147,9 @@ export default function Dashboard() {
                 {/* GLOW DE MARCA */}
                 <div
                   className="
+    hidden
+    sm:block
+
     absolute
 
     top-0
@@ -225,14 +232,11 @@ export default function Dashboard() {
                   className="
   flex
 
-  flex-col
+  flex-wrap
+  items-center
 
-  sm:flex-row
-
-  sm:flex-wrap
-
-  gap-1
-  sm:gap-2
+  gap-x-2
+  gap-y-1
 
   text-[12px]
 
@@ -288,6 +292,9 @@ export default function Dashboard() {
                 {/* DESCRIÇÃO */}
                 <p
                   className="
+        hidden
+        sm:block
+
         text-[13px]
         sm:text-[14px]
         text-[color:var(--muted)]
@@ -531,6 +538,9 @@ export default function Dashboard() {
               {/* 🔥 GLOW */}
               <div
                 className="
+      hidden
+      sm:block
+
       absolute
 
       top-0
@@ -563,7 +573,8 @@ export default function Dashboard() {
 
       items-start
 
-      gap-4
+      gap-3
+      sm:gap-4
     "
               >
                 <NovaCompraCard />
@@ -581,16 +592,20 @@ export default function Dashboard() {
     relative
     overflow-visible
 
-    rounded-[24px]
+    rounded-none
+    sm:rounded-[24px]
 
-    border
-    border-[rgba(0,0,0,0.06)]
+    border-0
+    sm:border
+    sm:border-[rgba(0,0,0,0.06)]
 
-    bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+    bg-transparent
+    sm:bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-    shadow-[0_18px_50px_rgba(0,0,0,0.05)]
+    shadow-none
+    sm:shadow-[0_18px_50px_rgba(0,0,0,0.05)]
 
-    p-3
+    p-0
 
     sm:p-5
 
@@ -601,6 +616,9 @@ export default function Dashboard() {
               <div className="absolute inset-0 pointer-events-none">
                 <div
                   className="
+        hidden
+        sm:block
+
         absolute
         top-0
         right-0
@@ -618,6 +636,9 @@ export default function Dashboard() {
 
                 <div
                   className="
+        hidden
+        sm:block
+
         absolute
         inset-x-0
         top-0
@@ -646,7 +667,8 @@ export default function Dashboard() {
     items-start
     sm:items-center
 
-    gap-3
+    gap-2
+    sm:gap-3
 
     justify-between
   "
@@ -670,7 +692,7 @@ export default function Dashboard() {
 
                   <h2
                     className="
-          text-[22px]
+          text-[20px]
           sm:text-[20px]
           font-semibold
 
@@ -685,6 +707,9 @@ export default function Dashboard() {
 
                 <div
                   className="
+        hidden
+        sm:block
+
         px-3
         py-1.5
 
@@ -726,18 +751,20 @@ export default function Dashboard() {
 
     border border-[rgba(0,0,0,0.06)]
 
-    p-5
+    p-3
+    sm:p-5
 
-    shadow-[0_12px_30px_rgba(0,0,0,0.05)]
+    shadow-[0_6px_18px_rgba(0,0,0,0.04)]
+    sm:shadow-[0_12px_30px_rgba(0,0,0,0.05)]
 
     transition-[box-shadow,border-color,transform]
     duration-300
 
-    hover:-translate-y-[1px]
+    sm:hover:-translate-y-[1px]
 
-    hover:shadow-[0_18px_42px_rgba(0,0,0,0.08)]
+    sm:hover:shadow-[0_18px_42px_rgba(0,0,0,0.08)]
 
-    will-change-transform
+    sm:will-change-transform
   "
               >
                 {/* ================= CAMADA VISUAL ================= */}
@@ -748,6 +775,9 @@ export default function Dashboard() {
                   {/* TEXTURA */}
                   <div
                     className="
+    hidden
+    sm:block
+
     absolute
     inset-0
 
@@ -762,6 +792,9 @@ export default function Dashboard() {
                   {/* GLOW */}
                   <div
                     className="
+    hidden
+    sm:block
+
     absolute
 
     top-0
@@ -830,8 +863,8 @@ export default function Dashboard() {
 
               transition-colors duration-300
 
-              group-hover:border-[color:var(--brand)]
-              group-hover:text-[color:var(--foreground)]
+              sm:group-hover:border-[color:var(--brand)]
+              sm:group-hover:text-[color:var(--foreground)]
             "
                   >
                     tempo real
@@ -874,19 +907,19 @@ export default function Dashboard() {
   transition-[border-color,transform,box-shadow,color]
   duration-300
 
-  group-hover:-translate-y-[1px]
+  sm:group-hover:-translate-y-[1px]
 
-  group-hover:border-[color:var(--brand)]
+  sm:group-hover:border-[color:var(--brand)]
 
-  group-hover:shadow-[0_8px_20px_rgba(0,0,0,0.06)]
+  sm:group-hover:shadow-[0_8px_20px_rgba(0,0,0,0.06)]
 
-  will-change-transform
+  sm:will-change-transform
 "
                       >
                         <span className="text-[16px]">⟲</span>
 
                         {/* glow */}
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition">
+                        <div className="absolute inset-0 hidden opacity-0 transition sm:block sm:group-hover:opacity-100">
                           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.18),transparent_70%)] rounded-xl" />
                         </div>
                       </div>
@@ -917,8 +950,8 @@ export default function Dashboard() {
                         className="
   mt-2
 
-  px-2
-  py-[4px]
+  h-11
+  px-4
 
   rounded-[var(--radius-sm)]
 
@@ -933,8 +966,8 @@ export default function Dashboard() {
   transition-colors
   duration-200
 
-  hover:bg-[color:var(--brand)]
-  hover:text-white
+  sm:hover:bg-[color:var(--brand)]
+  sm:hover:text-white
 "
                       >
                         Criar primeira compra
@@ -953,6 +986,7 @@ export default function Dashboard() {
     sm:max-h-[620px]
 
     overflow-y-auto
+    overscroll-contain
 
     pr-1
   "
@@ -968,25 +1002,27 @@ export default function Dashboard() {
     relative
     overflow-visible
 
-    rounded-[20px]
+    rounded-[16px]
+    sm:rounded-[20px]
 
     border border-[color:var(--border-soft)]
 
     bg-[linear-gradient(135deg,#ffffff,#fafafa)]
 
     px-3
-    py-2
+    py-3
+    sm:py-2
 
     transition-[transform,box-shadow,border-color]
     duration-300
 
-    hover:-translate-y-[1px]
+    sm:hover:-translate-y-[1px]
 
-    hover:border-emerald-200
+    sm:hover:border-emerald-200
 
-    hover:shadow-[0_10px_24px_rgba(16,185,129,0.08)]
+    sm:hover:shadow-[0_10px_24px_rgba(16,185,129,0.08)]
 
-    will-change-transform
+    sm:will-change-transform
 
     animate-[fadeIn_.18s_ease-out]
   "
@@ -995,6 +1031,9 @@ export default function Dashboard() {
                             <div className="absolute inset-0 pointer-events-none">
                               <div
                                 className="
+      hidden
+      sm:block
+
       absolute
 
       top-0
@@ -1078,6 +1117,9 @@ export default function Dashboard() {
                                   {/* FX */}
                                   <div
                                     className="
+  hidden
+  sm:block
+
   absolute
 
   top-0
@@ -1318,7 +1360,8 @@ export default function Dashboard() {
   relative
   overflow-hidden
 
-  rounded-[18px]
+  rounded-[14px]
+  sm:rounded-[18px]
 
   border
   border-emerald-200
@@ -1329,25 +1372,31 @@ export default function Dashboard() {
 
   lg:w-auto
 
-  px-3.5
-  py-2.5
+  px-3
+  py-2
+  sm:px-3.5
+  sm:py-2.5
 
-  shadow-[0_8px_18px_rgba(16,185,129,0.08)]
+  shadow-none
+  sm:shadow-[0_8px_18px_rgba(16,185,129,0.08)]
 
   transition-[transform,box-shadow,border-color]
   duration-300
 
-  group-hover/item:-translate-y-[1px]
+  sm:group-hover/item:-translate-y-[1px]
 
-  group-hover/item:shadow-[0_12px_26px_rgba(16,185,129,0.12)]
+  sm:group-hover/item:shadow-[0_12px_26px_rgba(16,185,129,0.12)]
 
-  will-change-transform
+  sm:will-change-transform
 "
                                 >
                                   {/* FX */}
                                   <div className="absolute inset-0 pointer-events-none">
                                     <div
                                       className="
+  hidden
+  sm:block
+
   absolute
 
   top-0
@@ -1456,9 +1505,9 @@ export default function Dashboard() {
   transition-colors
   duration-300
 
-  group-hover/item:border-emerald-200
+  sm:group-hover/item:border-emerald-200
 
-  group-hover/item:text-emerald-600
+  sm:group-hover/item:text-emerald-600
 "
                                 >
                                   <span className="w-[6px] h-[6px] rounded-full bg-emerald-500 opacity-90" />
@@ -1468,7 +1517,7 @@ export default function Dashboard() {
                             </div>
 
                             {/* BASE LINE ITEM */}
-                            <div className="absolute bottom-0 left-0 h-[1.5px] w-full bg-emerald-500/0 transition-colors duration-300 group-hover/item:bg-emerald-500/60" />
+                            <div className="absolute bottom-0 left-0 h-[1.5px] w-full bg-emerald-500/0 transition-colors duration-300 sm:group-hover/item:bg-emerald-500/60" />
                           </div>
                         );
                       })}
@@ -1477,7 +1526,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* BASE LINE */}
-                <div className="absolute bottom-0 left-0 w-full h-[1px] bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                <div className="absolute bottom-0 left-0 w-full h-[1px] bg-black/0 transition-colors duration-300 sm:group-hover:bg-black/20" />
               </div>
             </div>
           </div>

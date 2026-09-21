@@ -87,28 +87,37 @@ export function ComprasResumoCard({ compras }: Props) {
         relative
         overflow-hidden
 
-        rounded-[20px]
+        rounded-none
 
-        sm:rounded-[24px]
+        sm:rounded-[20px]
+        md:rounded-[24px]
 
-        border
-        border-[rgba(0,0,0,0.06)]
+        border-0
+        sm:border
+        sm:border-[rgba(0,0,0,0.06)]
 
-        bg-[linear-gradient(180deg,#ffffff,#fafafa)]
+        bg-transparent
+        sm:bg-[linear-gradient(180deg,#ffffff,#fafafa)]
 
-        p-4
+        p-0
 
-        sm:p-5
+        sm:p-4
+        md:p-5
 
-        shadow-[0_18px_50px_rgba(0,0,0,0.05)]
+        shadow-none
+        sm:shadow-[0_18px_50px_rgba(0,0,0,0.05)]
 
-        space-y-4
+        space-y-3
+        sm:space-y-4
       "
     >
       {/* FX */}
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="
+            hidden
+            sm:block
+
             absolute
 
             top-0
@@ -130,6 +139,9 @@ export function ComprasResumoCard({ compras }: Props) {
 
         <div
           className="
+            hidden
+            sm:block
+
             absolute
 
             inset-x-0
@@ -169,7 +181,7 @@ export function ComprasResumoCard({ compras }: Props) {
           className="
             mt-1
 
-            text-[24px]
+            text-[20px]
             sm:text-[22px]
 
             xl:text-[20px]
@@ -193,7 +205,7 @@ export function ComprasResumoCard({ compras }: Props) {
           grid
 
           grid-cols-1
-          md:grid-cols-2
+          sm:grid-cols-2
           xl:grid-cols-5
 
           gap-3
@@ -208,31 +220,40 @@ export function ComprasResumoCard({ compras }: Props) {
               relative
               overflow-hidden
 
-              rounded-[18px]
+              min-w-0
+              sm:last:col-span-2
+              xl:last:col-span-1
 
-              sm:rounded-[20px]
+              rounded-[16px]
+
+              sm:rounded-[18px]
+              md:rounded-[20px]
 
               border
               border-[color:var(--border-soft)]
 
               bg-[linear-gradient(135deg,#ffffff,#fafafa)]
 
-              p-4
+              p-3
 
+              sm:p-4
               md:p-5
 
               transition-all
               duration-300
 
-              hover:-translate-y-[2px]
+              sm:hover:-translate-y-[2px]
 
-              hover:border-indigo-200
+              sm:hover:border-indigo-200
 
-              hover:shadow-[0_12px_24px_rgba(99,102,241,0.08)]
+              sm:hover:shadow-[0_12px_24px_rgba(99,102,241,0.08)]
             "
           >
             <div
               className="
+                hidden
+                sm:block
+
                 absolute
 
                 top-0
@@ -249,7 +270,7 @@ export function ComprasResumoCard({ compras }: Props) {
 
                 opacity-0
 
-                group-hover:opacity-100
+                sm:group-hover:opacity-100
 
                 transition-opacity
               "

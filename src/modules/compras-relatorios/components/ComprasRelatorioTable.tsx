@@ -32,10 +32,11 @@ export function ComprasRelatorioTable({ compras }: Props) {
 
       <div
         className="
-          px-4
+          px-3
           sm:px-5
 
-          py-4
+          py-3
+          sm:py-4
 
           border-b
 
@@ -71,7 +72,7 @@ export function ComprasRelatorioTable({ compras }: Props) {
       {compras.length === 0 && (
         <div
           className="
-            p-6
+            p-5
             sm:p-10
 
             text-center
@@ -99,10 +100,11 @@ export function ComprasRelatorioTable({ compras }: Props) {
             rounded-[18px]
             border border-[color:var(--border-soft)]
             bg-[color:var(--surface-100)]
-            p-4
+            p-3
 
             sm:p-5
-            hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)]
+            shadow-none
+            sm:hover:shadow-[0_12px_30px_rgba(0,0,0,0.06)]
 
             transition-all
             space-y-3
@@ -136,7 +138,7 @@ export function ComprasRelatorioTable({ compras }: Props) {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-3">
                   <MobileInfo
                     label="Fazenda"
                     value={compra.fazendaFornecedor?.nome ?? "-"}
@@ -164,10 +166,15 @@ export function ComprasRelatorioTable({ compras }: Props) {
 
                 <div
                   className="
-              rounded-[16px]
-              border border-emerald-200
-              bg-emerald-50
-              px-3 py-2
+              rounded-none
+              sm:rounded-[16px]
+              border-0
+              border-t border-emerald-200
+              sm:border
+              bg-transparent
+              sm:bg-emerald-50
+              px-0 py-0 pt-2
+              sm:px-3 sm:py-2
             "
                 >
                   <p className="text-[11px] text-emerald-700/80">Total</p>
@@ -260,7 +267,7 @@ export function ComprasRelatorioTable({ compras }: Props) {
 }
 function MobileInfo({ label, value }: { label: string; value: string }) {
   return (
-    <div>
+    <div className="min-w-0">
       <p
         className="
           text-[11px]
@@ -272,6 +279,7 @@ function MobileInfo({ label, value }: { label: string; value: string }) {
 
       <p
         className="
+          break-words
           text-sm
           font-medium
           text-[color:var(--foreground)]

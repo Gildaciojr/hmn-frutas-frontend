@@ -259,28 +259,36 @@ export function FornecedoresTable() {
     relative
     overflow-visible
 
-    rounded-[22px]
+    rounded-none
+    sm:rounded-[22px]
 
-    border
-    border-[color:var(--border-soft)]
+    border-0
+    sm:border
+    sm:border-[color:var(--border-soft)]
 
-    bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))]
+    bg-transparent
+    sm:bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))]
 
-    shadow-[0_12px_40px_rgba(15,23,42,0.05)]
+    shadow-none
+    sm:shadow-[0_12px_40px_rgba(15,23,42,0.05)]
 
-    backdrop-blur-xl
+    backdrop-blur-none
+    sm:backdrop-blur-xl
   "
     >
       {/* HEADER */}
 
       <div
         className="
-          px-4
+          px-0
 
           sm:px-5
-          py-4
+          py-3
+          sm:py-4
 
-          border-b border-[color:var(--border-soft)]
+          border-b-0
+          sm:border-b
+          sm:border-[color:var(--border-soft)]
 
           flex
           flex-col
@@ -375,17 +383,20 @@ export function FornecedoresTable() {
       </div>
 
       {/* MOBILE CARDS */}
-      <div className="lg:hidden p-3 space-y-3">
+      <div className="lg:hidden px-0 py-3 sm:px-3 sm:py-3 space-y-3">
         {filtered.map((fornecedor) => (
           <div
             key={fornecedor.id}
             className="
-        rounded-2xl
+        rounded-[18px]
+        sm:rounded-2xl
         border border-[color:var(--border-soft)]
         bg-white
-        p-4
+        p-3
+        sm:p-4
         space-y-3
-        shadow-[0_8px_24px_rgba(15,23,42,0.05)]
+        shadow-[0_4px_14px_rgba(15,23,42,0.04)]
+        sm:shadow-[0_8px_24px_rgba(15,23,42,0.05)]
       "
           >
             <div>
@@ -402,7 +413,7 @@ export function FornecedoresTable() {
               <MobileInfo label="UF" value={fornecedor.estado || "-"} />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
+            <div className="grid grid-cols-2 gap-2 pt-2">
               <button
                 onClick={() => {
                   setFornecedorSelecionado(fornecedor);
