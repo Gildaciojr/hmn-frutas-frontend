@@ -4343,7 +4343,8 @@ export function NovaVendaCard({
 
         <div
           className="
-            col-span-12
+            col-span-1
+            md:col-span-2
             xl:col-span-3
 
             relative

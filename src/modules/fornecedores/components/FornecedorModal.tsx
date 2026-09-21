@@ -207,7 +207,8 @@ async function handleCreateFazenda(data: {
 
           border-[color:var(--border-soft)]
 
-          bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.94))]
+          bg-white
+          sm:bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.94))]
 
           shadow-[0_18px_48px_rgba(15,23,42,0.12)]
           sm:shadow-[0_40px_120px_rgba(15,23,42,0.18)]
@@ -230,7 +231,8 @@ async function handleCreateFazenda(data: {
             border-b
 
             border-[color:var(--border-soft)]
-            bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.72))]
+            bg-white
+            sm:bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(255,255,255,0.72))]
 
             flex
 
@@ -340,7 +342,8 @@ async function handleCreateFazenda(data: {
               lg:grid-cols-1
 
               gap-2
-              bg-slate-50/70
+              bg-slate-50
+              sm:bg-slate-50/70
             "
           >
             <TabButton
@@ -382,7 +385,8 @@ async function handleCreateFazenda(data: {
 
               p-3
               sm:p-7
-              bg-[linear-gradient(180deg,rgba(255,255,255,0.65),rgba(248,250,252,0.58))]
+              bg-white
+              sm:bg-[linear-gradient(180deg,rgba(255,255,255,0.65),rgba(248,250,252,0.58))]
             "
           >
             {tab === "dados" && (
