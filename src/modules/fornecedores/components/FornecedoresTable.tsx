@@ -283,7 +283,7 @@ export function FornecedoresTable() {
           px-0
 
           sm:px-5
-          py-3
+          py-2
           sm:py-4
 
           border-b-0
@@ -297,10 +297,25 @@ export function FornecedoresTable() {
           lg:items-center
           justify-between
 
-          gap-3
+          gap-2.5
+          sm:gap-3
         "
       >
-        <div>
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div
+            aria-hidden="true"
+            className="
+              w-[4px]
+              h-7
+
+              rounded-full
+
+              bg-indigo-500
+
+              shrink-0
+            "
+          />
+
           <h2
             className="
       text-[18px]
@@ -309,6 +324,8 @@ export function FornecedoresTable() {
       font-semibold
 
       tracking-[-0.03em]
+
+      text-[color:var(--foreground)]
     "
           >
             Fornecedores cadastrados
@@ -328,7 +345,8 @@ export function FornecedoresTable() {
       relative
 
       w-full
-      sm:w-[260px]
+      sm:w-[300px]
+      lg:w-[320px]
     "
           >
             <Search
@@ -363,7 +381,8 @@ export function FornecedoresTable() {
         border
         border-[color:var(--border-soft)]
 
-        bg-white/80
+        bg-white
+        sm:bg-white/80
 
         text-[16px]
         md:text-[14px]
@@ -376,6 +395,9 @@ export function FornecedoresTable() {
         focus:border-indigo-300
 
         focus:shadow-[0_0_0_3px_rgba(99,102,241,0.10)]
+
+        shadow-[0_4px_14px_rgba(15,23,42,0.04)]
+        sm:shadow-none
       "
             />
           </div>

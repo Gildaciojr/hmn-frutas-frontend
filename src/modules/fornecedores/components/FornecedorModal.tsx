@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { createPortal } from "react-dom";
+
 import {
   Building2,
   ClipboardList,
@@ -72,11 +74,25 @@ export function FornecedorModal({ open, fornecedor, onClose }: Props) {
 
   const { updateFornecedor, updating } = useFornecedores();
 
+  useEffect(() => {
+    if (!open || !fornecedor) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open, fornecedor]);
+
   ////////////////////////////////////////////////////////////
   // GUARD
   ////////////////////////////////////////////////////////////
 
-  if (!open || !fornecedor) {
+  if (!open || !fornecedor || typeof document === "undefined") {
     return null;
   }
 
@@ -160,7 +176,7 @@ async function handleCreateFazenda(data: {
   // RENDER
   ////////////////////////////////////////////////////////////
 
-  return (
+  return createPortal(
     <div
       className="
         fixed
@@ -700,7 +716,8 @@ duration-300
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
