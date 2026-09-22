@@ -1,19 +1,40 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   Activity,
   ArrowDownToLine,
   ArrowRight,
   ArrowUpFromLine,
   Boxes,
+  CalendarDays,
+  ChevronRight,
+  Loader2,
+  PackageOpen,
+  ReceiptText,
+  ShoppingCart,
+  X,
 } from "lucide-react";
-import { useEstoque } from "../hooks/useEstoque";
+import { CompraEditModal } from "@/modules/compras/components/CompraEditModal";
+import { VendaEditModal } from "@/modules/vendas/components/VendaEditModal";
+import {
+  getVenda,
+  type Venda,
+} from "@/modules/vendas/services/vendas.service";
+import {
+  useEstoque,
+  type EstoqueTimelineItem,
+} from "../hooks/useEstoque";
 
 export function EstoqueCard() {
   const { resumo, loading } = useEstoque();
   const [open, setOpen] = useState(false);
+  const [selectedCompraId, setSelectedCompraId] = useState<string | null>(null);
+  const [selectedVenda, setSelectedVenda] = useState<Venda | null>(null);
+  const [loadingVendaId, setLoadingVendaId] = useState<string | null>(null);
+  const vendaRequestRef = useRef(0);
 
   // ================= FORMATADORES =================
   function formatKg(value?: number | null): string {
@@ -56,12 +77,95 @@ export function EstoqueCard() {
     });
   }
 
+  function getStatusPagamentoClasses(
+    status: string | null | undefined,
+  ): string {
+    if (status === "PAGO") {
+      return "border border-emerald-100 bg-emerald-50 text-emerald-700";
+    }
+
+    if (status === "PARCIAL") {
+      return "border border-amber-100 bg-amber-50 text-amber-700";
+    }
+
+    if (status === "PENDENTE") {
+      return "border border-rose-100 bg-rose-50 text-rose-700";
+    }
+
+    return "border border-slate-200 bg-slate-100 text-slate-600";
+  }
+
   // ================= DADOS =================
   const totalKg = resumo?.estoqueDisponivelKg ?? 0;
 
   const totalComprado = resumo?.valorComprado ?? 0;
   const totalVendido = resumo?.valorVendido ?? 0;
   const lucro = resumo?.lucro ?? 0;
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
+  function handleCloseEstoque() {
+    vendaRequestRef.current += 1;
+
+    setLoadingVendaId(null);
+
+    setSelectedCompraId(null);
+
+    setSelectedVenda(null);
+
+    setOpen(false);
+  }
+
+  async function handleOpenMovimentacao(item: EstoqueTimelineItem) {
+    if (item.tipo === "ENTRADA") {
+      vendaRequestRef.current += 1;
+
+      setLoadingVendaId(null);
+
+      setSelectedVenda(null);
+
+      setSelectedCompraId(item.id);
+      return;
+    }
+
+    const requestId = ++vendaRequestRef.current;
+
+    try {
+      setLoadingVendaId(item.id);
+
+      const venda = await getVenda(item.id);
+
+      if (requestId !== vendaRequestRef.current) {
+        return;
+      }
+
+      setSelectedVenda(venda);
+    } catch (error) {
+      if (requestId !== vendaRequestRef.current) {
+        return;
+      }
+
+      console.error("Erro ao carregar venda:", error);
+
+      alert("Não foi possível carregar esta venda.");
+    } finally {
+      if (requestId === vendaRequestRef.current) {
+        setLoadingVendaId(null);
+      }
+    }
+  }
 
   return (
     <>
@@ -263,13 +367,16 @@ export function EstoqueCard() {
       </motion.div>
 
       {/* ================= MODAL ================= */}
-      <AnimatePresence>
-        {open && (
+      {typeof document !== "undefined" &&
+        createPortal(
+          <>
+            <AnimatePresence>
+              {open && (
           <motion.div
             className="
-        fixed inset-0 z-50
+        fixed inset-0 z-[100]
 
-        bg-black/40
+        bg-black/45
 
         backdrop-blur-none
         sm:backdrop-blur-[3px]
@@ -284,7 +391,7 @@ export function EstoqueCard() {
             transition={{
               duration: 0.16,
             }}
-            onClick={() => setOpen(false)}
+            onClick={handleCloseEstoque}
           >
             <motion.div
               onClick={(e) => e.stopPropagation()}
@@ -294,23 +401,22 @@ export function EstoqueCard() {
           overflow-hidden
 
           w-full
-          max-w-[980px]
+          max-w-[1040px]
 
-          max-h-[92dvh]
+          h-[calc(100dvh-1rem)]
+          sm:h-auto
+          sm:max-h-[92dvh]
 
-          overflow-y-auto
-          overscroll-contain
+          flex
+          flex-col
 
-          rounded-[20px]
+          rounded-[24px]
+          sm:rounded-[28px]
 
-          sm:rounded-[20px]
+          bg-white
 
-          bg-[linear-gradient(135deg,#ffffff,#f8fafc)]
-
-          p-4
-
-          sm:p-6
-          space-y-6
+          border
+          border-white/70
 
           shadow-[0_20px_56px_rgba(0,0,0,0.20)]
           sm:shadow-[0_50px_140px_rgba(0,0,0,0.30)]
@@ -353,6 +459,17 @@ export function EstoqueCard() {
                 className="
                   relative z-10
 
+                  shrink-0
+
+                  px-4
+                  sm:px-6
+
+                  py-4
+                  sm:py-5
+
+                  border-b
+                  border-[color:var(--border-soft)]
+
                   flex
                   flex-col
                   sm:flex-row
@@ -360,11 +477,11 @@ export function EstoqueCard() {
 
                   justify-between
 
-                  gap-4
+                  gap-3
                 "
               >
                 {/* ================= LEFT ================= */}
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {/* LABEL PREMIUM */}
                   <div className="flex items-center gap-3">
                     {/* INDICADOR */}
@@ -450,20 +567,18 @@ export function EstoqueCard() {
                   </div>
 
                   {/* TITLE */}
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     <h2
                       className="
-                        text-[20px]
+                        text-[22px]
 
                         sm:text-[28px]
 
-                        md:text-[38px]
-
                         font-semibold
 
-                        tracking-[-0.06em]
+                        tracking-[-0.045em]
 
-                        leading-[0.85]
+                        leading-none
 
                         text-[color:var(--foreground)]
                       "
@@ -471,7 +586,9 @@ export function EstoqueCard() {
                       Controle de estoque
                     </h2>
 
-                    {/* SUBTEXT */}
+                    <p className="text-[11px] sm:text-[12px] text-[color:var(--muted)]">
+                      Visão consolidada das entradas, saídas e movimentações recentes.
+                    </p>
                   </div>
                 </div>
 
@@ -565,13 +682,13 @@ export function EstoqueCard() {
                         tracking-[0.08em]
                       "
                     >
-                      {totalKg > 0 ? "estoque disponível" : "sem estoque"}
+                      {totalKg > 0 ? "Estoque disponível" : "Sem estoque"}
                     </span>
                   </div>
 
                   {/* CLOSE */}
                   <button
-                    onClick={() => setOpen(false)}
+                    onClick={handleCloseEstoque}
                     className="
     group
 
@@ -625,51 +742,67 @@ export function EstoqueCard() {
                       "
                     />
 
-                    {/* ICON */}
-                    <span
-                      className="
-                        relative z-10
-
-                        text-[16px]
-
-                        transition-transform duration-300
-
-                        sm:group-hover:rotate-90
-                      "
-                    >
-                      ✕
-                    </span>
+                    <X size={18} className="relative z-10" />
                   </button>
                 </div>
               </div>
 
+              <div className="relative z-10 flex-1 min-h-0 overflow-y-auto overscroll-contain touch-pan-y [-webkit-overflow-scrolling:touch] px-4 sm:px-6 py-4 sm:py-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
+                <div className="space-y-5">
+              {/* ================= HERO ================= */}
+              <div className="rounded-[20px] border border-emerald-100 bg-emerald-50/60 p-4 sm:p-5">
+                <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-emerald-700">
+                  Estoque disponível
+                </p>
+                <p className="mt-2 text-[28px] sm:text-[34px] font-semibold tracking-[-0.045em] leading-none text-[color:var(--foreground)]">
+                  {formatKg(totalKg)}
+                </p>
+                <p className="mt-2 text-[11px] sm:text-[12px] text-[color:var(--muted)]">
+                  {resumo.timeline.length} movimentações recentes
+                </p>
+              </div>
+
               {/* ================= KPIs ================= */}
-              <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 xl:gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 <Stat
                   label="Disponível"
-                  value={formatKg(resumo?.estoqueDisponivelKg ?? 0)}
+                  value={formatKg(totalKg)}
                 />
 
                 <Stat
                   label="Comprado"
-                  value={formatCurrency(resumo?.valorComprado ?? 0)}
+                  value={formatCurrency(totalComprado)}
                 />
 
                 <Stat
                   label="Vendido"
-                  value={formatCurrency(resumo?.valorVendido ?? 0)}
+                  value={formatCurrency(totalVendido)}
                 />
 
                 <Stat
                   label="Lucro"
-                  value={formatCurrency(resumo?.lucro ?? 0)}
+                  value={formatCurrency(lucro)}
                 />
               </div>
 
               {/* ================= TIMELINE ================= */}
-              <div className="space-y-4 max-h-[50dvh] sm:max-h-[400px] overflow-auto overscroll-contain pr-1">
+              <div className="space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                  <div>
+                    <h3 className="text-[16px] font-semibold tracking-[-0.025em] text-[color:var(--foreground)]">
+                      Movimentações recentes
+                    </h3>
+                    <p className="mt-1 text-[11px] sm:text-[12px] text-[color:var(--muted)]">
+                      Compras e vendas que impactaram o estoque.
+                    </p>
+                  </div>
+                  <span className="text-[11px] font-medium text-[color:var(--muted-soft)]">
+                    {resumo.timeline.length} registros
+                  </span>
+                </div>
+
                 {/* EMPTY STATE */}
-                {!resumo?.timeline || resumo.timeline.length === 0 ? (
+                {resumo.timeline.length === 0 ? (
                   <div
                     className="
         flex flex-col items-center justify-center
@@ -692,12 +825,16 @@ export function EstoqueCard() {
                     </p>
                   </div>
                 ) : (
-                  resumo.timeline.map((item, i) => {
+                  resumo.timeline.map((item) => {
                     const isEntrada = item.tipo === "ENTRADA";
+                    const isLoadingVenda = loadingVendaId === item.id;
 
                     return (
-                      <motion.div
+                      <motion.button
                         key={item.id}
+                        type="button"
+                        onClick={() => handleOpenMovimentacao(item)}
+                        disabled={isLoadingVenda}
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{
@@ -708,29 +845,30 @@ export function EstoqueCard() {
     group
     relative
 
-    flex
+    w-full
+    text-left
 
-    flex-col
+    flex flex-col sm:flex-row sm:items-center justify-between
 
-    sm:flex-row
+    p-4
 
-    sm:items-center
+    rounded-[18px]
 
-    justify-between
+    border border-[color:var(--border-soft)]
+    bg-white
 
-    px-3 py-3
+    shadow-[0_4px_14px_rgba(15,23,42,0.04)]
 
-    sm:px-4
+    sm:hover:-translate-y-[1px]
+    sm:hover:border-emerald-200
+    sm:hover:shadow-[0_10px_24px_rgba(15,23,42,0.07)]
 
-    rounded-[var(--radius-md)]
+    focus-visible:outline-none
+    focus-visible:ring-2
+    focus-visible:ring-emerald-300
 
-    border border-transparent
-
-    sm:hover:-translate-y-[2px]
-
-    sm:hover:border-[color:var(--border-soft)]
-
-    sm:hover:bg-[color:var(--surface-200)]
+    disabled:cursor-wait
+    disabled:opacity-70
 
     transition-all
     duration-200
@@ -754,7 +892,7 @@ export function EstoqueCard() {
                           {/* ICON */}
                           <div
                             className={`
-            w-9 h-9 rounded-md flex items-center justify-center
+            w-10 h-10 rounded-[14px] flex items-center justify-center
 
             ${
               isEntrada
@@ -763,11 +901,11 @@ export function EstoqueCard() {
             }
           `}
                           >
-                            {isEntrada ? "↑" : "↓"}
+                            {isEntrada ? <PackageOpen size={18} /> : <ShoppingCart size={18} />}
                           </div>
 
                           {/* INFO */}
-                          <div className="space-y-[2px]">
+                          <div className="min-w-0 space-y-1">
                             <p className="text-[13px] font-medium leading-tight">
                               {isEntrada
                                 ? "Compra registrada"
@@ -780,14 +918,24 @@ export function EstoqueCard() {
                                 : `Cliente: ${item.cliente}`}
                             </p>
 
-                            <p className="text-[11px] text-[color:var(--muted-soft)]">
+                            <p className="flex items-center gap-1.5 text-[11px] text-[color:var(--muted-soft)]">
+                              <CalendarDays size={12} />
                               {formatDate(item.data)} • {formatTime(item.data)}
                             </p>
+
+                            <div className="flex flex-wrap gap-1.5">
+                              {isEntrada && item.numeroFolha && <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-semibold text-slate-600">Folha {item.numeroFolha}</span>}
+                              {!isEntrada && item.numeroPedido && <span className="rounded-full bg-indigo-50 px-2 py-0.5 text-[9px] font-semibold text-indigo-700">Pedido {item.numeroPedido}</span>}
+                              {item.placa && <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-semibold text-slate-600">{item.placa}</span>}
+                              {isEntrada && item.modeloCaminhao && <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[9px] font-semibold text-slate-600">{item.modeloCaminhao}</span>}
+                              {!isEntrada && item.statusPagamento && <span className={`rounded-full px-2 py-0.5 text-[9px] font-semibold ${getStatusPagamentoClasses(item.statusPagamento)}`}>{item.statusPagamento}</span>}
+                            </div>
                           </div>
                         </div>
 
                         {/* DIREITA */}
-                        <div className="text-left sm:text-right space-y-[2px]">
+                        <div className="flex items-end justify-between gap-3 sm:block sm:text-right space-y-1">
+                          <div>
                           <p
                             className={`
             text-[13px] font-semibold tracking-tight
@@ -803,16 +951,40 @@ export function EstoqueCard() {
                           <p className="text-[12px] font-medium text-[color:var(--foreground)]">
                             {formatCurrency(item.valor)}
                           </p>
+                          </div>
+
+                          <span className="flex items-center gap-1 text-[11px] font-medium text-emerald-700">
+                            {isLoadingVenda ? <Loader2 size={14} className="animate-spin" /> : <ReceiptText size={14} />}
+                            {isLoadingVenda ? "Abrindo..." : isEntrada ? "Abrir compra" : "Abrir venda"}
+                            {!isLoadingVenda && <ChevronRight size={14} />}
+                          </span>
                         </div>
-                      </motion.div>
+                      </motion.button>
                     );
                   })
                 )}
               </div>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
+              )}
+            </AnimatePresence>
+
+            <CompraEditModal
+              compraId={selectedCompraId}
+              open={selectedCompraId !== null}
+              onClose={() => setSelectedCompraId(null)}
+            />
+
+            <VendaEditModal
+              venda={selectedVenda}
+              open={selectedVenda !== null}
+              onClose={() => setSelectedVenda(null)}
+            />
+          </>,
+          document.body,
         )}
-      </AnimatePresence>
     </>
   );
 }
