@@ -1,22 +1,46 @@
 "use client";
 
-import { useState } from "react";
-
 import { motion } from "framer-motion";
 
 import {
-  Loader2,
   MessageCircleMore,
 } from "lucide-react";
-
-import { getWhatsappResumoCliente } from "../services/whatsapp.service";
 
 // ======================================================
 // TYPES
 // ======================================================
 
 interface Props {
-  clienteId: string;
+  telefone?: string | null;
+}
+
+function normalizeWhatsappPhone(
+  telefone: string | null | undefined,
+): string | null {
+  if (!telefone?.trim()) {
+    return null;
+  }
+
+  const rawDigits = telefone.replace(/\D/g, "");
+
+  if (!rawDigits) {
+    return null;
+  }
+
+  const digits = rawDigits.replace(/^0+/, "");
+
+  if (
+    (digits.length === 12 || digits.length === 13) &&
+    digits.startsWith("55")
+  ) {
+    return digits;
+  }
+
+  if (digits.length === 10 || digits.length === 11) {
+    return `55${digits}`;
+  }
+
+  return null;
 }
 
 // ======================================================
@@ -24,57 +48,32 @@ interface Props {
 // ======================================================
 
 export function WhatsappButton({
-  clienteId,
+  telefone,
 }: Props) {
-  // ====================================================
-  // STATES
-  // ====================================================
-
-  const [loading, setLoading] =
-    useState(false);
-
   // ====================================================
   // HANDLE OPEN
   // ====================================================
 
-  async function handleOpenWhatsapp(
+  function handleOpenWhatsapp(
     event: React.MouseEvent<HTMLButtonElement>,
   ) {
     event.stopPropagation();
 
-    try {
-      setLoading(true);
+    const normalizedPhone = normalizeWhatsappPhone(telefone);
 
-      // ================================================
-      // BACKEND
-      // ================================================
-
-      const data =
-        await getWhatsappResumoCliente(
-          clienteId,
-        );
-
-      // ================================================
-      // OPEN
-      // ================================================
-
-      window.open(
-        data.whatsappUrl,
-        "_blank",
-        "noopener,noreferrer",
-      );
-    } catch (error) {
-      console.error(
-        "Erro ao abrir WhatsApp:",
-        error,
-      );
-
+    if (!normalizedPhone) {
       alert(
-        "Não foi possível abrir o WhatsApp deste cliente.",
+        "Este cliente não possui um telefone válido cadastrado.",
       );
-    } finally {
-      setLoading(false);
+
+      return;
     }
+
+    window.open(
+      `https://wa.me/${normalizedPhone}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
   }
 
   return (
@@ -90,7 +89,7 @@ export function WhatsappButton({
 
       onClick={handleOpenWhatsapp}
 
-      title="Enviar resumo via WhatsApp"
+      title="Abrir conversa no WhatsApp"
 
       className="
         group
@@ -161,14 +160,7 @@ export function WhatsappButton({
       {/* ============================================= */}
 
       <div className="relative z-10">
-        {loading ? (
-          <Loader2
-            size={16}
-            className="animate-spin"
-          />
-        ) : (
-          <MessageCircleMore size={16} />
-        )}
+        <MessageCircleMore size={16} />
       </div>
     </motion.button>
   );

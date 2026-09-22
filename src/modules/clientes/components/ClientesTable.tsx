@@ -831,7 +831,7 @@ export function ClientesTable() {
                     {/* AÇÕES */}
                     <div className="flex items-center gap-2 w-full lg:w-auto">
                       {/* WHATSAPP */}
-                      <WhatsappButton clienteId={cliente.id} />
+                      <WhatsappButton telefone={cliente.telefone} />
 
                       {/* VISUALIZAR */}
                       <button
