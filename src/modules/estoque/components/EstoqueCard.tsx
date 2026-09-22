@@ -2,6 +2,13 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import {
+  Activity,
+  ArrowDownToLine,
+  ArrowRight,
+  ArrowUpFromLine,
+  Boxes,
+} from "lucide-react";
 import { useEstoque } from "../hooks/useEstoque";
 
 export function EstoqueCard() {
@@ -65,39 +72,34 @@ export function EstoqueCard() {
   cursor-pointer
 
   w-full
-
   max-w-full
-
-  sm:max-w-[420px]
 
   group
   relative
   overflow-hidden
 
-  rounded-[var(--radius-md)]
+  rounded-[20px]
+  sm:rounded-[22px]
 
-  border border-[color:var(--border-soft)]
+  border border-emerald-200/60
 
-  bg-[linear-gradient(135deg,#ffffff,#f8fafc)]
+  bg-white
+  sm:bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(236,253,245,0.78))]
 
-  px-4
+  p-4
+  sm:p-5
 
-  sm:px-4
-
-  py-4
-
-  sm:py-3
-
-  flex items-center justify-between
+  shadow-[0_6px_20px_rgba(15,23,42,0.04)]
+  sm:shadow-[0_14px_36px_rgba(16,185,129,0.08)]
 
   transition-[transform,box-shadow,border-color]
   duration-300
 
   sm:hover:-translate-y-[1px]
 
-  sm:hover:border-[color:var(--brand)]
+  sm:hover:border-emerald-300
 
-  sm:hover:shadow-[0_10px_24px_rgba(0,0,0,0.08)]
+  sm:hover:shadow-[0_18px_44px_rgba(16,185,129,0.12)]
 
   sm:will-change-transform
 "
@@ -126,82 +128,124 @@ export function EstoqueCard() {
         </div>
 
         {/* ================= CONTEÚDO ================= */}
-        <div className="relative z-10 flex items-center justify-between w-full">
-          {/* ESQUERDA */}
-          <div className="flex items-center gap-3">
-            {/* ICON */}
-            <div
-              className={`
-          relative
-          w-9 h-9
-          rounded-lg
-          flex items-center justify-center
+        <div className="relative z-10 w-full space-y-5">
+          {/* HEADER */}
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div
+                className={`
+                  w-11 h-11
+                  sm:w-10 sm:h-10
 
-          border
+                  rounded-[14px]
 
-          ${
-            totalKg > 0
-              ? "bg-emerald-50 border-emerald-200 text-emerald-600"
-              : "bg-[color:var(--surface-200)] border-[color:var(--border-soft)] text-[color:var(--muted)]"
-          }
-        `}
-            >
-              {/* glow interno */}
-              {totalKg > 0 && (
-                <div className="absolute inset-0 rounded-lg opacity-40 pointer-events-none">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.25),transparent_70%)]" />
-                </div>
-              )}
+                  flex items-center justify-center
 
-              <span className="relative text-[14px]">📦</span>
+                  border
+
+                  ${
+                    totalKg > 0
+                      ? "bg-emerald-50 border-emerald-200 text-emerald-600"
+                      : "bg-[color:var(--surface-200)] border-[color:var(--border-soft)] text-[color:var(--muted)]"
+                  }
+                `}
+              >
+                <Boxes size={20} />
+              </div>
+
+              <p className="truncate text-[10px] uppercase tracking-[0.20em] font-semibold text-[color:var(--muted-soft)]">
+                Controle de estoque
+              </p>
             </div>
 
-            {/* TEXTO */}
-            <div className="space-y-[2px]">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--muted-soft)]">
-                Estoque
-              </p>
+            <div
+              className={`
+                flex items-center gap-1.5
 
-              <p className="text-[15px] font-semibold tracking-tight">
-                {loading ? "..." : formatKg(totalKg)}
+                px-2.5 py-[3px]
+                rounded-full
+                text-[10px]
+                border
+                transition-colors duration-300
+
+                ${
+                  totalKg > 0
+                    ? "bg-emerald-50 border-emerald-200 text-emerald-600"
+                    : "bg-[color:var(--surface-200)] border-[color:var(--border-soft)] text-[color:var(--muted)]"
+                }
+              `}
+            >
+              <span
+                className={`
+                  w-[5px] h-[5px] rounded-full
+                  ${totalKg > 0 ? "bg-emerald-500 sm:animate-pulse" : "bg-gray-400"}
+                `}
+              />
+
+              {totalKg > 0 ? "Disponível" : "Zerado"}
+            </div>
+          </div>
+
+          {/* VALOR PRINCIPAL */}
+          <div className="space-y-2">
+            <p className="text-[26px] sm:text-[30px] xl:text-[34px] leading-none font-semibold tracking-[-0.045em] text-[color:var(--foreground)]">
+              {loading ? "..." : formatKg(totalKg)}
+            </p>
+
+            <p className="text-[11px] sm:text-[12px] text-[color:var(--muted)]">
+              Estoque disponível
+            </p>
+          </div>
+
+          {/* MICRO KPIS */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 border-t border-emerald-100/80 pt-3">
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5 text-[color:var(--muted-soft)]">
+                <ArrowDownToLine size={13} className="text-emerald-600" />
+                <span className="text-[9px] uppercase tracking-[0.16em]">
+                  Entradas
+                </span>
+              </div>
+
+              <p className="text-[12px] sm:text-[13px] font-semibold text-[color:var(--foreground)]">
+                {formatKg(resumo?.totalKgComprado ?? 0)}
+              </p>
+            </div>
+
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5 text-[color:var(--muted-soft)]">
+                <ArrowUpFromLine size={13} className="text-rose-500" />
+                <span className="text-[9px] uppercase tracking-[0.16em]">
+                  Saídas
+                </span>
+              </div>
+
+              <p className="text-[12px] sm:text-[13px] font-semibold text-[color:var(--foreground)]">
+                {formatKg(resumo?.totalKgVendido ?? 0)}
+              </p>
+            </div>
+
+            <div className="col-span-2 sm:col-span-1 space-y-1">
+              <div className="flex items-center gap-1.5 text-[color:var(--muted-soft)]">
+                <Activity size={13} className="text-indigo-500" />
+                <span className="text-[9px] uppercase tracking-[0.16em]">
+                  Movimentações
+                </span>
+              </div>
+
+              <p className="text-[12px] sm:text-[13px] font-semibold text-[color:var(--foreground)]">
+                {(resumo?.totalCompras ?? 0) + (resumo?.totalVendas ?? 0)}
               </p>
             </div>
           </div>
 
-          {/* DIREITA */}
-          <div className="flex items-center gap-2">
-            {/* STATUS */}
-            <div
-              className={`
-          flex items-center gap-1.5
-
-          px-2.5 py-[3px]
-          rounded-full
-          text-[10px]
-          border
-          transition-colors duration-300
-
-          ${
-            totalKg > 0
-              ? "bg-emerald-50 border-emerald-200 text-emerald-600"
-              : "bg-[color:var(--surface-200)] border-[color:var(--border-soft)] text-[color:var(--muted)]"
-          }
-        `}
-            >
-              <span
-                className={`
-            w-[5px] h-[5px] rounded-full
-            ${totalKg > 0 ? "bg-emerald-500 sm:animate-pulse" : "bg-gray-400"}
-          `}
-              />
-
-              {totalKg > 0 ? "disponível" : "zerado"}
-            </div>
-
-            {/* SETA */}
-            <span className="text-[color:var(--muted-soft)] group-hover:translate-x-1 transition">
-              →
-            </span>
+          {/* CTA */}
+          <div className="flex items-center justify-end gap-1.5 text-[11px] font-medium text-emerald-700">
+            Ver movimentações
+            <ArrowRight
+              size={14}
+              className="transition-transform duration-300 sm:group-hover:translate-x-1"
+            />
           </div>
         </div>
 
@@ -212,7 +256,7 @@ export function EstoqueCard() {
       transition-colors duration-300
 
       ${
-        totalKg > 0 ? "bg-emerald-500/60" : "bg-black/0 group-hover:bg-black/20"
+        totalKg > 0 ? "bg-emerald-500/60" : "bg-black/0 sm:group-hover:bg-black/20"
       }
     `}
         />
@@ -227,7 +271,8 @@ export function EstoqueCard() {
 
         bg-black/40
 
-        backdrop-blur-[3px]
+        backdrop-blur-none
+        sm:backdrop-blur-[3px]
 
         flex items-center justify-center
 
@@ -346,6 +391,9 @@ export function EstoqueCard() {
 
                           bg-emerald-500/60
 
+                          hidden
+                          sm:block
+
                           blur-[8px]
 
                           opacity-70
@@ -366,7 +414,8 @@ export function EstoqueCard() {
 
                         bg-emerald-50/80
 
-                        backdrop-blur-md
+                        backdrop-blur-none
+                        sm:backdrop-blur-md
                       "
                     >
                       {/* DOT */}
@@ -378,7 +427,7 @@ export function EstoqueCard() {
 
                           bg-emerald-500
 
-                          animate-pulse
+                          sm:animate-pulse
                         "
                       />
 
@@ -449,7 +498,8 @@ export function EstoqueCard() {
 
                       border
 
-                      backdrop-blur-xl
+                      backdrop-blur-none
+                      sm:backdrop-blur-xl
 
                       shadow-[0_12px_30px_rgba(0,0,0,0.05)]
 
@@ -476,6 +526,9 @@ export function EstoqueCard() {
                         className="
                           absolute inset-0
 
+                          hidden
+                          sm:block
+
                           bg-[radial-gradient(circle_at_50%_0%,rgba(16,185,129,0.16),transparent_70%)]
 
                           pointer-events-none
@@ -494,7 +547,7 @@ export function EstoqueCard() {
 
                         ${
                           totalKg > 0
-                            ? "bg-emerald-500 animate-pulse"
+                            ? "bg-emerald-500 sm:animate-pulse"
                             : "bg-gray-400"
                         }
                       `}
@@ -535,26 +588,27 @@ export function EstoqueCard() {
 
     bg-white/80
 
-    backdrop-blur-sm
+    backdrop-blur-none
+    sm:backdrop-blur-sm
 
     shadow-[0_12px_30px_rgba(0,0,0,0.05)]
 
     text-[color:var(--muted)]
 
-    hover:text-[color:var(--foreground)]
+    sm:hover:text-[color:var(--foreground)]
 
-    hover:border-[color:var(--border-strong)]
+    sm:hover:border-[color:var(--border-strong)]
 
-    hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)]
+    sm:hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)]
 
-    hover:scale-[1.02]
+    sm:hover:scale-[1.02]
 
     active:scale-[0.98]
 
     transition-all
     duration-300
 
-    will-change-transform
+    sm:will-change-transform
 
     overflow-hidden
   "
@@ -580,7 +634,7 @@ export function EstoqueCard() {
 
                         transition-transform duration-300
 
-                        group-hover:rotate-90
+                        sm:group-hover:rotate-90
                       "
                     >
                       ✕
@@ -672,16 +726,16 @@ export function EstoqueCard() {
 
     border border-transparent
 
-    hover:-translate-y-[2px]
+    sm:hover:-translate-y-[2px]
 
-    hover:border-[color:var(--border-soft)]
+    sm:hover:border-[color:var(--border-soft)]
 
-    hover:bg-[color:var(--surface-200)]
+    sm:hover:bg-[color:var(--surface-200)]
 
     transition-all
     duration-200
 
-    will-change-transform
+    sm:will-change-transform
 
     gap-3
   "
@@ -794,13 +848,13 @@ function Stat({ label, value }: { label: string; value: string }) {
     transition-all
     duration-100
 
-    hover:-translate-y-[1px]
+    sm:hover:-translate-y-[1px]
 
-    hover:border-[color:var(--border-strong)]
+    sm:hover:border-[color:var(--border-strong)]
 
-    hover:shadow-[0_8px_18px_rgba(0,0,0,0.05)]
+    sm:hover:shadow-[0_8px_18px_rgba(0,0,0,0.05)]
 
-    will-change-transform
+    sm:will-change-transform
   "
     >
       {/* 🔥 GLOW SUAVE */}
@@ -808,8 +862,11 @@ function Stat({ label, value }: { label: string; value: string }) {
         className="
     absolute inset-0
 
+    hidden
+    sm:block
+
     opacity-0
-    group-hover:opacity-100
+    sm:group-hover:opacity-100
 
     transition-opacity
     duration-100
@@ -870,7 +927,7 @@ function Stat({ label, value }: { label: string; value: string }) {
       </p>
 
       {/* LINHA VISUAL INFERIOR */}
-      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+    <div className="absolute bottom-0 left-0 w-full h-[1px] bg-black/0 sm:group-hover:bg-black/10 transition-colors duration-300" />
     </div>
   );
 }
