@@ -71,6 +71,14 @@ export const VendaEditModal = memo(function VendaEditModal({
       return;
     }
 
+    if (venda.clienteId === null) {
+      selecionarCliente(null);
+
+      setClientePreparado(true);
+
+      return;
+    }
+
     if (loading) {
       setClientePreparado(false);
       return;

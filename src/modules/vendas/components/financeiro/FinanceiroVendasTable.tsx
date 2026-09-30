@@ -189,6 +189,14 @@ export function FinanceiroVendasTable() {
               vendasProcessadas.map((venda, i) => {
                 const statusMeta = getStatusMeta(venda.statusPagamento);
 
+                const clientePendente = venda.clienteId === null;
+
+                const nomeCliente = clientePendente
+                  ? "Cliente pendente"
+                  : venda.cliente?.nome ??
+                    venda.clienteNomeSnapshot ??
+                    "Cliente pendente";
+
                 return (
                   <motion.div
                     key={venda.id}
@@ -211,12 +219,20 @@ export function FinanceiroVendasTable() {
                   >
                     {/* CLIENTE */}
                     <div className="flex flex-col leading-tight min-w-[180px]">
-                      <span className="font-medium truncate text-[color:var(--foreground)]">
-                        {venda.cliente?.nome ?? "Sem cliente"}
-                      </span>
+                      <div className="flex min-w-0 items-center gap-1.5">
+                        <span className="truncate font-medium text-[color:var(--foreground)]">
+                          {nomeCliente}
+                        </span>
+
+                        {clientePendente && (
+                          <span className="shrink-0 rounded-full border border-amber-200 bg-amber-50 px-1.5 py-0.5 text-[8px] font-medium tracking-[0.04em] text-amber-700">
+                            CLIENTE PENDENTE
+                          </span>
+                        )}
+                      </div>
 
                       <span className="text-[11px] sm:text-[10px] text-[color:var(--muted-soft)]">
-                        {venda.cliente?.telefone ?? "—"}
+                        {clientePendente ? "—" : venda.cliente?.telefone ?? "—"}
                       </span>
 
                       {venda.usuarioResponsavelNome && (

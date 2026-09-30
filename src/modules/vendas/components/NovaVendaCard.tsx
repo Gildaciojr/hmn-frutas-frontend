@@ -20,6 +20,8 @@ type ModeloCaminhaoVenda = "TRUCK" | "BITRUCK" | "CARRETA";
 
 type QualidadeCompra = "GRAUDA" | "MEDIA" | "MIUDA";
 
+type VendaSubmitMode = "NORMAL" | "SEM_CLIENTE";
+
 interface CompraOrigemOption {
   id: string;
 
@@ -180,6 +182,10 @@ export function NovaVendaCard({
 
   const [success, setSuccess] = useState(false);
 
+  const [successClientePendente, setSuccessClientePendente] = useState(false);
+
+  const [confirmandoSemCliente, setConfirmandoSemCliente] = useState(false);
+
   const hydratedVendaIdRef = useRef<string | null>(null);
 
   const buscaOrigemRequestRef = useRef(0);
@@ -248,6 +254,16 @@ export function NovaVendaCard({
     setBuscandoComprasOrigem(false);
     setErroBuscaOrigem(null);
   }, [isEditMode, venda]);
+
+  useEffect(() => {
+    const unsubscribe = useClienteStore.subscribe((state, previousState) => {
+      if (state.clienteSelecionado !== previousState.clienteSelecionado) {
+        setConfirmandoSemCliente(false);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   ////////////////////////////////////////////////////////////
   // HELPERS
@@ -578,6 +594,20 @@ export function NovaVendaCard({
     !numeroOperacionalManual ||
     (numeroPedido.length > 0 && numeroRomaneio.length > 0);
 
+  const podeRegistrarSemCliente =
+    !isEditMode &&
+    !cliente &&
+    !saving &&
+    Boolean(
+      pesoBrutoNumber &&
+      precoMelancia &&
+      quantidadeFrutasNumber &&
+      valorTotal &&
+      numerosOperacionaisValidos,
+    );
+
+  const erroClienteObrigatorio = !cliente && error === "Selecione um cliente";
+
   ////////////////////////////////////////////////////////////
   // AUTO PREENCHIMENTO OPERACIONAL
   ////////////////////////////////////////////////////////////
@@ -603,7 +633,7 @@ export function NovaVendaCard({
   // SUBMIT
   ////////////////////////////////////////////////////////////
 
-  async function handleSubmit() {
+  async function handleSubmit(mode: VendaSubmitMode) {
     //////////////////////////////////////////////////////////
     // RESET
     //////////////////////////////////////////////////////////
@@ -612,11 +642,21 @@ export function NovaVendaCard({
 
     setSuccess(false);
 
+    setSuccessClientePendente(false);
+
     //////////////////////////////////////////////////////////
     // CLIENTE
     //////////////////////////////////////////////////////////
 
-    if (!cliente) {
+    if (mode === "SEM_CLIENTE" && cliente) {
+      setConfirmandoSemCliente(false);
+
+      setError("Utilize Finalizar venda para registrar uma venda com cliente");
+
+      return;
+    }
+
+    if (mode === "NORMAL" && !cliente) {
       setError("Selecione um cliente");
 
       return;
@@ -692,7 +732,7 @@ export function NovaVendaCard({
         // CLIENTE
         //////////////////////////////////////////////////////
 
-        clienteId: cliente.id,
+        ...(cliente ? { clienteId: cliente.id } : {}),
 
         compraOrigemId: compraOrigemId ?? undefined,
 
@@ -772,7 +812,7 @@ export function NovaVendaCard({
         // STATUS
         //////////////////////////////////////////////////////
 
-        statusPagamento,
+        statusPagamento: mode === "SEM_CLIENTE" ? "PENDENTE" : statusPagamento,
 
         //////////////////////////////////////////////////////
         // OBS
@@ -790,6 +830,7 @@ export function NovaVendaCard({
 
       if (isEditMode) {
         setSuccess(true);
+        setSuccessClientePendente(false);
         onSuccess?.();
         return;
       }
@@ -852,21 +893,27 @@ export function NovaVendaCard({
 
       setSuccess(true);
 
+      setSuccessClientePendente(mode === "SEM_CLIENTE");
+
+      setConfirmandoSemCliente(false);
+
       ////////////////////////////////////////////////////////
       // PDF MOBILE + DESKTOP
       ////////////////////////////////////////////////////////
 
-      try {
-        await share({
-          url: `/romaneios/venda/${vendaSalva.id}/pdf`,
-          filename: `romaneio-${vendaSalva.id}.pdf`,
-          title: "Romaneio",
-          text: "Romaneio gerado pelo sistema HMN Frutas",
-          shareFallback: "view",
-          newTab: true,
-        });
-      } catch (pdfError) {
-        console.error("Erro ao gerar PDF:", pdfError);
+      if (mode === "NORMAL") {
+        try {
+          await share({
+            url: `/romaneios/venda/${vendaSalva.id}/pdf`,
+            filename: `romaneio-${vendaSalva.id}.pdf`,
+            title: "Romaneio",
+            text: "Romaneio gerado pelo sistema HMN Frutas",
+            shareFallback: "view",
+            newTab: true,
+          });
+        } catch (pdfError) {
+          console.error("Erro ao gerar PDF:", pdfError);
+        }
       }
     } catch (err) {
       if (typeof err === "object" && err !== null && "response" in err) {
@@ -1599,7 +1646,7 @@ export function NovaVendaCard({
     duration-200
 
     ${
-      error && !cliente
+      erroClienteObrigatorio
         ? `
           border-red-300/50
 
@@ -1674,7 +1721,7 @@ export function NovaVendaCard({
         </div>
 
         {/* ================= ERRO ================= */}
-        {error && !cliente && (
+        {erroClienteObrigatorio && (
           <div
             className="
               flex items-center gap-2
@@ -5733,6 +5780,7 @@ export function NovaVendaCard({
         min-h-[42px]
 
         px-5
+        py-2
 
         rounded-full
 
@@ -5779,9 +5827,12 @@ export function NovaVendaCard({
 
                 <span
                   className="
-          whitespace-nowrap
+          min-w-0
+          whitespace-normal
 
+          text-center
           text-[11px]
+          leading-tight
 
           font-medium
           tracking-[0.01em]
@@ -5789,7 +5840,9 @@ export function NovaVendaCard({
           text-emerald-700
         "
                 >
-                  Venda Finalizada
+                  {successClientePendente
+                    ? "Venda registrada • Cliente pendente"
+                    : "Venda Finalizada"}
                 </span>
               </div>
             </div>
@@ -5813,11 +5866,64 @@ export function NovaVendaCard({
                 xl:-translate-y-8
               "
         >
+          {!isEditMode && !cliente && confirmandoSemCliente && (
+            <div
+              className="
+                w-full
+                xl:w-[340px]
+
+                rounded-[16px]
+
+                border
+                border-amber-200
+
+                bg-amber-50
+
+                px-4
+                py-3
+              "
+            >
+              <p className="text-sm font-semibold text-amber-900">
+                Registrar venda sem cliente?
+              </p>
+
+              <p className="mt-1 text-xs leading-relaxed text-amber-800">
+                A venda será registrada agora e movimentará estoque e
+                financeiro. Pagamento, faturamento e romaneio ficarão bloqueados
+                até um cliente ser vinculado.
+              </p>
+
+              <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={() => setConfirmandoSemCliente(false)}
+                  disabled={saving}
+                  className="h-11 w-full rounded-xl border border-amber-200 bg-white px-3 text-sm font-medium text-amber-900 transition hover:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  Voltar
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    void handleSubmit("SEM_CLIENTE");
+                  }}
+                  disabled={!podeRegistrarSemCliente}
+                  className="h-11 w-full rounded-xl border border-amber-700 bg-amber-700 px-3 text-sm font-semibold text-white transition hover:bg-amber-800 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {saving ? "Registrando..." : "Confirmar registro"}
+                </button>
+              </div>
+            </div>
+          )}
+
           <motion.button
             whileTap={{
               scale: 0.985,
             }}
-            onClick={handleSubmit}
+            onClick={() => {
+              void handleSubmit("NORMAL");
+            }}
             disabled={
               saving ||
               !cliente ||
@@ -6133,6 +6239,41 @@ export function NovaVendaCard({
               </div>
             </div>
           </motion.button>
+
+          {!isEditMode && !cliente && !confirmandoSemCliente && (
+            <button
+              type="button"
+              onClick={() => setConfirmandoSemCliente(true)}
+              disabled={!podeRegistrarSemCliente}
+              className="
+                h-11
+                w-full
+                xl:w-[340px]
+
+                rounded-xl
+
+                border
+                border-amber-200
+
+                bg-amber-50
+
+                px-4
+
+                text-sm
+                font-medium
+
+                text-amber-800
+
+                transition
+                hover:bg-amber-100
+
+                disabled:cursor-not-allowed
+                disabled:opacity-60
+              "
+            >
+              Registrar sem cliente
+            </button>
+          )}
         </div>
       </div>
     </motion.div>

@@ -12,7 +12,7 @@ export interface VendaCliente {
 
   nome: string;
 
-  telefone?: string;
+  telefone?: string | null;
 }
 
 export interface Venda {
@@ -22,7 +22,7 @@ export interface Venda {
 
   id: string;
 
-  clienteId: string;
+  clienteId: string | null;
 
   usuarioResponsavelId?: string | null;
 
@@ -36,7 +36,9 @@ export interface Venda {
   // CLIENTE
   //////////////////////////////////////////////////
 
-  cliente?: VendaCliente;
+  cliente?: VendaCliente | null;
+
+  clienteNomeSnapshot: string;
 
   //////////////////////////////////////////////////
   // LOGÍSTICA
@@ -227,7 +229,7 @@ export interface CreateVendaPayload {
   // CLIENTE
   //////////////////////////////////////////////////
 
-  clienteId: string;
+  clienteId?: string;
 
   //////////////////////////////////////////////////
   // IDENTIFICAÇÃO
