@@ -1,6 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import {
+  getPeriodPreset,
+  PERIOD_PRESETS,
+  type PeriodPreset,
+} from "@/shared/utils/report-period";
 
 import { FazendaSelect } from "@/modules/fornecedores/components/FazendaSelect";
 import { FornecedorSelect } from "@/modules/fornecedores/components/FornecedorSelect";
@@ -36,8 +41,15 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
   const [dataFim, setDataFim] = useState<string>("");
 
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+  const [preset, setPreset] = useState<PeriodPreset>("custom");
+  const [periodError, setPeriodError] = useState<string | null>(null);
 
   function handleSearch() {
+    if (dataInicio && dataFim && dataInicio > dataFim) {
+      setPeriodError("A data inicial deve ser anterior à data final.");
+      return;
+    }
+    setPeriodError(null);
     onSearch({
       fornecedor: fornecedor?.nome,
       fornecedorId: fornecedor?.id,
@@ -58,6 +70,8 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
   }
 
   function handleClear() {
+    setPreset("custom");
+    setPeriodError(null);
     setFornecedor(null);
 
     setFazenda(null);
@@ -140,6 +154,29 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
         </div>
       </div>
 
+      <div className="flex flex-wrap gap-2" aria-label="Períodos rápidos">
+        {PERIOD_PRESETS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            aria-pressed={preset === item.id}
+            onClick={() => {
+              setPreset(item.id);
+              setPeriodError(null);
+              const range = getPeriodPreset(item.id);
+              if (range) {
+                setDataInicio(range.inicio);
+                setDataFim(range.fim);
+              }
+            }}
+            className={`min-h-[44px] max-w-full rounded-xl border px-3 text-[12px] ${preset === item.id ? "border-red-400 bg-red-50 text-red-700" : "border-[color:var(--border-soft)] text-[color:var(--muted)]"}`}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+      {periodError && <p role="alert" className="text-sm text-red-700">{periodError}</p>}
+
       <div
         className="
     grid
@@ -216,7 +253,11 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             }}
             type="date"
             value={dataInicio}
-            onChange={(event) => setDataInicio(event.target.value)}
+            onChange={(event) => {
+              setDataInicio(event.target.value);
+              setPreset("custom");
+              setPeriodError(null);
+            }}
           />
         </div>
 
@@ -232,7 +273,11 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
             }}
             type="date"
             value={dataFim}
-            onChange={(event) => setDataFim(event.target.value)}
+            onChange={(event) => {
+              setDataFim(event.target.value);
+              setPreset("custom");
+              setPeriodError(null);
+            }}
           />
         </div>
       </div>

@@ -20,6 +20,27 @@ export interface SearchCompraParams {
   dataInicio?: string;
 
   dataFim?: string;
+  page?: number;
+  pageSize?: number;
+}
+
+export interface ComprasReportSummary {
+  operacoes: number;
+  kgLiquido: number;
+  valorLiquido: number;
+  precoComercialMedioKg: number;
+  ticketMedioLiquido: number;
+}
+
+export interface ComprasReportResponse {
+  items: Compra[];
+  summary: ComprasReportSummary;
+  pagination: {
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+  };
 }
 
 interface ApiResponse<T> {
@@ -30,12 +51,12 @@ interface ApiResponse<T> {
 
 export async function searchCompras(
   params: SearchCompraParams,
-): Promise<Compra[]> {
+): Promise<ComprasReportResponse> {
   const response =
-    await api.get<ApiResponse<Compra[]>>(
+    await api.get<ApiResponse<ComprasReportResponse>>(
       "/compras/search",
       {
-        params,
+        params: { ...params, page: params.page ?? 1, pageSize: params.pageSize ?? 25 },
       },
     );
 

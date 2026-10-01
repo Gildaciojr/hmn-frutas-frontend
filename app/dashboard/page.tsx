@@ -17,7 +17,6 @@ import { ComprasResumoCard } from "@/modules/compras-relatorios/components/Compr
 import { NovaDespesaCard } from "@/modules/despesas-operacionais/components/NovaDespesaCard";
 import { useComprasRelatorio } from "@/modules/compras-relatorios/hooks/useComprasRelatorio";
 import { FornecedoresList } from "@/modules/fornecedores/components/FornecedoresList";
-import { FornecedorHistorico } from "@/modules/fornecedores/components/FornecedorHistorico";
 
 import type { SearchCompraParams } from "@/modules/compras-relatorios/services/compras-relatorios.service";
 
@@ -37,7 +36,14 @@ export default function Dashboard() {
     null,
   );
 
-  const { compras, loading: relatorioLoading } = useComprasRelatorio(
+  const {
+    compras,
+    summary,
+    pagination,
+    error: relatorioError,
+    refetch: refetchRelatorio,
+    loading: relatorioLoading,
+  } = useComprasRelatorio(
     searchFilters ?? {},
     Boolean(searchFilters),
   );
@@ -504,7 +510,7 @@ export default function Dashboard() {
               onSearch={(novoFiltro) => {
                 setFilters(novoFiltro);
 
-                setSearchFilters(novoFiltro);
+                setSearchFilters({ ...novoFiltro, page: 1, pageSize: 25 });
               }}
               onClear={() => {
                 setFilters({});
@@ -513,17 +519,22 @@ export default function Dashboard() {
               }}
             />
 
-            {searchFilters?.fornecedorId ? (
-              <FornecedorHistorico fornecedorId={searchFilters.fornecedorId} />
-            ) : (
+            {searchFilters ? (
               <>
-                {searchFilters && <ComprasResumoCard compras={compras} />}
+                {!relatorioLoading && !relatorioError && summary && (
+                  <ComprasResumoCard summary={summary} />
+                )}
 
                 <ComprasRelatorioTable
                   compras={compras}
+                  loading={relatorioLoading}
+                  error={relatorioError?.message}
+                  onRetry={() => void refetchRelatorio()}
+                  pagination={pagination}
+                  onPageChange={(page) => setSearchFilters({ ...searchFilters, page })}
                 />
               </>
-            )}
+            ) : <p className="text-sm text-[color:var(--muted)]">Selecione os filtros e gere o relatório de compras. Sem status selecionado, canceladas são excluídas.</p>}
 
             {/* ================= AÇÕES RÁPIDAS ================= */}
             <div

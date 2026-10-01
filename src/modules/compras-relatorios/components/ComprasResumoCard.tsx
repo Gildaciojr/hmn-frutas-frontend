@@ -1,17 +1,9 @@
 "use client";
 
-import type { Compra } from "@/modules/compras/hooks/useCompras";
+import type { ComprasReportSummary } from "../services/compras-relatorios.service";
 
 interface Props {
-  compras: Compra[];
-}
-
-function toNumber(value: string | number | null | undefined): number {
-  if (typeof value === "number") {
-    return value;
-  }
-
-  return Number(value ?? 0);
+  summary: ComprasReportSummary;
 }
 
 function formatCurrency(value: number): string {
@@ -26,56 +18,40 @@ function formatKg(value: number): string {
   return value.toLocaleString("pt-BR");
 }
 
-export function ComprasResumoCard({ compras }: Props) {
-  const totalCompras = compras.length;
-
-  const totalKg = compras.reduce(
-    (acc, compra) => acc + Number(compra.kgLiquido ?? 0),
-    0,
-  );
-
-  const valorComprado = compras.reduce(
-    (acc, compra) => acc + toNumber(compra.valorTotal),
-    0,
-  );
-
-  const precoMedioKg =
-    totalKg > 0
-      ? valorComprado / totalKg
-      : 0;
-
-  const ticketMedio =
-    totalCompras > 0
-      ? valorComprado / totalCompras
-      : 0;
+export function ComprasResumoCard({ summary }: Props) {
+  const totalCompras = summary.operacoes;
+  const totalKg = summary.kgLiquido;
+  const valorComprado = summary.valorLiquido;
+  const precoMedioKg = summary.precoComercialMedioKg;
+  const ticketMedio = summary.ticketMedioLiquido;
 
   const cards = [
     {
-      label: "Compras",
+      label: "Operações",
       value: totalCompras.toLocaleString("pt-BR"),
       subtitle: "operações encontradas",
     },
 
     {
-      label: "Kg Comprado",
+      label: "Kg Líquido Comprado",
       value: `${formatKg(totalKg)} kg`,
       subtitle: "peso líquido",
     },
 
     {
-      label: "Valor Comprado",
+      label: "Valor Líquido Comprado",
       value: formatCurrency(valorComprado),
       subtitle: "total operacional",
     },
 
     {
-      label: "Preço Médio Kg",
+      label: "Preço Comercial Médio/Kg",
       value: formatCurrency(precoMedioKg),
-      subtitle: "valor médio",
+      subtitle: "ponderado pelo kg líquido",
     },
 
     {
-      label: "Ticket Médio",
+      label: "Ticket Médio Líquido",
       value: formatCurrency(ticketMedio),
       subtitle: "por compra",
     },

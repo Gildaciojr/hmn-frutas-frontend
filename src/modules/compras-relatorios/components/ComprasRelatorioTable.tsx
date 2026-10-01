@@ -1,9 +1,16 @@
 "use client";
 
 import type { Compra } from "@/modules/compras/hooks/useCompras";
+import type { ComprasReportResponse } from "../services/compras-relatorios.service";
+import { formatOperationalDate } from "@/shared/utils/report-period";
 
 interface Props {
   compras: Compra[];
+  loading?: boolean;
+  error?: string;
+  onRetry?: () => void;
+  pagination?: ComprasReportResponse["pagination"];
+  onPageChange?: (page: number) => void;
 }
 
 function formatCurrency(value: number | string) {
@@ -17,7 +24,7 @@ function formatKg(value: number) {
   return `${value.toLocaleString("pt-BR")} kg`;
 }
 
-export function ComprasRelatorioTable({ compras }: Props) {
+export function ComprasRelatorioTable({ compras, loading, error, onRetry, pagination, onPageChange }: Props) {
   return (
     <section
       className="
@@ -63,13 +70,21 @@ export function ComprasRelatorioTable({ compras }: Props) {
             text-[color:var(--muted)]
           "
         >
-          {compras.length} registro(s) encontrado(s)
+          {pagination?.total ?? compras.length} registro(s) encontrado(s)
         </p>
       </div>
 
       {/* EMPTY */}
 
-      {compras.length === 0 && (
+      {loading && <p role="status" className="p-5 text-sm">Carregando relatório de compras...</p>}
+      {error && !loading && (
+        <div role="alert" className="p-5 text-sm text-red-700">
+          <p>Não foi possível carregar o relatório. {error}</p>
+          <button type="button" onClick={onRetry} className="min-h-[44px] mt-2 rounded-lg border px-3">Tentar novamente</button>
+        </div>
+      )}
+
+      {!loading && !error && compras.length === 0 && (
         <div
           className="
             p-5
@@ -89,7 +104,7 @@ export function ComprasRelatorioTable({ compras }: Props) {
 
       {/* TABLE */}
 
-      {compras.length > 0 && (
+      {!loading && !error && compras.length > 0 && (
         <>
           {/* MOBILE CARDS */}
           <div className="lg:hidden p-3 sm:p-4 space-y-3">
@@ -145,9 +160,7 @@ export function ComprasRelatorioTable({ compras }: Props) {
                   />
                   <MobileInfo
                     label="Data"
-                    value={new Date(compra.dataCompra).toLocaleDateString(
-                      "pt-BR",
-                    )}
+                    value={formatOperationalDate(compra.dataCompra)}
                   />
                   <MobileInfo label="Placa" value={compra.placa} />
                   <MobileInfo
@@ -218,7 +231,7 @@ export function ComprasRelatorioTable({ compras }: Props) {
                     </td>
 
                     <td className="px-4 py-3 text-sm">
-                      {new Date(compra.dataCompra).toLocaleDateString("pt-BR")}
+                      {formatOperationalDate(compra.dataCompra)}
                     </td>
 
                     <td className="px-4 py-3 text-sm">{compra.placa}</td>
@@ -261,6 +274,15 @@ export function ComprasRelatorioTable({ compras }: Props) {
             </table>
           </div>
         </>
+      )}
+      {pagination && pagination.totalPages > 0 && !error && (
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t p-3 text-sm">
+          <span>Página {pagination.page} de {pagination.totalPages} · {pagination.total} operações</span>
+          <div className="flex gap-2">
+            <button type="button" disabled={loading || pagination.page <= 1} onClick={() => onPageChange?.(pagination.page - 1)} className="min-h-[44px] rounded-lg border px-3 disabled:opacity-40">Anterior</button>
+            <button type="button" disabled={loading || pagination.page >= pagination.totalPages} onClick={() => onPageChange?.(pagination.page + 1)} className="min-h-[44px] rounded-lg border px-3 disabled:opacity-40">Próxima</button>
+          </div>
+        </div>
       )}
     </section>
   );

@@ -1,4 +1,5 @@
 "use client";
+import { getBusinessTodayYmd } from "@/shared/utils/report-period";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -91,7 +92,7 @@ export function NovaVendaCard({
   const [numeroVendaManual, setNumeroVendaManual] = useState(false);
 
   const [dataVenda, setDataVenda] = useState(
-    () => new Date().toISOString().split("T")[0],
+    getBusinessTodayYmd,
   );
 
   ////////////////////////////////////////////////////////////
@@ -213,7 +214,7 @@ export function NovaVendaCard({
     setDataVenda(
       venda.dataVenda
         ? new Date(venda.dataVenda).toISOString().split("T")[0]
-        : new Date().toISOString().split("T")[0],
+        : getBusinessTodayYmd(),
     );
 
     setLocalEntrega(venda.localEntrega ?? "");

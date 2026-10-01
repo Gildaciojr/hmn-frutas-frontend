@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useCallback } from "react";
+import { getBusinessTodayYmd } from "@/shared/utils/report-period";
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -79,7 +80,7 @@ export function NovaCompraCard() {
   const [safra, setSafra] = useState<string>("");
 
   const [dataCompra, setDataCompra] = useState<string>(
-    new Date().toISOString().split("T")[0] ?? "",
+    getBusinessTodayYmd,
   );
 
   const [numeroFolhaManual, setNumeroFolhaManual] = useState<boolean>(false);

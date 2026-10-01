@@ -28,11 +28,13 @@ export function useComprasRelatorio(
   });
 
   return {
-    compras: query.data ?? [],
+    compras: query.data?.items ?? [],
+    summary: query.data?.summary,
+    pagination: query.data?.pagination,
 
-    loading: query.isLoading,
+    loading: query.isFetching,
 
-    error: query.error as Error | null,
+    error: query.error,
 
     refetch: query.refetch,
   };

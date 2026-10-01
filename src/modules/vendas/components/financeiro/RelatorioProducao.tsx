@@ -3,18 +3,14 @@
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 
-import { useCompras } from "@/modules/compras/hooks/useCompras";
-import { useVendas } from "@/modules/vendas/hooks/useVendas";
+import { useQuery } from "@tanstack/react-query";
+import { getProducao, getProducaoParams, type ProducaoFilters } from "../../services/producao.service";
+import { formatOperationalDate, getPeriodPreset, getBusinessTodayYmd } from "@/shared/utils/report-period";
 import { useDocumentActions } from "@/shared/hooks/useDocumentActions";
 
 type TipoRelatorio = "todos" | "compras" | "vendas";
 
 type TipoRelatorioPdf = "AMBOS" | "COMPRAS" | "VENDAS";
-
-type UsuarioOption = {
-  id: string;
-  nome: string;
-};
 
 type LinhaRelatorio = {
   id: string;
@@ -28,20 +24,6 @@ type LinhaRelatorio = {
   valor: number;
 };
 
-function toSafeNumber(value: number | string | null | undefined): number {
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? value : 0;
-  }
-
-  if (typeof value === "string") {
-    const parsed = Number(value.replace(",", "."));
-
-    return Number.isFinite(parsed) ? parsed : 0;
-  }
-
-  return 0;
-}
-
 function formatCurrency(value: number): string {
   return value.toLocaleString("pt-BR", {
     style: "currency",
@@ -51,45 +33,12 @@ function formatCurrency(value: number): string {
 
 function formatKg(value: number): string {
   return `${value.toLocaleString("pt-BR", {
-    maximumFractionDigits: 0,
+    maximumFractionDigits: 3,
   })} kg`;
 }
 
 function formatDate(value: string): string {
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "-";
-  }
-
-  return date.toLocaleDateString("pt-BR");
-}
-
-function getMonthRange() {
-  const now = new Date();
-
-  const start = new Date(now.getFullYear(), now.getMonth(), 1);
-
-  const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-
-  return {
-    inicio: start.toISOString().split("T")[0],
-    fim: end.toISOString().split("T")[0],
-  };
-}
-
-function isDateInRange(value: string, inicio: string, fim: string): boolean {
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return false;
-  }
-
-  const start = new Date(`${inicio}T00:00:00`);
-
-  const end = new Date(`${fim}T23:59:59`);
-
-  return date >= start && date <= end;
+  return formatOperationalDate(value);
 }
 
 function getTipoRelatorioPdf(tipo: TipoRelatorio): TipoRelatorioPdf {
@@ -105,218 +54,68 @@ function getTipoRelatorioPdf(tipo: TipoRelatorio): TipoRelatorioPdf {
 }
 
 export function RelatorioProducao() {
-  const defaultRange = useMemo(() => getMonthRange(), []);
-
+  const defaultRange = useMemo(() => getPeriodPreset("month") ?? {
+    inicio: getBusinessTodayYmd(), fim: getBusinessTodayYmd(),
+  }, []);
   const [dataInicio, setDataInicio] = useState(defaultRange.inicio);
-
   const [dataFim, setDataFim] = useState(defaultRange.fim);
-
   const [usuarioSelecionado, setUsuarioSelecionado] = useState("todos");
-
   const [tipoRelatorio, setTipoRelatorio] = useState<TipoRelatorio>("todos");
-
-  const { compras, loading: loadingCompras } = useCompras();
-
-  const { vendas, loading: loadingVendas } = useVendas();
-
+  const [exportando, setExportando] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
   const { download } = useDocumentActions();
-
-  const loading = loadingCompras || loadingVendas;
-
-  const usuarios = useMemo<UsuarioOption[]>(() => {
-    const map = new Map<string, UsuarioOption>();
-
-    compras.forEach((compra) => {
-      const nome = compra.usuarioResponsavelNome?.trim();
-
-      if (!nome) {
-        return;
-      }
-
-      const id = compra.usuarioResponsavelId ?? nome;
-
-      map.set(id, {
-        id,
-        nome,
-      });
-    });
-
-    vendas.forEach((venda) => {
-      const nome = venda.usuarioResponsavelNome?.trim();
-
-      if (!nome) {
-        return;
-      }
-
-      const id = venda.usuarioResponsavelId ?? nome;
-
-      map.set(id, {
-        id,
-        nome,
-      });
-    });
-
-    return Array.from(map.values()).sort((a, b) =>
-      a.nome.localeCompare(b.nome, "pt-BR"),
-    );
-  }, [compras, vendas]);
-
-  const comprasFiltradas = useMemo(() => {
-    return compras.filter((compra) => {
-      if (compra.status === "CANCELADA") {
-        return false;
-      }
-
-      if (!isDateInRange(compra.dataCompra, dataInicio, dataFim)) {
-        return false;
-      }
-
-      if (usuarioSelecionado !== "todos") {
-        const usuarioId = compra.usuarioResponsavelId ?? "";
-        const usuarioNome = compra.usuarioResponsavelNome ?? "";
-
-        return (
-          usuarioId === usuarioSelecionado || usuarioNome === usuarioSelecionado
-        );
-      }
-
-      return true;
-    });
-  }, [compras, dataInicio, dataFim, usuarioSelecionado]);
-
-  const vendasFiltradas = useMemo(() => {
-    return vendas.filter((venda) => {
-      if (venda.status === "CANCELADA") {
-        return false;
-      }
-
-      const dataBase = venda.dataVenda ?? venda.createdAt;
-
-      if (!isDateInRange(dataBase, dataInicio, dataFim)) {
-        return false;
-      }
-
-      if (usuarioSelecionado !== "todos") {
-        const usuarioId = venda.usuarioResponsavelId ?? "";
-        const usuarioNome = venda.usuarioResponsavelNome ?? "";
-
-        return (
-          usuarioId === usuarioSelecionado || usuarioNome === usuarioSelecionado
-        );
-      }
-
-      return true;
-    });
-  }, [vendas, dataInicio, dataFim, usuarioSelecionado]);
-
+  const periodoValido = Boolean(dataInicio && dataFim && dataInicio <= dataFim);
+  const filtros: ProducaoFilters = {
+    dataInicial: dataInicio,
+    dataFinal: dataFim,
+    tipo: getTipoRelatorioPdf(tipoRelatorio),
+    usuarioId: usuarioSelecionado === "todos" ? undefined : usuarioSelecionado,
+  };
+  const query = useQuery({
+    queryKey: ["relatorio-producao", filtros],
+    queryFn: () => getProducao(filtros),
+    enabled: periodoValido,
+    refetchOnWindowFocus: false,
+  });
+  const loading = query.isFetching;
+  const usuarios = query.data?.usuariosDisponiveis ?? [];
   const linhas = useMemo<LinhaRelatorio[]>(() => {
-    const linhasCompras: LinhaRelatorio[] = comprasFiltradas.map((compra) => ({
-      id: compra.id,
-      tipo: "COMPRA",
-      data: compra.dataCompra,
+    const compras = (query.data?.compras ?? []).map((compra): LinhaRelatorio => ({
+      id: compra.id, tipo: "COMPRA", data: compra.dataCompra,
       usuarioNome: compra.usuarioResponsavelNome ?? "Sem usuário",
       documento: compra.numeroFolha ?? "-",
-      parceiro:
-        compra.fornecedor?.nome ??
-        compra.cliente?.nome ??
-        compra.clienteNomeSnapshot ??
-        "Sem fornecedor",
-      modeloCaminhao: compra.modeloCaminhao ?? "-",
-      kg: toSafeNumber(compra.kgLiquido),
-      valor: toSafeNumber(compra.valorTotal),
+      parceiro: compra.fornecedor?.nome ?? compra.clienteNomeSnapshot ?? "Sem fornecedor",
+      modeloCaminhao: compra.modeloCaminhao ?? "-", kg: compra.kgLiquido,
+      valor: Number(compra.valorTotal),
     }));
-
-    const linhasVendas: LinhaRelatorio[] = vendasFiltradas.map((venda) => ({
-      id: venda.id,
-      tipo: "VENDA",
-      data: venda.dataVenda ?? venda.createdAt,
+    const vendas = (query.data?.vendas ?? []).map((venda): LinhaRelatorio => ({
+      id: venda.id, tipo: "VENDA", data: venda.dataVenda,
       usuarioNome: venda.usuarioResponsavelNome ?? "Sem usuário",
-      documento: venda.numeroPedido ?? venda.numeroRomaneio ?? "-",
-      parceiro: venda.cliente?.nome ?? "Sem cliente",
-      modeloCaminhao: venda.modeloCaminhao ?? "-",
-      kg: toSafeNumber(venda.quantidadeKg),
-      valor: toSafeNumber(venda.valorTotal),
+      documento: venda.numeroRomaneio ?? venda.numeroPedido ?? "-",
+      parceiro: venda.cliente?.nome ?? venda.clienteNomeSnapshot ?? "Sem cliente",
+      modeloCaminhao: venda.modeloCaminhao ?? "-", kg: venda.pesoLiquido,
+      valor: Number(venda.valorTotal),
     }));
-
-    const linhasPorTipo =
-      tipoRelatorio === "compras"
-        ? linhasCompras
-        : tipoRelatorio === "vendas"
-          ? linhasVendas
-          : [...linhasCompras, ...linhasVendas];
-
-    return linhasPorTipo.sort(
-      (a, b) => new Date(b.data).getTime() - new Date(a.data).getTime(),
+    return [...compras, ...vendas].sort((a, b) =>
+      b.data.localeCompare(a.data) || b.id.localeCompare(a.id),
     );
-  }, [comprasFiltradas, vendasFiltradas, tipoRelatorio]);
-
-  const kpis = useMemo(() => {
-    const totalCompras =
-      tipoRelatorio === "vendas" ? 0 : comprasFiltradas.length;
-
-    const totalVendas =
-      tipoRelatorio === "compras" ? 0 : vendasFiltradas.length;
-
-    const kgCompras =
-      tipoRelatorio === "vendas"
-        ? 0
-        : comprasFiltradas.reduce(
-            (total, compra) => total + toSafeNumber(compra.kgLiquido),
-            0,
-          );
-
-    const kgVendas =
-      tipoRelatorio === "compras"
-        ? 0
-        : vendasFiltradas.reduce(
-            (total, venda) => total + toSafeNumber(venda.quantidadeKg),
-            0,
-          );
-
-    const valorCompras =
-      tipoRelatorio === "vendas"
-        ? 0
-        : comprasFiltradas.reduce(
-            (total, compra) => total + toSafeNumber(compra.valorTotal),
-            0,
-          );
-
-    const valorVendas =
-      tipoRelatorio === "compras"
-        ? 0
-        : vendasFiltradas.reduce(
-            (total, venda) => total + toSafeNumber(venda.valorTotal),
-            0,
-          );
-
-    const totalOperacoes = totalCompras + totalVendas;
-
-    const valorMovimentado = valorCompras + valorVendas;
-
-    return {
-      totalCompras,
-      totalVendas,
-      kgMovimentado: kgCompras + kgVendas,
-      valorMovimentado,
-      ticketMedio: totalOperacoes > 0 ? valorMovimentado / totalOperacoes : 0,
-    };
-  }, [comprasFiltradas, vendasFiltradas, tipoRelatorio]);
+  }, [query.data]);
+  const kpis = query.data?.totais;
 
   async function handleExportarPdf() {
-    const params = new URLSearchParams({
-      dataInicial: dataInicio,
-      dataFinal: dataFim,
-      tipo: getTipoRelatorioPdf(tipoRelatorio),
-    });
-
-    if (usuarioSelecionado !== "todos") {
-      params.set("usuarioId", usuarioSelecionado);
+    if (!periodoValido || exportando || loading || query.isError) return;
+    setPdfError(null);
+    setExportando(true);
+    try {
+      await download({
+        filename: "relatorio-producao.pdf",
+        url: "/financeiro/producao/pdf?" + getProducaoParams(filtros).toString(),
+      });
+    } catch (error: unknown) {
+      setPdfError(error instanceof Error ? error.message : "Não foi possível exportar o PDF.");
+    } finally {
+      setExportando(false);
     }
-
-    await download({
-      filename: "relatorio-producao.pdf",
-      url: `/financeiro/producao/pdf?${params.toString()}`,
-    });
   }
 
   return (
@@ -354,6 +153,7 @@ export function RelatorioProducao() {
           <button
             type="button"
             onClick={handleExportarPdf}
+            disabled={exportando || loading || !periodoValido || query.isError || !query.data}
             className="
               h-[40px]
               px-4
@@ -367,7 +167,7 @@ export function RelatorioProducao() {
               transition
             "
           >
-            Exportar PDF
+            {exportando ? "Exportando PDF..." : "Exportar PDF"}
           </button>
         </div>
 
@@ -474,16 +274,20 @@ export function RelatorioProducao() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
-        <KpiCard label="Compras" value={String(kpis.totalCompras)} />
-        <KpiCard label="Vendas" value={String(kpis.totalVendas)} />
-        <KpiCard label="KG movimentado" value={formatKg(kpis.kgMovimentado)} />
-        <KpiCard
-          label="Valor movimentado"
-          value={formatCurrency(kpis.valorMovimentado)}
-          helper={`Ticket médio: ${formatCurrency(kpis.ticketMedio)}`}
-        />
-      </div>
+      {!periodoValido && <p role="alert" className="text-sm text-red-700">Informe um período válido, com data inicial anterior ou igual à final.</p>}
+      {loading && <p role="status" className="text-sm">Carregando produção...</p>}
+      {query.isError && <div role="alert" className="text-sm text-red-700"><p>Não foi possível carregar a produção. {query.error.message}</p><button type="button" className="min-h-[44px] border rounded-lg px-3 mt-2" onClick={() => void query.refetch()}>Tentar novamente</button></div>}
+      {pdfError && <p role="alert" className="text-sm text-red-700">{pdfError}</p>}
+      {!loading && !query.isError && periodoValido && kpis && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
+          <KpiCard label="Compras" value={String(kpis.compras)} />
+          <KpiCard label="Vendas" value={String(kpis.vendas)} />
+          <KpiCard label="Kg líquido comprado" value={formatKg(kpis.kgComprado)} />
+          <KpiCard label="Kg líquido vendido" value={formatKg(kpis.kgVendido)} />
+          <KpiCard label="Valor líquido comprado" value={formatCurrency(kpis.valorComprado)} />
+          <KpiCard label="Valor líquido vendido" value={formatCurrency(kpis.valorVendido)} />
+        </div>
+      )}
 
       <div
         className="
@@ -552,7 +356,7 @@ export function RelatorioProducao() {
                 </div>
               )}
 
-              {!loading &&
+              {!loading && !query.isError && periodoValido &&
                 linhas.map((linha, index) => (
                   <motion.div
                     key={`${linha.tipo}-${linha.id}`}
@@ -622,7 +426,7 @@ export function RelatorioProducao() {
                   </motion.div>
                 ))}
 
-              {!loading && linhas.length === 0 && (
+              {!loading && !query.isError && periodoValido && linhas.length === 0 && (
                 <div className="py-12 text-center space-y-2">
                   <div
                     className="
