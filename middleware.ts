@@ -29,7 +29,8 @@ export function middleware(request: NextRequest) {
     !isPublic &&
     (
       pathname.startsWith("/dashboard") ||
-      pathname.startsWith("/financeiro")
+      pathname.startsWith("/financeiro") ||
+      pathname.startsWith("/relatorios")
     )
   ) {
     return NextResponse.redirect(
@@ -57,5 +58,6 @@ export const config = {
     "/select-mode",
     "/dashboard/:path*",
     "/financeiro/:path*",
+    "/relatorios/:path*",
   ],
 };

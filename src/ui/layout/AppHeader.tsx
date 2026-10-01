@@ -5,6 +5,7 @@ import { useAppStore } from "@/core/stores/useAppStore";
 import { useAuthStore } from "@/core/stores/useAuthStore";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
+import Link from "next/link";
 import { NotificationBell } from "@/ui/notifications/NotificationBell";
 import { UserAvatar } from "@/ui/user/UserAvatar";
 
@@ -79,6 +80,8 @@ export function AppHeader() {
         "
         />
       </div>
+
+      <Link href="/relatorios" className="relative z-10 inline-flex min-h-[44px] items-center px-2 text-sm font-semibold shrink-0">Relatórios</Link>
 
       {/* ================= ESQUERDA ================= */}
       <div className="relative z-10 flex items-center sm:gap-5 min-w-0">
