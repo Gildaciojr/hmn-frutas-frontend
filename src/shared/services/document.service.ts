@@ -8,54 +8,171 @@ function isMobileDevice(): boolean {
   return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
-function openDocumentUrl(url: string, newTab: boolean): void {
-  if (isMobileDevice() || !newTab) {
-    window.location.href = url;
+export class DocumentError extends Error {
+  constructor(
+    public readonly code:
+      | "fetch-failed"
+      | "empty-pdf"
+      | "invalid-pdf"
+      | "popup-blocked"
+      | "share-unavailable",
+    message: string,
+  ) {
+    super(message);
+    this.name = "DocumentError";
+  }
+}
 
-    return;
+export async function getPdfBlob(options?: OpenDocumentOptions): Promise<Blob> {
+  let blob: Blob;
+
+  if (options?.blob) {
+    blob = options.blob;
+  } else if (options?.url) {
+    try {
+      const response = await api.get<unknown>(options.url, {
+        responseType: "blob",
+      });
+
+      if (!(response.data instanceof Blob)) {
+        throw new DocumentError(
+          "invalid-pdf",
+          "O documento recebido não é um PDF válido.",
+        );
+      }
+
+      blob = response.data;
+    } catch (error: unknown) {
+      if (error instanceof DocumentError) {
+        throw error;
+      }
+
+      const response =
+        typeof error === "object" && error !== null && "response" in error
+          ? error.response
+          : undefined;
+      const status =
+        typeof response === "object" &&
+        response !== null &&
+        "status" in response
+          ? response.status
+          : undefined;
+      throw new DocumentError(
+        "fetch-failed",
+        status === 401 || status === 403
+          ? "Sua sessão não permite obter o PDF. Entre novamente e tente pela listagem."
+          : "Não foi possível buscar o PDF. Verifique a conexão e tente novamente.",
+      );
+    }
+  } else {
+    throw new DocumentError(
+      "invalid-pdf",
+      "Informe o documento que deseja abrir.",
+    );
   }
 
-  window.open(url, "_blank", "noopener,noreferrer");
+  if (blob.size === 0) {
+    throw new DocumentError(
+      "empty-pdf",
+      "O PDF recebido está vazio. Tente obter o documento novamente.",
+    );
+  }
+
+  const mime = blob.type.split(";")[0].trim().toLowerCase();
+  const isPdfEndpoint = /\/pdf(?:[?#]|$)|\/relatorio-pdf(?:[?#]|$)/i.test(
+    options?.url ?? "",
+  );
+  const isPdfFilename = /\.pdf$/i.test(options?.filename ?? "");
+  const signature = await blob.slice(0, 5).text();
+  const canNormalizeMime =
+    (mime === "" || mime === "application/octet-stream") &&
+    (isPdfEndpoint || isPdfFilename);
+
+  if (
+    signature !== "%PDF-" ||
+    (mime !== "application/pdf" && !canNormalizeMime)
+  ) {
+    throw new DocumentError(
+      "invalid-pdf",
+      "O documento recebido não é um PDF válido. Tente novamente.",
+    );
+  }
+
+  return mime === "application/pdf"
+    ? blob
+    : new Blob([blob], { type: "application/pdf" });
+}
+
+export async function preparePdfFile(
+  options: OpenDocumentOptions,
+): Promise<File> {
+  const blob = await getPdfBlob(options);
+  return new File([blob], options.filename ?? "document.pdf", {
+    type: "application/pdf",
+  });
+}
+
+export function canSharePdfFile(file: File): boolean {
+  return (
+    typeof navigator !== "undefined" &&
+    typeof navigator.share === "function" &&
+    typeof navigator.canShare === "function" &&
+    navigator.canShare({ files: [file] })
+  );
+}
+
+export async function sharePdfFile(
+  file: File,
+  title?: string,
+  text?: string,
+): Promise<void> {
+  if (!canSharePdfFile(file)) {
+    throw new DocumentError(
+      "share-unavailable",
+      "Este dispositivo não permite compartilhar este PDF. Baixe o arquivo e anexe no WhatsApp.",
+    );
+  }
+
+  // No fetch/await before the native call: the file is already prepared.
+  await navigator.share({ files: [file], title: title ?? file.name, text });
 }
 
 export async function view(options?: OpenDocumentOptions): Promise<void> {
-  let documentUrl = options?.url;
-  let shouldRevokeUrl = false;
+  const newTab = (options?.newTab ?? true) && !isMobileDevice();
+  // Reserve the tab during the click, before the authenticated request.
+  const openedWindow = newTab ? window.open("", "_blank") : null;
 
-  if (options?.blob) {
-    documentUrl = URL.createObjectURL(options.blob);
-    shouldRevokeUrl = true;
+  if (newTab && !openedWindow) {
+    throw new DocumentError(
+      "popup-blocked",
+      "O navegador bloqueou o PDF. Permita pop-ups e tente novamente.",
+    );
   }
 
-  if (!documentUrl) {
-    throw new Error("Document view requires blob or url");
+  if (openedWindow) {
+    openedWindow.opener = null;
   }
 
-  openDocumentUrl(documentUrl, options?.newTab ?? true);
+  try {
+    const blob = await getPdfBlob(options);
+    const documentUrl = URL.createObjectURL(blob);
 
-  if (shouldRevokeUrl) {
-    setTimeout(() => {
-      URL.revokeObjectURL(documentUrl);
-    }, 5000);
+    if (openedWindow) {
+      openedWindow.location.replace(documentUrl);
+    } else {
+      window.location.href = documentUrl;
+    }
+
+    setTimeout(() => URL.revokeObjectURL(documentUrl), 60000);
+  } catch (error: unknown) {
+    openedWindow?.close();
+    throw error;
   }
 }
 
 export async function download(options?: OpenDocumentOptions): Promise<void> {
-  let file: Blob;
-
-  if (options?.blob) {
-    file = options.blob;
-  } else if (options?.url) {
-    const response = await api.get<Blob>(options.url, {
-      responseType: "blob",
-    });
-
-    file = response.data;
-  } else {
-    throw new Error("Document download requires blob or url");
-  }
-
-  const filename = options.filename ?? "document.pdf";
+  const file = await getPdfBlob(options);
+  const filename = options?.filename ?? "document.pdf";
   const url = URL.createObjectURL(file);
   const link = document.createElement("a");
 
@@ -65,45 +182,36 @@ export async function download(options?: OpenDocumentOptions): Promise<void> {
   link.click();
   link.remove();
 
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
 
 export async function print(options?: OpenDocumentOptions): Promise<void> {
-  let file: Blob;
-
-  if (options?.blob) {
-    file = options.blob;
-  } else if (options?.url) {
-    const response = await api.get<Blob>(options.url, {
-      responseType: "blob",
-    });
-
-    file = response.data;
-  } else {
-    throw new Error("Document print requires blob or url");
-  }
-
-  const documentUrl = URL.createObjectURL(file);
-
   if (isMobileDevice() || typeof window.print !== "function") {
-    openDocumentUrl(documentUrl, true);
-
-    setTimeout(() => {
-      URL.revokeObjectURL(documentUrl);
-    }, 5000);
-
+    await view(options);
     return;
   }
 
-  const printWindow = window.open(documentUrl, "_blank");
+  const printWindow = window.open("", "_blank");
 
   if (!printWindow) {
-    URL.revokeObjectURL(documentUrl);
-
-    throw new Error("Document print window blocked");
+    throw new DocumentError(
+      "popup-blocked",
+      "O navegador bloqueou a impressão. Permita pop-ups e tente novamente.",
+    );
   }
 
   const openedPrintWindow = printWindow;
+  openedPrintWindow.opener = null;
+  let file: Blob;
+
+  try {
+    file = await getPdfBlob(options);
+  } catch (error: unknown) {
+    openedPrintWindow.close();
+    throw error;
+  }
+
+  const documentUrl = URL.createObjectURL(file);
 
   await new Promise<void>((resolve, reject) => {
     let printStarted = false;
@@ -162,6 +270,8 @@ export async function print(options?: OpenDocumentOptions): Promise<void> {
       },
     );
 
+    openedPrintWindow.location.replace(documentUrl);
+
     window.setTimeout(startPrint, 1500);
 
     window.setTimeout(() => {
@@ -171,32 +281,38 @@ export async function print(options?: OpenDocumentOptions): Promise<void> {
 }
 
 export async function share(options?: OpenDocumentOptions): Promise<void> {
-  let fileBlob: Blob;
+  let file: File;
 
   if (options?.blob) {
-    fileBlob = options.blob;
-  } else if (options?.url) {
-    const response = await api.get<Blob>(options.url, {
-      responseType: "blob",
-    });
+    const blob = options.blob;
+    const mime = blob.type.split(";")[0].trim().toLowerCase();
+    const canNormalizeMime =
+      (mime === "" || mime === "application/octet-stream") &&
+      /\.pdf$/i.test(options.filename ?? "");
 
-    fileBlob = response.data;
+    if (blob.size === 0) {
+      throw new DocumentError("empty-pdf", "O PDF recebido está vazio.");
+    }
+
+    if (mime !== "application/pdf" && !canNormalizeMime) {
+      throw new DocumentError(
+        "invalid-pdf",
+        "O documento recebido não possui um tipo compatível com PDF.",
+      );
+    }
+
+    // Prepared blobs retain the click gesture. These synchronous checks do not
+    // validate the PDF signature; do not read the content before native share.
+    file = new File([blob], options.filename ?? "document.pdf", {
+      type: "application/pdf",
+    });
   } else {
-    throw new Error("Document share requires blob or url");
+    // URL preparation is asynchronous and cannot guarantee user activation.
+    file = await preparePdfFile(options ?? {});
   }
 
-  const filename = options.filename ?? "document.pdf";
-  const file = new File([fileBlob], filename, {
-    type: fileBlob.type || "application/pdf",
-  });
-  const shareData: ShareData = {
-    files: [file],
-    title: options.title ?? filename,
-    text: options.text,
-  };
-
-  if (navigator.share && navigator.canShare?.(shareData)) {
-    await navigator.share(shareData);
+  if (canSharePdfFile(file)) {
+    await sharePdfFile(file, options?.title, options?.text);
 
     return;
   }
@@ -204,7 +320,7 @@ export async function share(options?: OpenDocumentOptions): Promise<void> {
   if (options?.shareFallback === "view") {
     await view({
       ...options,
-      blob: fileBlob,
+      blob: file,
     });
 
     return;
@@ -212,8 +328,8 @@ export async function share(options?: OpenDocumentOptions): Promise<void> {
 
   await download({
     ...options,
-    blob: fileBlob,
-    filename,
+    blob: file,
+    filename: file.name,
   });
 }
 

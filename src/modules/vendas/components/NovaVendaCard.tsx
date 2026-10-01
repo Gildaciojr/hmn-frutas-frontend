@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { api } from "@/core/http/api";
 
-import { useDocumentActions } from "@/shared/hooks/useDocumentActions";
+import { RomaneioShareActions, type RomaneioShareActionsProps } from "@/shared/components/RomaneioShareActions";
 
 import { motion } from "framer-motion";
 
@@ -77,8 +77,6 @@ export function NovaVendaCard({
   ////////////////////////////////////////////////////////////
 
   const { createVenda, updateVenda, creating, updating } = useVendaMutations();
-
-  const { share } = useDocumentActions();
 
   const saving = creating || updating;
 
@@ -183,6 +181,8 @@ export function NovaVendaCard({
   const [success, setSuccess] = useState(false);
 
   const [successClientePendente, setSuccessClientePendente] = useState(false);
+
+  const [romaneioSalvo, setRomaneioSalvo] = useState<RomaneioShareActionsProps | null>(null);
 
   const [confirmandoSemCliente, setConfirmandoSemCliente] = useState(false);
 
@@ -644,6 +644,8 @@ export function NovaVendaCard({
 
     setSuccessClientePendente(false);
 
+    setRomaneioSalvo(null);
+
     //////////////////////////////////////////////////////////
     // CLIENTE
     //////////////////////////////////////////////////////////
@@ -897,23 +899,15 @@ export function NovaVendaCard({
 
       setConfirmandoSemCliente(false);
 
-      ////////////////////////////////////////////////////////
-      // PDF MOBILE + DESKTOP
-      ////////////////////////////////////////////////////////
-
-      if (mode === "NORMAL") {
-        try {
-          await share({
-            url: `/romaneios/venda/${vendaSalva.id}/pdf`,
-            filename: `romaneio-${vendaSalva.id}.pdf`,
-            title: "Romaneio",
-            text: "Romaneio gerado pelo sistema HMN Frutas",
-            shareFallback: "view",
-            newTab: true,
-          });
-        } catch (pdfError) {
-          console.error("Erro ao gerar PDF:", pdfError);
-        }
+      if (mode === "NORMAL" && cliente && vendaSalva.clienteId) {
+        setRomaneioSalvo({
+          documentUrl: `/romaneios/venda/${vendaSalva.id}/pdf`,
+          filename: `romaneio-${vendaSalva.id}.pdf`,
+          title: `Romaneio de venda ${vendaSalva.numeroRomaneio ?? vendaSalva.id}`,
+          destinatarioNome: cliente.nome,
+          destinatarioTelefone: vendaSalva.telefone?.trim() || cliente.telefone,
+          contexto: "VENDA",
+        });
       }
     } catch (err) {
       if (typeof err === "object" && err !== null && "response" in err) {
@@ -5866,6 +5860,10 @@ export function NovaVendaCard({
                 xl:-translate-y-8
               "
         >
+          {!isEditMode && success && !successClientePendente && romaneioSalvo && (
+            <RomaneioShareActions key={romaneioSalvo.documentUrl} {...romaneioSalvo} />
+          )}
+
           {!isEditMode && !cliente && confirmandoSemCliente && (
             <div
               className="

@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { useVendas } from "@/modules/vendas/hooks/useVendas";
 import type { Venda } from "@/modules/vendas/services/vendas.service";
 import { VendaEditModal } from "@/modules/vendas/components/VendaEditModal";
+import { RomaneioShareActions } from "@/shared/components/RomaneioShareActions";
 
 function formatCurrency(value: number | string) {
   return `R$ ${Number(value).toLocaleString("pt-BR", {
@@ -54,6 +55,9 @@ export function FinanceiroVendasTable() {
 
   const [vendaEditando, setVendaEditando] = useState<Venda | null>(null);
 
+  const [romaneioVendaId, setRomaneioVendaId] = useState<string | null>(null);
+  const vendaRomaneio = vendas.find((venda) => venda.id === romaneioVendaId && venda.clienteId !== null);
+
   const vendasProcessadas = useMemo(() => {
     return vendas.map((venda) => {
       const atraso =
@@ -69,6 +73,19 @@ export function FinanceiroVendasTable() {
   return (
     <>
       <div className="space-y-3">
+        {vendaRomaneio && (
+          <RomaneioShareActions
+            key={`${vendaRomaneio.id}-${vendaRomaneio.updatedAt}`}
+            documentUrl={`/romaneios/venda/${vendaRomaneio.id}/pdf`}
+            filename={`romaneio-${vendaRomaneio.id}.pdf`}
+            title={`Romaneio de venda ${vendaRomaneio.numeroRomaneio ?? vendaRomaneio.id}`}
+            destinatarioNome={vendaRomaneio.cliente?.nome ?? vendaRomaneio.clienteNomeSnapshot}
+            destinatarioTelefone={vendaRomaneio.telefone?.trim() || vendaRomaneio.cliente?.telefone}
+            contexto="VENDA"
+            onClose={() => setRomaneioVendaId(null)}
+          />
+        )}
+
         {/* 🔥 REMOVIDO HEADER DUPLICADO */}
 
         {/* TABELA */}
@@ -284,6 +301,7 @@ export function FinanceiroVendasTable() {
                     <div
                       className="
     flex
+    flex-wrap
     items-center
     justify-end
 
@@ -355,6 +373,16 @@ export function FinanceiroVendasTable() {
     "
                       >
                         Editar
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setRomaneioVendaId(venda.id)}
+                        disabled={clientePendente}
+                        title={clientePendente ? "Vincule um cliente antes de gerar o romaneio" : "Compartilhar romaneio"}
+                        className="min-h-11 rounded-lg border border-emerald-200 bg-emerald-50 px-2 text-[11px] font-medium text-emerald-700 hover:bg-emerald-100 disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-8"
+                      >
+                        Romaneio
                       </button>
                     </div>
                   </motion.div>

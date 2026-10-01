@@ -15,6 +15,7 @@ import { FazendaForm } from "@/modules/fornecedores/components/FazendaForm";
 import { useFazendasFornecedor } from "@/modules/fornecedores/hooks/useFornecedores";
 
 import { useCompras } from "./hooks/useCompras";
+import { RomaneioShareActions, type RomaneioShareActionsProps } from "@/shared/components/RomaneioShareActions";
 
 import type { ModeloCaminhao, TipoDescontoCompra } from "./hooks/useCompras";
 
@@ -63,6 +64,8 @@ export function NovaCompraCard() {
   ////////////////////////////////////////////////////////////
 
   const [open, setOpen] = useState(false);
+
+  const [romaneioSalvo, setRomaneioSalvo] = useState<RomaneioShareActionsProps | null>(null);
 
   ////////////////////////////////////////////////////////////
   /// FAZENDA
@@ -543,7 +546,16 @@ export function NovaCompraCard() {
 
       console.log("PAYLOAD FINAL:", payload);
 
-      await createCompra(payload);
+      const compraSalva = await createCompra(payload);
+
+      setRomaneioSalvo({
+        documentUrl: `/romaneios/compra/${compraSalva.id}/pdf`,
+        filename: `compra-${compraSalva.numeroFolha ?? compraSalva.id}.pdf`,
+        title: `Romaneio de compra ${compraSalva.numeroFolha ?? compraSalva.id}`,
+        destinatarioNome: [fornecedor.nome, fornecedor.sobrenome].filter(Boolean).join(" "),
+        destinatarioTelefone: fornecedor.telefone,
+        contexto: "COMPRA",
+      });
 
       ////////////////////////////////////////////////////////
       // RESET
@@ -979,6 +991,13 @@ export function NovaCompraCard() {
           />
         </motion.div>
       </div>
+
+      {romaneioSalvo && (
+        <div className="mt-3 min-w-0 space-y-2">
+          <p role="status" className="text-sm font-medium text-emerald-700">Compra registrada. O romaneio está disponível abaixo.</p>
+          <RomaneioShareActions key={romaneioSalvo.documentUrl} {...romaneioSalvo} onClose={() => setRomaneioSalvo(null)} />
+        </div>
+      )}
 
       {/* ================= MODAL ================= */}
       <AnimatePresence>

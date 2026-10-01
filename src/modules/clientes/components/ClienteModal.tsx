@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ClienteForm } from "./ClienteForm";
 import { ClienteFinanceiroModal } from "./ClienteFinanceiroModal";
 import { useDocumentActions } from "@/shared/hooks/useDocumentActions";
+import { DocumentError } from "@/shared/services/document.service";
 import {
   getClienteHistorico,
   ClienteHistoricoResponse,
@@ -44,6 +45,25 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
 
   const { view } = useDocumentActions();
   const [isEditMode, setIsEditMode] = useState(false);
+  const [romaneioError, setRomaneioError] = useState<{ id: string; message: string } | null>(null);
+
+  async function handleRomaneio(vendaId: string | undefined) {
+    if (!vendaId) return;
+    setRomaneioError(null);
+
+    try {
+      await view({
+        newTab: true,
+        url: `/romaneios/venda/${vendaId}/pdf`,
+        filename: `romaneio-${vendaId}.pdf`,
+      });
+    } catch (error: unknown) {
+      setRomaneioError({
+        id: vendaId,
+        message: error instanceof DocumentError ? error.message : "Não foi possível abrir o romaneio. Tente novamente.",
+      });
+    }
+  }
 
   ////////////////////////////////////////////////////////////
   // FINANCEIRO
@@ -1316,12 +1336,13 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                           {/* ===================================================== */}
 
                                           <div className="pt-3 mt-2 border-t border-emerald-100">
+                                            {romaneioError && romaneioError.id === t.venda?.id && (
+                                              <p role="alert" className="mb-2 rounded-xl bg-red-50 p-3 text-xs text-red-700">{romaneioError.message}</p>
+                                            )}
                                             <button
+                                              disabled={!t.venda?.id}
                                               onClick={() => {
-                                                void view({
-                                                  newTab: true,
-                                                  url: `${process.env.NEXT_PUBLIC_API_URL}/romaneios/venda/${t.venda?.id}/pdf`,
-                                                });
+                                                void handleRomaneio(t.venda?.id);
                                               }}
                                               className="
       group/pdf

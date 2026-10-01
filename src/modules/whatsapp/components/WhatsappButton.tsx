@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { getWhatsappUrl } from "../utils/whatsapp-phone";
 
 import {
   MessageCircleMore,
@@ -12,35 +13,6 @@ import {
 
 interface Props {
   telefone?: string | null;
-}
-
-function normalizeWhatsappPhone(
-  telefone: string | null | undefined,
-): string | null {
-  if (!telefone?.trim()) {
-    return null;
-  }
-
-  const rawDigits = telefone.replace(/\D/g, "");
-
-  if (!rawDigits) {
-    return null;
-  }
-
-  const digits = rawDigits.replace(/^0+/, "");
-
-  if (
-    (digits.length === 12 || digits.length === 13) &&
-    digits.startsWith("55")
-  ) {
-    return digits;
-  }
-
-  if (digits.length === 10 || digits.length === 11) {
-    return `55${digits}`;
-  }
-
-  return null;
 }
 
 // ======================================================
@@ -59,9 +31,9 @@ export function WhatsappButton({
   ) {
     event.stopPropagation();
 
-    const normalizedPhone = normalizeWhatsappPhone(telefone);
+    const whatsappUrl = getWhatsappUrl(telefone);
 
-    if (!normalizedPhone) {
+    if (!whatsappUrl) {
       alert(
         "Este cliente não possui um telefone válido cadastrado.",
       );
@@ -70,7 +42,7 @@ export function WhatsappButton({
     }
 
     window.open(
-      `https://wa.me/${normalizedPhone}`,
+      whatsappUrl,
       "_blank",
       "noopener,noreferrer",
     );

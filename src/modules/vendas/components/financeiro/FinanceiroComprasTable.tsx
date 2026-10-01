@@ -6,6 +6,8 @@ import { useMemo, useState } from "react";
 import { useCompras } from "@/modules/compras/hooks/useCompras";
 import { CompraViewModal } from "@/modules/compras/components/CompraViewModal";
 import { useDocumentActions } from "@/shared/hooks/useDocumentActions";
+import { RomaneioShareActions } from "@/shared/components/RomaneioShareActions";
+import { DocumentError } from "@/shared/services/document.service";
 
 function formatCurrency(value: number | string) {
   return `R$ ${Number(value).toLocaleString("pt-BR", {
@@ -82,6 +84,9 @@ export function FinanceiroComprasTable() {
     null,
   );
   const [modalAberto, setModalAberto] = useState(false);
+  const [romaneioCompraId, setRomaneioCompraId] = useState<string | null>(null);
+  const [documentError, setDocumentError] = useState<string | null>(null);
+  const compraRomaneio = compras.find((compra) => compra.id === romaneioCompraId);
 
   function handleView(compraId: string) {
     setCompraSelecionada(compraId);
@@ -94,6 +99,7 @@ export function FinanceiroComprasTable() {
   }
 
   async function handlePdf(compra: { id: string; numeroFolha?: string | null }) {
+    setDocumentError(null);
     try {
       await view({
         url: `/romaneios/compra/${compra.id}/pdf`,
@@ -102,6 +108,7 @@ export function FinanceiroComprasTable() {
       });
     } catch (error) {
       console.error("Erro ao abrir PDF da compra:", error);
+      setDocumentError(error instanceof DocumentError ? error.message : "Não foi possível abrir o PDF. Tente novamente.");
     }
   }
 
@@ -109,6 +116,7 @@ export function FinanceiroComprasTable() {
     id: string;
     numeroFolha?: string | null;
   }) {
+    setDocumentError(null);
     try {
       await print({
         url: `/romaneios/compra/${compra.id}/pdf`,
@@ -116,6 +124,7 @@ export function FinanceiroComprasTable() {
       });
     } catch (error) {
       console.error("Erro ao imprimir PDF da compra:", error);
+      setDocumentError(error instanceof DocumentError ? error.message : "Não foi possível imprimir o PDF. Tente novamente.");
     }
   }
 
@@ -153,6 +162,21 @@ export function FinanceiroComprasTable() {
   return (
     <>
       <div className="space-y-4">
+      {compraRomaneio && (
+        <RomaneioShareActions
+          key={`${compraRomaneio.id}-${compraRomaneio.updatedAt}`}
+          documentUrl={`/romaneios/compra/${compraRomaneio.id}/pdf`}
+          filename={getCompraDocumentFilename(compraRomaneio)}
+          title={`Romaneio de compra ${compraRomaneio.numeroFolha ?? compraRomaneio.id}`}
+          destinatarioNome={compraRomaneio.fornecedor
+            ? [compraRomaneio.fornecedor.nome, compraRomaneio.fornecedor.sobrenome].filter(Boolean).join(" ")
+            : "Fornecedor não cadastrado"}
+          destinatarioTelefone={compraRomaneio.fornecedor?.telefone}
+          contexto="COMPRA"
+          onClose={() => setRomaneioCompraId(null)}
+        />
+      )}
+      {documentError && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{documentError}</p>}
       {/* ===================================================== */}
       {/* CONTAINER */}
       {/* ===================================================== */}
@@ -622,6 +646,7 @@ export function FinanceiroComprasTable() {
                       z-10
 
                       flex
+                      flex-wrap
                       items-center
                       justify-start
                       lg:justify-end
@@ -732,6 +757,14 @@ export function FinanceiroComprasTable() {
                       "
                     >
                       🖨 Imprimir
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setRomaneioCompraId(compra.id)}
+                      className="min-h-11 rounded-lg border border-emerald-200 bg-emerald-50 px-2 text-[11px] font-medium text-emerald-700 hover:bg-emerald-100 sm:min-h-8"
+                    >
+                      Romaneio
                     </button>
                   </div>
                 </motion.div>
