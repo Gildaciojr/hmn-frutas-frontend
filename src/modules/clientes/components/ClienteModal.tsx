@@ -8,12 +8,14 @@ import { useMemo } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
+import { ClienteRelatorioCard } from "./ClienteRelatorioCard";
 import { ClienteForm } from "./ClienteForm";
 import { ClienteFinanceiroModal } from "./ClienteFinanceiroModal";
 import { useDocumentActions } from "@/shared/hooks/useDocumentActions";
 import { DocumentError } from "@/shared/services/document.service";
 import {
   getClienteHistorico,
+  getClienteRelatorio,
   ClienteHistoricoResponse,
   parseDecimal,
 } from "../services/clientes.service";
@@ -44,8 +46,23 @@ function formatCurrency(value: number | string | null | undefined): string {
 export function ClienteModal({ open, onClose, cliente }: Props) {
   const isViewMode = !!cliente;
 
-  const { view } = useDocumentActions();
+  const { view, download } = useDocumentActions();
   const [isEditMode, setIsEditMode] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
+  const report = useQuery({
+    queryKey: ["cliente-relatorio", cliente?.id],
+    queryFn: () => { if (!cliente?.id) throw new Error("Cliente não informado"); return getClienteRelatorio(cliente.id); },
+    enabled: Boolean(open && cliente && showReport), staleTime: 0, refetchOnWindowFocus: false,
+  });
+  async function handleReportPdf() {
+    if (!cliente?.id) return;
+    setPdfLoading(true); setPdfError(null);
+    try { await download({ url: `/clientes/${cliente.id}/relatorio-pdf`, filename: `extrato-cliente-${cliente.id}.pdf` }); }
+    catch (error: unknown) { setPdfError(error instanceof DocumentError ? error.message : "Não foi possível gerar o PDF. Tente novamente."); }
+    finally { setPdfLoading(false); }
+  }
   const [romaneioError, setRomaneioError] = useState<{ id: string; message: string } | null>(null);
 
   async function handleRomaneio(vendaId: string | undefined) {
@@ -368,8 +385,14 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
     min-h-0
   "
               >
+                {isViewMode && !isEditMode && <div className="mb-4 space-y-4 min-w-0">
+                  <button type="button" onClick={() => {setShowReport(!showReport);setPdfError(null);}} className="min-h-[44px] rounded-xl border px-4 text-sm">{showReport ? "Voltar ao histórico" : "Relatório / Extrato"}</button>
+                  {showReport && <ClienteRelatorioCard data={report.data} loading={report.isFetching} error={report.error?.message}
+                    onRetry={() => void report.refetch()} onPdf={() => void handleReportPdf()} pdfLoading={pdfLoading} pdfError={pdfError} />}
+                </div>}
+
                 {/* 🔴 VISUALIZAÇÃO */}
-                {isViewMode && !isEditMode && (
+                {isViewMode && !isEditMode && !showReport && (
                   <div className="space-y-6">
                     {/* ================= LOADING ================= */}
                     {isLoading && (

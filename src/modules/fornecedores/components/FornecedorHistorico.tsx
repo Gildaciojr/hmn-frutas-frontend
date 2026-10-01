@@ -1,5 +1,6 @@
 "use client";
 
+import { formatOperationalDate } from "@/shared/utils/report-period";
 import { api } from "@/core/http/api";
 import { AlertTriangle, CreditCard, TrendingUp, Wallet } from "lucide-react";
 
@@ -47,6 +48,9 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
   const { data, isLoading, error } = useFornecedorHistorico(fornecedorId);
 
   const { share, view } = useDocumentActions();
+
+  const [pdfLoading, setPdfLoading] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
 
   const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
 
@@ -150,12 +154,25 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
         <ResumoCard
           icon={<CreditCard size={18} />}
           title="A pagar"
-          value={formatCurrency(resumo.saldoDevedor)}
+          value={formatCurrency(resumo.totalAPagar)}
           variant="danger"
         />
       </div>
 
       <p className="text-sm text-red-600">Vencido: {formatCurrency(resumo.totalVencido)}</p>
+      <p className="text-sm text-[color:var(--muted)]">Compras: {resumo.quantidadeCompras} · Kg líquido comprado: {resumo.kgComprado.toLocaleString("pt-BR")} kg</p>
+      <p className="text-sm text-[color:var(--muted)]">Última compra: {resumo.ultimaCompra ? formatOperationalDate(resumo.ultimaCompra.dataCompra) : "—"} · Último pagamento (SP): {resumo.ultimoPagamento?.pagoEm ? new Date(resumo.ultimoPagamento.pagoEm).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" }) : "—"}</p>
+      {pdfError && <p role="alert" className="text-sm text-red-600">{pdfError}</p>}
+      <section className="space-y-3 min-w-0" aria-label="Títulos SAIDA e pagamentos consolidados">
+        <h3 className="text-lg font-semibold">Títulos financeiros e pagamentos</h3>
+        {!data.financeiro.titulos.length && <p className="text-sm text-[color:var(--muted)]">Nenhum título financeiro de saída registrado.</p>}
+        {data.financeiro.titulos.map(title => <article key={title.id} className="min-w-0 rounded-xl border p-3 text-sm break-words [overflow-wrap:anywhere]">
+          <p className="font-semibold">{title.descricao || title.id} · {title.statusFinanceiro}</p>
+          <p>Nominal: {formatCurrency(title.valor)} · Pago: {formatCurrency(title.valorPago)} · Restante: {formatCurrency(title.valorRestante)}</p>
+          <p>Vencimento: {title.vencimento ? formatOperationalDate(title.vencimento) : "—"}</p>
+          {title.pagamentos.length ? title.pagamentos.map(event => <p key={event.id} className="mt-2 border-t pt-2">{event.pagoEm ? new Date(event.pagoEm).toLocaleString("pt-BR", {timeZone: "America/Sao_Paulo"}) : "—"} · {event.formaPagamento} · {formatCurrency(event.valor)}</p>) : <p className="mt-2 text-[color:var(--muted)]">Sem pagamentos registrados.</p>}
+        </article>)}
+      </section>
       {/* EXTRATO OPERACIONAL */}
 
       <section className="space-y-4">
@@ -200,7 +217,9 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
           >
             <button
               type="button"
+              disabled={pdfLoading}
               onClick={async () => {
+                setPdfLoading(true); setPdfError(null);
                 try {
                   const response = await api.get<Blob>(
                     `/fornecedores/${fornecedorId}/relatorio-pdf`,
@@ -220,6 +239,9 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
                   });
                 } catch (error) {
                   console.error("Erro ao gerar PDF:", error);
+                  setPdfError("Não foi possível gerar o PDF. Tente novamente.");
+                } finally {
+                  setPdfLoading(false);
                 }
               }}
               className="
@@ -259,7 +281,7 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
       sm:w-auto
     "
             >
-              📄 Gerar PDF
+              {pdfLoading ? "Gerando PDF..." : "📄 Gerar PDF"}
             </button>
 
             {pdfBlob && (
@@ -336,7 +358,7 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
                 <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[color:var(--border-soft)] pb-3">
                   <div>
                     <div className="text-sm font-semibold">
-                      {formatDate(item.dataCompra)}
+                      {formatOperationalDate(item.dataCompra)}
                     </div>
                     <div className="mt-1 text-xs text-[color:var(--muted)]">
                       Folha: {item.numeroFolha ?? "-"}
@@ -532,7 +554,7 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
                 "
                     >
                       <td className="px-4 py-4">
-                        {formatDate(item.dataCompra)}
+                        {formatOperationalDate(item.dataCompra)}
                       </td>
 
                       <td className="px-4 py-4">{item.numeroFolha ?? "-"}</td>

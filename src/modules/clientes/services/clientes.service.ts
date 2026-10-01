@@ -768,3 +768,15 @@ export async function registrarPagamento(
 
   return res.data.data;
 }
+
+export interface ClienteRelatorioResponse {
+  cliente: { id: string; nome: string; telefone?: string | null };
+  resumo: { quantidadeVendas: number; kgLiquidoVendido: number; totalVendido: number; totalRecebido: number; totalAReceber: number; totalVencido: number; ultimaVenda: string | null; ultimoPagamento: string | null };
+  operacoes: { id: string; dataVenda: string; numeroPedido: string | null; numeroRomaneio: string | null; placa: string | null; pesoLiquido: number; valorPorKg: number; valorTotal: number; status: string; statusPagamento: string }[];
+  financeiro: { titulos: { id: string; descricao: string | null; referencia: string | null; valor: number; valorPago: number; valorRestante: number; statusFinanceiro: string; vencimento: string | null;
+    pagamentos: { id: string; valor: number; pagoEm: string; formaPagamento: string; observacoes: string | null }[] }[] };
+}
+export async function getClienteRelatorio(clienteId: string): Promise<ClienteRelatorioResponse> {
+  const response = await api.get<ApiResponse<ClienteRelatorioResponse>>(`/clientes/${clienteId}/relatorio`);
+  return response.data.data;
+}

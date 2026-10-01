@@ -289,6 +289,7 @@ export interface FornecedorHistoricoResponse {
   };
 
   resumo: {
+    kgComprado: number;
     totalComprado: number;
 
     totalPago: number;
@@ -314,6 +315,8 @@ export interface FornecedorHistoricoResponse {
     limiteFinanceiroDias: number;
   };
 
+  financeiro: { titulos: TransacaoFornecedor[]; pagamentos: PagamentoFornecedor[] };
+  pagamentos: PagamentoFornecedor[];
   compras: CompraFornecedorHistorico[];
 
   transacoes: TransacaoFornecedor[];
