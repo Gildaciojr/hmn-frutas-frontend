@@ -17,7 +17,7 @@ export function middleware(request: NextRequest) {
   ];
 
   const isPublic = publicRoutes.some((route) =>
-    pathname.startsWith(route),
+    pathname === route,
   );
 
   ////////////////////////////////////////////////////////////
