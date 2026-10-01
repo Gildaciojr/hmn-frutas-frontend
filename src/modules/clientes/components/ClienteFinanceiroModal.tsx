@@ -1,4 +1,5 @@
 "use client";
+import { localPaymentDateTime, paymentErrorMessage } from "@/shared/utils/payment-time";
 
 import { useState } from "react";
 
@@ -72,7 +73,7 @@ export function ClienteFinanceiroModal({
   const [formaPagamentoOpen, setFormaPagamentoOpen] = useState(false);
 
   const [dataPagamento, setDataPagamento] = useState(
-    new Date().toISOString().slice(0, 10),
+    localPaymentDateTime(),
   );
 
   const [observacoesPagamento, setObservacoesPagamento] = useState("");
@@ -140,11 +141,13 @@ export function ClienteFinanceiroModal({
       // RESET
       ////////////////////////////////////////////////////////
 
+      await queryClient.invalidateQueries({ queryKey: ["vendas"] });
+      await queryClient.invalidateQueries({ queryKey: ["clientes-resumo"] });
       setValorPagamento("");
 
       setFormaPagamento("PIX");
 
-      setDataPagamento(new Date().toISOString().slice(0, 10));
+      setDataPagamento(localPaymentDateTime());
 
       setObservacoesPagamento("");
 
@@ -646,7 +649,8 @@ export function ClienteFinanceiroModal({
             <label className="text-[11px] font-medium">Data do pagamento</label>
 
             <input
-              type="date"
+              type="datetime-local"
+              step="1"
               value={dataPagamento}
               onChange={(e) => setDataPagamento(e.target.value)}
               className="
@@ -708,6 +712,7 @@ export function ClienteFinanceiroModal({
           </div>
         </div>
 
+        {pagamentoMutation.isError && <p role="alert" className="px-4 text-sm text-red-600">{paymentErrorMessage(pagamentoMutation.error)}</p>}
         {/* FOOTER */}
 
         <div
@@ -724,7 +729,7 @@ export function ClienteFinanceiroModal({
           "
         >
           <button
-            disabled={pagamentoMutation.isPending}
+            disabled={pagamentoMutation.isPending || transacao.tipo !== "ENTRADA" || transacao.statusFinanceiro === "CANCELADO" || valorRestante <= 0 || !dataPagamento}
             onClick={() => {
               if (!valorPagamento) {
                 return;
@@ -750,7 +755,7 @@ export function ClienteFinanceiroModal({
 
                   formaPagamento,
 
-                  pagoEm: dataPagamento,
+                  pagoEm: dataPagamento ? new Date(dataPagamento).toISOString() : undefined,
 
                   observacoes: observacoesPagamento,
                 },

@@ -40,16 +40,6 @@ function getStatusMeta(status: "PAGO" | "PENDENTE" | "PARCIAL") {
   }
 }
 
-// 🔥 DETECÇÃO DE ATRASO (PREPARADO PRA BACK FUTURO)
-function isAtrasado(createdAt: string): boolean {
-  const data = new Date(createdAt);
-  const now = new Date();
-
-  const diffDays = (now.getTime() - data.getTime()) / (1000 * 60 * 60 * 24);
-
-  return diffDays > 7; // 🔥 regra simples (ajustável depois)
-}
-
 export function FinanceiroVendasTable() {
   const { vendas, loading } = useVendas();
 
@@ -61,7 +51,7 @@ export function FinanceiroVendasTable() {
   const vendasProcessadas = useMemo(() => {
     return vendas.map((venda) => {
       const atraso =
-        venda.statusPagamento !== "PAGO" && isAtrasado(venda.createdAt);
+        venda.status !== "CANCELADA" && (venda.transacoes ?? []).some(title => title.vencido === true && title.statusFinanceiro !== "CANCELADO" && Number(title.valorRestante ?? 0) > 0);
 
       return {
         ...venda,

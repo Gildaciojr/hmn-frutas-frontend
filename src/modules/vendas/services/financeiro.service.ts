@@ -8,10 +8,21 @@ interface ApiResponse<T> {
 export interface FinanceiroResumoResponse {
   totalEntradas: number;
   totalSaidas: number;
-  saldo: number;
+  saldo: number; // Legacy nominal difference.
+  titulosEntrada: number;
+  titulosSaida: number;
+  totalRecebido: number;
+  totalPago: number;
+  totalAReceber: number;
+  totalAPagar: number;
+  resultadoCaixa: number;
+  totalComprado: number;
+  totalVendido: number;
 }
 
 export interface FluxoFinanceiroItem {
+  pagoEm: string;
+  transacaoId: string;
   id: string;
 
   clienteId?: string | null;

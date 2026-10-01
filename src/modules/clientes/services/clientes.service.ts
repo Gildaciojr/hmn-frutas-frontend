@@ -148,6 +148,12 @@ export interface ClienteInput {
 }
 
 export interface ClienteResumoItem {
+  totalRecebido: number;
+  totalAReceber: number;
+  totalVencido: number;
+  quantidadeOperacoes: number;
+  ultimaVenda: string | null;
+  ultimoPagamento: string | null;
   ////////////////////////////////////////////////////////////
   // CLIENTE
   ////////////////////////////////////////////////////////////
@@ -199,6 +205,12 @@ export interface ClienteResumo {
   ////////////////////////////////////////////////////////////
 
   resumo: {
+    totalRecebido: number;
+    totalAReceber: number;
+    totalVencido: number;
+    quantidadeOperacoes: number;
+    ultimaVenda: string | null;
+    ultimoPagamento: string | null;
     //////////////////////////////////////////////////////////
     // FINANCEIRO
     //////////////////////////////////////////////////////////
@@ -339,7 +351,7 @@ export interface ClienteResumo {
     // STATUS
     //////////////////////////////////////////////////////////
 
-    statusFinanceiro?: "PENDENTE" | "PARCIAL" | "PAGO";
+    statusFinanceiro?: "PENDENTE" | "PARCIAL" | "PAGO" | "CANCELADO";
 
     formaPagamento?: string | null;
 
@@ -600,7 +612,7 @@ export interface ClienteResumo {
 
       valorRestante?: string | number | null;
 
-      statusFinanceiro?: "PENDENTE" | "PARCIAL" | "PAGO";
+      statusFinanceiro?: "PENDENTE" | "PARCIAL" | "PAGO" | "CANCELADO";
 
       descricao?: string | null;
 

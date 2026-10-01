@@ -337,7 +337,7 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
                     duration-200
 
                     ${
-                      cliente.saldo >= 0
+                      cliente.totalVencido <= 0
                         ? `
                           bg-emerald-100
                           border-emerald-200
@@ -529,7 +529,7 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
                       text-[color:var(--muted-soft)]
                     "
                   >
-                    Conta corrente
+                    A receber
                   </p>
 
                   <p
@@ -539,18 +539,18 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
                       tracking-tight
 
                       ${
-                        cliente.saldo >= 0 ? "text-emerald-600" : "text-red-500"
+                        cliente.totalVencido <= 0 ? "text-emerald-600" : "text-red-500"
                       }
                     `}
                   >
-                    {cliente.saldo.toLocaleString("pt-BR", {
+                    {cliente.totalAReceber.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
                     })}
                   </p>
 
                   <p className="text-[10px] text-[color:var(--muted-soft)]">
-                    Saldo operacional
+                    Títulos em aberto
                   </p>
                 </div>
 
@@ -583,7 +583,7 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
                         tracking-[0.14em]
 
                         ${
-                          cliente.saldo >= 0
+                          cliente.totalVencido <= 0
                             ? `
                               bg-emerald-100
                               text-emerald-700
@@ -595,7 +595,7 @@ export function ClientesList({ onSelectCliente, clienteSelecionadoId }: Props) {
                         }
                       `}
                     >
-                      {cliente.saldo >= 0 ? "Positivo" : "Pendente"}
+                      {cliente.totalVencido > 0 ? "Vencido" : cliente.totalAReceber > 0 ? "A receber" : "Sem pendência"}
                     </span>
                   </div>
 

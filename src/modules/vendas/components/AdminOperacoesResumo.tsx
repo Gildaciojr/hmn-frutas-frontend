@@ -57,7 +57,7 @@ export function AdminOperacoesResumo() {
     const now = new Date();
 
     return fluxo.filter((op) => {
-      const data = new Date(op.createdAt);
+      const data = new Date(op.pagoEm);
 
       if (periodo === "hoje") {
         return isToday(data);
@@ -84,7 +84,7 @@ export function AdminOperacoesResumo() {
     const map = new Map<string, typeof fluxoFiltrado>();
 
     fluxoFiltrado.forEach((op) => {
-      const date = new Date(op.createdAt);
+      const date = new Date(op.pagoEm);
 
       let label = "";
 
@@ -140,11 +140,11 @@ export function AdminOperacoesResumo() {
           </div>
 
           <h2 className="text-[18px] sm:text-[17px] font-semibold tracking-tight">
-            Operações
+            Pagamentos
           </h2>
 
           <p className="text-[11px] sm:text-[10px] text-[color:var(--muted)]">
-            Movimentações financeiras recentes
+            Recebimentos e pagamentos realizados
           </p>
         </div>
 
@@ -503,7 +503,7 @@ export function AdminOperacoesResumo() {
             "
                             >
                               {format(
-                                new Date(op.createdAt),
+                                new Date(op.pagoEm),
                                 "dd/MM/yyyy • HH:mm",
                               )}
                             </p>

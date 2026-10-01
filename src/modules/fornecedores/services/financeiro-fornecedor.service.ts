@@ -43,7 +43,7 @@ export interface FornecedorTransacao {
 
   valorRestante: string | number;
 
-  statusFinanceiro: "PENDENTE" | "PARCIAL" | "PAGO" | "VENCIDO";
+  statusFinanceiro: "PENDENTE" | "PARCIAL" | "PAGO" | "CANCELADO" | "VENCIDO";
 
   vencimento?: string | null;
 
@@ -62,6 +62,8 @@ export interface FornecedorFinanceiroResumo {
   totalPago: number;
 
   saldoDevedor: number;
+  totalAPagar: number;
+  totalVencido: number;
 
   limiteFinanceiro: number;
 

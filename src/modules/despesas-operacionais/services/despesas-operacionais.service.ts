@@ -24,7 +24,13 @@ export interface DespesaOperacional {
 // CREATE PAYLOAD
 ////////////////////////////////////////////////////////////
 
+export type FormaPagamentoDespesa = "PIX" | "DINHEIRO" | "CHEQUE" | "TRANSFERENCIA" | "BOLETO";
+
 export interface CreateDespesaOperacionalPayload {
+  formaPagamento: FormaPagamentoDespesa;
+
+  pagoEm: string;
+
   data: string;
 
   atividade: string;

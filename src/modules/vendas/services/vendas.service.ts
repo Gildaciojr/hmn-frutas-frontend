@@ -167,6 +167,7 @@ export interface Venda {
   //////////////////////////////////////////////////
 
   transacoes?: {
+    vencido?: boolean;
     id: string;
 
     tipo: "ENTRADA" | "SAIDA";
@@ -177,7 +178,7 @@ export interface Venda {
 
     valorRestante?: string | number | null;
 
-    statusFinanceiro?: "PENDENTE" | "PARCIAL" | "PAGO";
+    statusFinanceiro?: "PENDENTE" | "PARCIAL" | "PAGO" | "CANCELADO";
 
     formaPagamento?:
       | "DINHEIRO"

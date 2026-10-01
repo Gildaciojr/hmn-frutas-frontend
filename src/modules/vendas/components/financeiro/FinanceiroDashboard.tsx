@@ -97,7 +97,7 @@ export function FinanceiroDashboard() {
                 [
                   { id: "vendas", label: "Vendas", icon: "🛒" },
                   { id: "compras", label: "Compras", icon: "🚚" },
-                  { id: "fluxo", label: "Fluxo", icon: "↻" },
+                  { id: "fluxo", label: "Caixa realizado", icon: "↻" },
                   { id: "producao", label: "Produção", icon: "📄" },
                 ] as {
                   id: FinanceiroTab;
@@ -152,14 +152,14 @@ export function FinanceiroDashboard() {
                 <h3 className="text-[16px] sm:text-[14px] font-semibold text-[color:var(--foreground)]">
                   {tab === "vendas" && "Vendas"}
                   {tab === "compras" && "Compras"}
-                  {tab === "fluxo" && "Fluxo"}
+                  {tab === "fluxo" && "Caixa realizado"}
                   {tab === "producao" && "Relatório de Produção"}
                 </h3>
 
                 <p className="text-[12px] sm:text-[11px] text-[color:var(--muted)]">
                   {tab === "vendas" && "Histórico de vendas"}
                   {tab === "compras" && "Controle de compras"}
-                  {tab === "fluxo" && "Movimentações financeiras"}
+                  {tab === "fluxo" && "Recebimentos e pagamentos realizados"}
                   {tab === "producao" && "Produção operacional por usuário"}
                 </p>
               </div>

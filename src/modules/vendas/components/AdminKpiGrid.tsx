@@ -17,12 +17,10 @@ export function AdminKpiGrid() {
   }
 
   // ================= DADOS =================
-  const totalComprado = resumo?.totalSaidas ?? 0;
-  const totalVendido = resumo?.totalEntradas ?? 0;
+  const totalComprado = resumo?.totalComprado ?? 0;
+  const totalVendido = resumo?.totalVendido ?? 0;
 
-  const lucro = totalVendido - totalComprado;
-
-  const margem = totalVendido > 0 ? (lucro / totalVendido) * 100 : 0;
+  const aReceber = resumo?.totalAReceber ?? 0;
 
   const clientesAtivos = clientes?.length ?? 0;
 
@@ -39,9 +37,9 @@ export function AdminKpiGrid() {
       delta: null,
     },
     {
-      label: "Lucro",
-      value: loading ? "..." : formatCurrency(lucro),
-      delta: loading ? undefined : margem,
+      label: "A receber",
+      value: loading ? "..." : formatCurrency(aReceber),
+      delta: null,
     },
     {
       label: "Clientes",

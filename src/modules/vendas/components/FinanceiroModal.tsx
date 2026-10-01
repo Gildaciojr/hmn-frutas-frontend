@@ -271,22 +271,22 @@ export function FinanceiroModal() {
                 {/* TITLE */}
                 <div className="space-y-1">
                   <h2 className="text-[20px] font-semibold tracking-[-0.02em] text-[color:var(--foreground)]">
-                    {isEntrada && "Nova entrada"}
+                    {isEntrada && "Novo título a receber"}
 
-                    {isSaida && "Nova saída"}
+                    {isSaida && "Novo título a pagar"}
 
                     {isGeral && "Painel financeiro"}
                   </h2>
 
                   <p className="text-[11px] text-[color:var(--muted)]">
                     {isEntrada &&
-                      "Registro manual de entrada financeira"}
+                      "Título pendente: não registra recebimento de dinheiro"}
 
                     {isSaida &&
-                      "Registro manual de saída financeira"}
+                      "Título pendente: não registra pagamento de dinheiro"}
 
                     {isGeral &&
-                      "Visão consolidada do fluxo financeiro"}
+                      "Eventos de caixa realizados"}
                   </p>
                 </div>
               </div>
@@ -615,7 +615,7 @@ export function FinanceiroModal() {
 
                             <span className="text-[11px] text-[color:var(--muted-soft)]">
                               {new Date(
-                                item.createdAt,
+                                item.pagoEm,
                               ).toLocaleString("pt-BR")}
                             </span>
                           </div>

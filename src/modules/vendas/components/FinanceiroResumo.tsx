@@ -15,13 +15,13 @@ function formatCurrency(value: number): string {
 export function FinanceiroResumo() {
   const { openModal } = useFinanceiroModalStore();
 
-  const { resumo, loading } = useFinanceiroResumo();
+  const { resumo, loading, error, refetch } = useFinanceiroResumo();
 
   const entradas = Number(resumo?.totalEntradas ?? 0);
 
   const saidas = Number(resumo?.totalSaidas ?? 0);
 
-  const saldo = Number(resumo?.saldo ?? 0);
+  const saldo = Number(resumo?.resultadoCaixa ?? 0);
 
   const {
     volumeFinanceiro,
@@ -45,9 +45,23 @@ export function FinanceiroResumo() {
   }, [entradas, saidas]);
 
   const isSaldoPositivo = saldo >= 0;
+  if (error) return <div role="alert" className="rounded-xl border border-red-200 p-4 text-red-700">Não foi possível carregar o resumo financeiro. <button type="button" className="min-h-[44px] underline" onClick={() => refetch()}>Tentar novamente</button></div>;
 
   return (
     <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+        {[
+          ["Recebido realizado", resumo?.totalRecebido ?? 0],
+          ["Pago realizado", resumo?.totalPago ?? 0],
+          ["A receber", resumo?.totalAReceber ?? 0],
+          ["A pagar", resumo?.totalAPagar ?? 0],
+        ].map(([label, value]) => (
+          <div key={label} className="min-w-0 rounded-xl border p-3">
+            <p className="text-xs text-slate-500">{label}</p>
+            <p className="break-words text-sm font-semibold">{loading ? "..." : formatCurrency(Number(value))}</p>
+          </div>
+        ))}
+      </div>
       {/* ========================================================= */}
       {/* HERO FINANCEIRO */}
       {/* ========================================================= */}
@@ -124,7 +138,7 @@ export function FinanceiroResumo() {
               />
 
               <span className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--muted-soft)]">
-                Saldo atual
+                Resultado de caixa realizado
               </span>
             </div>
 
@@ -175,8 +189,8 @@ export function FinanceiroResumo() {
                   }
                 >
                   {isSaldoPositivo
-                    ? "Resultado positivo"
-                    : "Resultado negativo"}
+                    ? "Recebido acima do pago"
+                    : "Pago acima do recebido"}
                 </span>
               </div>
             </div>
@@ -184,7 +198,7 @@ export function FinanceiroResumo() {
             {/* FOOTER INFO */}
             <div className="flex flex-wrap items-center gap-2 text-[11px] sm:text-[10px] text-[color:var(--muted)]">
               <span>
-                Diferença:
+                Diferença nominal:
                 {" "}
                 <strong>
                   {formatCurrency(diferenca)}
@@ -194,7 +208,7 @@ export function FinanceiroResumo() {
               <span className="opacity-30">•</span>
 
               <span>
-                Volume:
+                Volume nominal:
                 {" "}
                 <strong>
                   {formatCurrency(volumeFinanceiro)}
@@ -298,7 +312,7 @@ export function FinanceiroResumo() {
                 <div className="w-1 h-3 rounded-full bg-emerald-500" />
 
                 <span className="text-[10px] uppercase tracking-[0.22em] text-emerald-700">
-                  Entradas
+                  Títulos a receber — nominal
                 </span>
               </div>
 
@@ -310,7 +324,7 @@ export function FinanceiroResumo() {
                 </h3>
 
                 <p className="text-[10px] text-emerald-700/70">
-                  {percentualEntrada.toFixed(1)}% do fluxo financeiro
+                  {percentualEntrada.toFixed(1)}% dos títulos nominais
                 </p>
               </div>
             </div>
@@ -376,7 +390,7 @@ export function FinanceiroResumo() {
                 <div className="w-1 h-1 rounded-full bg-red-500" />
 
                 <span className="text-[10px] uppercase tracking-[0.22em] text-red-700">
-                  Saídas
+                  Títulos a pagar — nominal
                 </span>
               </div>
 
@@ -388,7 +402,7 @@ export function FinanceiroResumo() {
                 </h3>
 
                 <p className="text-[10px] text-red-600/70">
-                  {percentualSaida.toFixed(1)}% do fluxo financeiro
+                  {percentualSaida.toFixed(1)}% dos títulos nominais
                 </p>
               </div>
             </div>

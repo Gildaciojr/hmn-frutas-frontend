@@ -149,12 +149,13 @@ export function FornecedorHistorico({ fornecedorId }: Props) {
 
         <ResumoCard
           icon={<CreditCard size={18} />}
-          title="Saldo Devedor"
+          title="A pagar"
           value={formatCurrency(resumo.saldoDevedor)}
           variant="danger"
         />
       </div>
 
+      <p className="text-sm text-red-600">Vencido: {formatCurrency(resumo.totalVencido)}</p>
       {/* EXTRATO OPERACIONAL */}
 
       <section className="space-y-4">

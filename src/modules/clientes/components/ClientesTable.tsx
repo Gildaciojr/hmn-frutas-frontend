@@ -391,7 +391,7 @@ export function ClientesTable() {
       text-amber-600
     "
         >
-          Saldo
+          A receber
         </span>
 
         {/* OPERAÇÕES */}
@@ -452,7 +452,7 @@ export function ClientesTable() {
         <AnimatePresence mode="popLayout">
           {!isLoading &&
             orderedClientes.map((cliente, i) => {
-              const isPositivo = cliente.saldo >= 0;
+              const isPositivo = cliente.totalVencido <= 0;
 
               return (
                 <motion.div
@@ -649,7 +649,7 @@ export function ClientesTable() {
                           text-emerald-700
                         "
                         >
-                          Pago {formatCurrency(cliente.totalPago)}
+                          Recebido {formatCurrency(cliente.totalRecebido)}
                         </span>
 
                         {/* PENDENTE */}
@@ -753,10 +753,10 @@ export function ClientesTable() {
       font-normal
     "
                     >
-                      Saldo
+                      A receber
                     </span>
 
-                    <span>{formatCurrency(cliente.saldo)}</span>
+                    <span>{formatCurrency(cliente.totalAReceber)}</span>
                   </div>
 
                   {/* STATUS + AÇÕES */}
@@ -824,7 +824,7 @@ export function ClientesTable() {
                         `}
                         />
 
-                        {isPositivo ? "Saudável" : "Em débito"}
+                        {cliente.totalVencido > 0 ? "Vencido" : cliente.totalAReceber > 0 ? "A receber" : "Sem pendência"}
                       </span>
                     </div>
 

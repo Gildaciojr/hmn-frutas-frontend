@@ -1,4 +1,5 @@
 "use client";
+import { formatOperationalDate } from "@/shared/utils/report-period";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -295,7 +296,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
 
                     <p className="text-[12px] text-[color:var(--muted)]">
                       {isViewMode
-                        ? "Visão consolidada de operações, saldo e histórico financeiro"
+                        ? "Visão consolidada de operações, recebimentos e histórico financeiro"
                         : "Cadastro de cliente para operações comerciais"}
                     </p>
                   </div>
@@ -410,23 +411,9 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                         // FINANCEIRO
                         ////////////////////////////////////////////////////////
 
-                        const totalPago = data.transacoes.reduce(
-                          (acc, transacao) => {
-                            return acc + parseDecimal(transacao.valorPago);
-                          },
-                          0,
-                        );
-
-                        const totalRestante = data.transacoes.reduce(
-                          (acc, transacao) => {
-                            return acc + parseDecimal(transacao.valorRestante);
-                          },
-                          0,
-                        );
-
-                        const totalPendentes = data.transacoes.filter(
-                          (transacao) => transacao.statusFinanceiro !== "PAGO",
-                        ).length;
+                        const totalPago = data.resumo.totalRecebido;
+                        const totalRestante = data.resumo.totalAReceber;
+                        const totalPendentes = data.transacoes.filter(title => title.tipo === "ENTRADA" && (title.statusFinanceiro === "PENDENTE" || title.statusFinanceiro === "PARCIAL") && parseDecimal(title.valorRestante) > 0).length;
 
                         return (
                           <div className="space-y-4">
@@ -491,7 +478,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                             "
                               >
                                 <p className="text-[11px] text-emerald-700/80">
-                                  Total pago
+                                  Total recebido
                                 </p>
 
                                 <p className="text-[15px] font-semibold tracking-tight text-emerald-600">
@@ -558,7 +545,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                             px-4 py-3
 
                             ${
-                              data.resumo.saldo >= 0
+                              data.resumo.totalAReceber >= 0
                                 ? `
                                   border-emerald-200
                                   bg-gradient-to-br
@@ -587,18 +574,18 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                   tracking-tight
 
                                   ${
-                                    data.resumo.saldo >= 0
+                                    data.resumo.totalAReceber >= 0
                                       ? "text-emerald-600"
                                       : "text-red-500"
                                   }
                                 `}
                                   >
-                                    {formatCurrency(data.resumo.saldo)}
+                                    {formatCurrency(data.resumo.totalAReceber)}
                                   </p>
 
                                   <p className="text-[12px] text-[color:var(--muted)]">
-                                    {data.resumo.saldo >= 0
-                                      ? "Cliente possui saldo positivo"
+                                    {data.resumo.totalAReceber >= 0
+                                      ? `Vencido: ${formatCurrency(data.resumo.totalVencido)}`
                                       : "Cliente possui pendências financeiras"}
                                   </p>
                                 </div>
@@ -1564,9 +1551,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                       {t.vencimento && (
                                         <div className="text-[10px] text-[color:var(--muted-soft)]">
                                           Vencimento:{" "}
-                                          {new Date(
-                                            t.vencimento,
-                                          ).toLocaleDateString("pt-BR")}
+                                          {formatOperationalDate(t.vencimento)}
                                         </div>
                                       )}
                                     </div>
@@ -1580,7 +1565,7 @@ export function ClienteModal({ open, onClose, cliente }: Props) {
                                   {/* BOTÃO FINANCEIRO */}
                                   {/* ====================================== */}
 
-                                  {status !== "PAGO" && (
+                                  {isEntrada && (status === "PENDENTE" || status === "PARCIAL") && valorRestante > 0 && (
                                     <button
                                       onClick={() => {
                                         setFinanceiroTransacao(t);

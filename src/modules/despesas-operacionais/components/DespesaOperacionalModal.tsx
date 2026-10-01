@@ -8,6 +8,9 @@ import { ArrowRight, CalendarDays, ReceiptText } from "lucide-react";
 
 import { useDespesasOperacionais } from "../hooks/useDespesasOperacionais";
 
+import { localPaymentDateTime, paymentErrorMessage } from "@/shared/utils/payment-time";
+import type { FormaPagamentoDespesa } from "../services/despesas-operacionais.service";
+
 interface Props {
   open: boolean;
 
@@ -85,6 +88,10 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
 
   const [observacoes, setObservacoes] = useState("");
 
+  const [formaPagamento, setFormaPagamento] = useState<FormaPagamentoDespesa | "">("");
+
+  const [pagoEm, setPagoEm] = useState(() => localPaymentDateTime());
+
   const [error, setError] = useState<string | null>(null);
 
   if (!open) {
@@ -114,8 +121,21 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
       return;
     }
 
+    if (!formaPagamento) {
+      setError("Informe a forma de pagamento");
+      return;
+    }
+
+    if (!pagoEm || Number.isNaN(new Date(pagoEm).getTime())) {
+      setError("Informe a data e hora do pagamento");
+      return;
+    }
+
     try {
       await createDespesa({
+        formaPagamento,
+
+        pagoEm: new Date(pagoEm).toISOString(),
         data,
 
         atividade: atividade.trim(),
@@ -131,9 +151,13 @@ export function DespesaOperacionalModal({ open, onClose }: Props) {
 
       setObservacoes("");
 
+      setFormaPagamento("");
+
+      setPagoEm(localPaymentDateTime());
+
       onClose();
-    } catch {
-      setError("Erro ao registrar despesa");
+    } catch (error: unknown) {
+      setError(paymentErrorMessage(error));
     }
   }
 
@@ -576,6 +600,42 @@ focus:ring-amber-500/10
             </div>
           </div>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="min-w-0">
+              <label htmlFor="despesa-forma-pagamento" className="block text-sm font-medium mb-2">
+                Forma de pagamento
+              </label>
+              <select
+                id="despesa-forma-pagamento"
+                required
+                value={formaPagamento}
+                onChange={(e) => setFormaPagamento(e.target.value as FormaPagamentoDespesa | "")}
+                className="w-full min-w-0 rounded-[14px] sm:rounded-[16px] border border-[color:var(--border-soft)] bg-white/70 px-4 py-3 text-[16px] md:text-[14px] outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10"
+              >
+                <option value="">Selecione</option>
+                <option value="PIX">PIX</option>
+                <option value="DINHEIRO">Dinheiro</option>
+                <option value="CHEQUE">Cheque</option>
+                <option value="TRANSFERENCIA">Transferência</option>
+                <option value="BOLETO">Boleto</option>
+              </select>
+            </div>
+            <div className="min-w-0">
+              <label htmlFor="despesa-pago-em" className="block text-sm font-medium mb-2">
+                Data/hora do pagamento
+              </label>
+              <input
+                id="despesa-pago-em"
+                type="datetime-local"
+                step="1"
+                required
+                value={pagoEm}
+                onChange={(e) => setPagoEm(e.target.value)}
+                className="w-full min-w-0 max-w-full rounded-[14px] sm:rounded-[16px] border border-[color:var(--border-soft)] bg-white/70 px-4 py-3 text-[16px] md:text-[14px] outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-500/10"
+              />
+            </div>
+          </div>
+
           <div>
             <label
               className="
@@ -630,6 +690,7 @@ focus:ring-amber-500/10
 
           {error && (
             <div
+              role="alert"
               className="
                 rounded-xl
 

@@ -163,11 +163,7 @@ export function NovaVendaCard({
   // STATUS
   ////////////////////////////////////////////////////////////
 
-  const [statusPagamento, setStatusPagamento] = useState<
-    "PAGO" | "PENDENTE" | "PARCIAL"
-  >("PENDENTE");
-
-  ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
   // OBS
   ////////////////////////////////////////////////////////////
 
@@ -247,7 +243,6 @@ export function NovaVendaCard({
 
     setFreteTotalInput(String(Math.round(Number(venda.freteTotal ?? 0) * 100)));
 
-    setStatusPagamento(venda.statusPagamento ?? "PENDENTE");
 
     setObservacoes(venda.observacoes ?? "");
 
@@ -815,7 +810,6 @@ export function NovaVendaCard({
         // STATUS
         //////////////////////////////////////////////////////
 
-        statusPagamento: mode === "SEM_CLIENTE" ? "PENDENTE" : statusPagamento,
 
         //////////////////////////////////////////////////////
         // OBS
@@ -878,7 +872,6 @@ export function NovaVendaCard({
 
       setObservacoes("");
 
-      setStatusPagamento("PENDENTE");
 
       setCompraOrigemId(null);
 

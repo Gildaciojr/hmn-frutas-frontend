@@ -1,4 +1,6 @@
 "use client";
+import { formatOperationalDate } from "@/shared/utils/report-period";
+import { paymentErrorMessage } from "@/shared/utils/payment-time";
 
 import { useState } from "react";
 
@@ -76,6 +78,9 @@ export function FornecedorFinanceiroModal({
     registrarPagamentoFornecedor,
 
     registrandoPagamento,
+    registrarPagamentoError,
+    financeiroError,
+    pagamentosError,
   } = useFornecedorFinanceiroCompleto(fornecedorId);
 
   ////////////////////////////////////////////////////////////
@@ -97,6 +102,7 @@ export function FornecedorFinanceiroModal({
       return;
     }
 
+    try {
     await registrarPagamentoFornecedor({
       valor: valorNumerico,
 
@@ -108,6 +114,9 @@ export function FornecedorFinanceiroModal({
     setValor("");
 
     setObservacoes("");
+    } catch {
+      // The mutation error stays visible so the operator can retry.
+    }
   }
 
   ////////////////////////////////////////////////////////////
@@ -276,8 +285,8 @@ export function FornecedorFinanceiroModal({
 
               <CardResumo
                 icon={<Landmark size={18} />}
-                title="Saldo"
-                value={currency(financeiro.resumo.saldoDevedor)}
+                title="A pagar"
+                value={currency(financeiro.resumo.totalAPagar)}
               />
 
               <CardResumo
@@ -288,6 +297,8 @@ export function FornecedorFinanceiroModal({
             </div>
           )}
 
+          {financeiro && <p className="text-sm text-red-600">Vencido: {currency(financeiro.resumo.totalVencido)}</p>}
+          {(registrarPagamentoError || financeiroError || pagamentosError) && <p role="alert" className="text-sm text-red-600">{paymentErrorMessage(registrarPagamentoError || financeiroError || pagamentosError)}</p>}
           <div
             className="
     grid
@@ -524,7 +535,7 @@ export function FornecedorFinanceiroModal({
                     <div className="font-medium">{transacao.descricao}</div>
 
                     <div className="text-sm text-[color:var(--muted)]">
-                      Vencimento: {dateBR(transacao.vencimento)}
+                      Vencimento: {transacao.vencimento ? formatOperationalDate(transacao.vencimento) : "-"}
                     </div>
 
                     <div className="text-sm">
