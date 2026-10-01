@@ -1,5 +1,12 @@
 "use client";
 
+import { useState } from "react";
+import { VendasFiltersCard } from "@/modules/vendas-relatorios/components/VendasFiltersCard";
+import { VendasResumoCard } from "@/modules/vendas-relatorios/components/VendasResumoCard";
+import { VendasRelatorioTable } from "@/modules/vendas-relatorios/components/VendasRelatorioTable";
+import { useVendasRelatorio } from "@/modules/vendas-relatorios/hooks/useVendasRelatorio";
+import type { SearchVendaParams } from "@/modules/vendas-relatorios/services/vendas-relatorios.service";
+
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -11,6 +18,8 @@ import { NovoClienteQuickCard } from "@/modules/clientes/components/NovoClienteQ
 
 export function VendasAdminDashboard() {
   const { clientes } = useClientes();
+  const [reportFilters, setReportFilters] = useState<SearchVendaParams | null>(null);
+  const report = useVendasRelatorio(reportFilters ?? {}, Boolean(reportFilters));
 
   return (
     <>
@@ -91,6 +100,37 @@ export function VendasAdminDashboard() {
               <NovoClienteQuickCard />
             </motion.div>
           </div>
+        </section>
+
+        <section className="space-y-4 min-w-0">
+          <VendasFiltersCard
+            clientes={clientes}
+            loading={report.loading}
+            onSearch={(filters) =>
+              setReportFilters({ ...filters, page: 1, pageSize: 25 })
+            }
+            onClear={() => setReportFilters(null)}
+          />
+          {reportFilters ? (
+            <>
+              {!report.loading && !report.error && report.summary && (
+                <VendasResumoCard summary={report.summary} />
+              )}
+              <VendasRelatorioTable
+                vendas={report.vendas}
+                loading={report.loading}
+                error={report.error?.message}
+                onRetry={() => void report.refetch()}
+                pagination={report.pagination}
+                onPageChange={(page) => setReportFilters({ ...reportFilters, page })}
+              />
+            </>
+          ) : (
+            <p className="text-sm text-[color:var(--muted)]">
+              Selecione os filtros e gere o relatório de vendas. Sem status
+              selecionado, canceladas são excluídas.
+            </p>
+          )}
         </section>
 
         {/* ================= ZONA 2 — OPERAÇÃO ================= */}
