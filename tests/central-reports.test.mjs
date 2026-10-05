@@ -36,6 +36,7 @@ function load(relative) {
   mod.paths = Module._nodeModulePaths(path.dirname(filename));
   const originalRequire = mod.require.bind(mod);
   mod.require = (id) => {
+    if (id === "./reports.css") return {};
     if (id === "react")
       return {
         ...React,
@@ -390,6 +391,14 @@ test("central switches to all five existing report areas and has bounded mobile 
   const { default: Page } = load("app/relatorios/page.tsx");
   const instance = mount(Page);
   assert.match(text(instance.render()), /Central de Relatórios/);
+  assert.ok(
+    nodes(instance.render()).some(
+      (node) =>
+        node.type === "a" &&
+        node.props.href === "/dashboard" &&
+        /Voltar ao painel/.test(text(node)),
+    ),
+  );
   for (const [label, expected] of [
     ["Compras", components.ComprasReport],
     ["Vendas", components.VendasReport],
@@ -398,14 +407,23 @@ test("central switches to all five existing report areas and has bounded mobile 
     ["Fornecedores", components.PartyReports],
   ]) {
     const choice = nodes(instance.render()).find(
-      (node) => node.type === "button" && text(node).startsWith(label),
+      (node) => node.type === "button" && text(node).trim().startsWith(label),
     );
     choice.props.onClick();
+    assert.equal(
+      nodes(instance.render()).find(
+          (node) => node.type === "button" && text(node).trim().startsWith(label),
+      ).props["aria-pressed"],
+      true,
+    );
     assert.ok(nodes(instance.render()).some((node) => node.type === expected));
   }
   for (const viewport of [360, 375, 390, 393, 412, 430]) {
     const nav = nodes(instance.render()).find((node) => node.type === "nav");
-    assert.match(nav.props.className, /grid-cols-1 sm:grid-cols-2/);
+    assert.match(
+      nav.props.className,
+      /grid-cols-2 md:grid-cols-3 lg:grid-cols-5/,
+    );
     assert.equal(viewport < 640, true);
     for (const node of nodes(nav).filter((node) => node.type === "button"))
       assert.match(node.props.className, /min-w-0 min-h-\[44px\]/);

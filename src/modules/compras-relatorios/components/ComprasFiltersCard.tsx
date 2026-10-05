@@ -18,6 +18,7 @@ import type {
 import type { SearchCompraParams } from "../services/compras-relatorios.service";
 
 interface Props {
+  central?: boolean;
   loading?: boolean;
 
   onSearch: (filters: SearchCompraParams) => void;
@@ -25,7 +26,12 @@ interface Props {
   onClear: () => void;
 }
 
-export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
+export function ComprasFiltersCard({
+  loading,
+  onSearch,
+  onClear,
+  central = false,
+}: Props) {
   const [fornecedor, setFornecedor] = useState<Fornecedor | null>(null);
 
   const [fazenda, setFazenda] = useState<FazendaFornecedor | null>(null);
@@ -93,7 +99,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
   return (
     <section
-      className="
+      className={` ${central ? "hmn-report-filters" : ""}
         soft-card
         relative
         overflow-visible
@@ -113,7 +119,7 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
 
         space-y-2
         sm:space-y-3
-      "
+      `}
     >
       <div
         className="
@@ -129,11 +135,13 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
       >
         <div className="space-y-0">
           <h2 className="text-[15px] sm:text-[16px] font-bold tracking-tight text-[color:var(--foreground)]">
-            Central de relatórios
+            {central ? "Relatório de compras" : "Central de relatórios"}
           </h2>
 
           <p className="hidden text-[11px] text-[color:var(--muted)] sm:block sm:text-[12px]">
-            Gere relatórios gerenciais por fornecedor, fazenda e período.
+            {central
+              ? "Filtre por fornecedor, fazenda ou período."
+              : "Gere relatórios gerenciais por fornecedor, fazenda e período."}
           </p>
         </div>
 
@@ -175,7 +183,11 @@ export function ComprasFiltersCard({ loading, onSearch, onClear }: Props) {
           </button>
         ))}
       </div>
-      {periodError && <p role="alert" className="text-sm text-red-700">{periodError}</p>}
+      {periodError && (
+        <p role="alert" className="text-sm text-red-700">
+          {periodError}
+        </p>
+      )}
 
       <div
         className="

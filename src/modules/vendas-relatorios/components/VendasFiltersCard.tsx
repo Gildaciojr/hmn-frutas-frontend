@@ -12,6 +12,7 @@ import type {
 } from "../services/vendas-relatorios.service";
 
 interface Props {
+  central?: boolean;
   clientes: { id: string; nome: string }[];
   loading?: boolean;
   onSearch: (filters: SearchVendaParams) => void;
@@ -24,6 +25,7 @@ export function VendasFiltersCard({
   loading,
   onSearch,
   onClear,
+  central = false,
 }: Props) {
   const [filters, setFilters] = useState<SearchVendaParams>({});
   const [preset, setPreset] = useState<PeriodPreset>("custom");
@@ -48,16 +50,18 @@ export function VendasFiltersCard({
   }
   return (
     <section
-      className="soft-card relative rounded-[20px] sm:rounded-[24px] p-3 sm:p-5 space-y-3 min-w-0"
+      className={`${central ? "hmn-report-filters" : ""} soft-card relative rounded-[20px] sm:rounded-[24px] p-3 sm:p-5 space-y-3 min-w-0`}
       aria-label="Relatório analítico de vendas"
     >
       <div className="flex flex-wrap justify-between gap-2">
         <div>
           <h2 className="text-[16px] font-bold tracking-tight">
-            Relatório analítico de vendas
+            {central ? "Relatório de vendas" : "Relatório analítico de vendas"}
           </h2>
           <p className="text-xs text-[color:var(--muted)]">
-            Filtre operações por cliente, identificação e período.
+            {central
+              ? "Filtre por cliente, operação ou período."
+              : "Filtre operações por cliente, identificação e período."}
           </p>
         </div>
         <span className="text-xs uppercase tracking-widest text-[color:var(--muted)]">

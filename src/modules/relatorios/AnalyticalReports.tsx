@@ -21,6 +21,7 @@ export function ComprasReport() {
   return (
     <section className="space-y-4 min-w-0">
       <ComprasFiltersCard
+        central
         loading={report.loading}
         onSearch={(value) => setFilters({ ...value, page: 1, pageSize: 25 })}
         onClear={() => setFilters(null)}
@@ -76,6 +77,7 @@ export function VendasReport() {
         </p>
       )}
       <VendasFiltersCard
+        central
         clientes={clients.data ?? []}
         loading={report.loading || clients.isFetching}
         onSearch={(value) => setFilters({ ...value, page: 1, pageSize: 25 })}

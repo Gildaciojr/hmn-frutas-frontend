@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { BarChart3 } from "lucide-react";
+import { UltimasComprasCard } from "./UltimasComprasCard";
 import { VendasFiltersCard } from "@/modules/vendas-relatorios/components/VendasFiltersCard";
 import { VendasResumoCard } from "@/modules/vendas-relatorios/components/VendasResumoCard";
 import { VendasRelatorioTable } from "@/modules/vendas-relatorios/components/VendasRelatorioTable";
@@ -19,6 +22,7 @@ import { NovoClienteQuickCard } from "@/modules/clientes/components/NovoClienteQ
 export function VendasAdminDashboard() {
   const { clientes } = useClientes();
   const [reportFilters, setReportFilters] = useState<SearchVendaParams | null>(null);
+  const [reportExpanded, setReportExpanded] = useState(false);
   const report = useVendasRelatorio(reportFilters ?? {}, Boolean(reportFilters));
 
   return (
@@ -102,7 +106,26 @@ export function VendasAdminDashboard() {
           </div>
         </section>
 
-        <section className="space-y-4 min-w-0">
+        <UltimasComprasCard />
+
+        <section className="soft-card rounded-2xl p-3 sm:p-4 min-w-0 space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex items-start gap-3 min-w-0">
+              <BarChart3 size={20} className="mt-0.5 shrink-0 text-emerald-700" aria-hidden="true" />
+              <div className="min-w-0">
+                <h2 className="text-sm font-semibold">Relatórios de vendas</h2>
+                <p className="text-xs text-[color:var(--muted)]">Consulte vendas, filtros, indicadores e exportações.</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" aria-expanded={reportExpanded} aria-controls="vendas-dashboard-relatorio" onClick={() => setReportExpanded(!reportExpanded)} className="min-h-11 rounded-xl border px-3 text-xs font-medium hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-emerald-600">
+                {reportExpanded ? "Recolher relatório" : "Ver relatório"}
+              </button>
+              <Link href="/relatorios" className="inline-flex min-h-11 items-center rounded-xl border border-emerald-200 px-3 text-xs font-medium text-emerald-700 hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-emerald-600">Central de relatórios</Link>
+            </div>
+          </div>
+          <div id="vendas-dashboard-relatorio" hidden={!reportExpanded}>
+          <div className="space-y-4 min-w-0 border-t pt-3">
           <VendasFiltersCard
             clientes={clientes}
             loading={report.loading}
@@ -131,6 +154,8 @@ export function VendasAdminDashboard() {
               selecionado, canceladas são excluídas.
             </p>
           )}
+          </div>
+          </div>
         </section>
 
         {/* ================= ZONA 2 — OPERAÇÃO ================= */}
